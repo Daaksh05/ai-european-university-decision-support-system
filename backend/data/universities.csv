@@ -1,0 +1,15 @@
+university,country,city,field,ielts_required,average_fees_eur,ranking
+Sorbonne University,France,Paris,Computer Science / AI,6.5,8000,60
+Université Paris-Saclay,France,Paris,AI / Data Science,6.5,7000,70
+Grenoble INP,France,Grenoble,Informatics / AI,6.5,6500,120
+University of Lille,France,Lille,Computer Science,6.0,6000,300
+TU Munich,Germany,Munich,AI / Robotics,6.5,9000,50
+RWTH Aachen University,Germany,Aachen,Computer Science,6.5,8500,100
+University of Amsterdam,Netherlands,Amsterdam,AI / Data Science,7.0,12000,55
+Delft University of Technology,Netherlands,Delft,Computer Science,7.0,13000,47
+KU Leuven,Belgium,Leuven,AI / Engineering,6.5,7500,61
+University of Helsinki,Finland,Helsinki,Data Science / AI,6.5,13000,110
+Politecnico di Milano,Italy,Milan,Computer Engineering,6.0,4000,123
+University of Bologna,Italy,Bologna,Computer Science,6.0,3500,167
+University of Barcelona,Spain,Barcelona,AI / Data Analytics,6.5,4500,184
+University of Vienna,Austria,Vienna,Computer Science,6.0,3000,151
