@@ -1,6 +1,8 @@
 import React from "react";
 import StudentProfileForm from "../components/StudentProfileForm";
 import QueryBox from "../components/QueryBox";
+import ScholarshipsMatcher from "../components/ScholarshipsMatcher";
+import CostAnalytics from "../components/CostAnalytics";
 
 function Home() {
   return (
@@ -11,6 +13,14 @@ function Home() {
       </p>
 
       <StudentProfileForm />
+
+      <hr style={{ margin: "35px 0" }} />
+
+      <CostAnalytics />
+
+      <hr style={{ margin: "35px 0" }} />
+
+      <ScholarshipsMatcher />
 
       <hr style={{ margin: "35px 0" }} />
 
