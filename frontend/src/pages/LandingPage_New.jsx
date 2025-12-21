@@ -1,50 +1,42 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { WavyBackground } from "../components/ui/wavy-background";
 import "./LandingPage_New.css";
 
 function LandingPageNew() {
   return (
     <div className="landing-page">
       {/* Hero Section */}
-      <section className="hero-section">
-        <div className="hero-container">
-          <div className="hero-content">
-            <h1 className="hero-title">
-              Find Your Perfect University with AI
-            </h1>
-            <p className="hero-subtitle">
-              Personalized guidance powered by artificial intelligence. Get recommendations tailored to your profile, budget, and dreams.
-            </p>
-            <div className="hero-cta">
-              <Link to="/profile" className="cta-button primary">
-                Start Your Journey
-              </Link>
-              <a href="#features" className="cta-button secondary">
-                Learn More
-              </a>
-            </div>
-            <div className="hero-stats">
-              <div className="stat">
-                <h3>500+</h3>
-                <p>Universities</p>
-              </div>
-              <div className="stat">
-                <h3>50+</h3>
-                <p>Countries</p>
-              </div>
-              <div className="stat">
-                <h3>10k+</h3>
-                <p>Success Stories</p>
-              </div>
-            </div>
+      <WavyBackground className="hero-content" containerClassName="hero-section">
+        <h1 className="hero-title">
+          Find Your Perfect University with AI
+        </h1>
+        <p className="hero-subtitle">
+          Personalized guidance powered by artificial intelligence. Get recommendations tailored to your profile, budget, and dreams.
+        </p>
+        <div className="hero-cta">
+          <Link to="/profile" className="cta-button primary">
+            Start Your Journey
+          </Link>
+          <a href="#features" className="cta-button secondary">
+            Learn More
+          </a>
+        </div>
+        <div className="hero-stats">
+          <div className="stat">
+            <h3>500+</h3>
+            <p>Universities</p>
           </div>
-          <div className="hero-graphic">
-            <div className="gradient-orb orb1"></div>
-            <div className="gradient-orb orb2"></div>
-            <div className="gradient-orb orb3"></div>
+          <div className="stat">
+            <h3>50+</h3>
+            <p>Countries</p>
+          </div>
+          <div className="stat">
+            <h3>10k+</h3>
+            <p>Success Stories</p>
           </div>
         </div>
-      </section>
+      </WavyBackground>
 
       {/* Features Section */}
       <section id="features" className="features-section">
