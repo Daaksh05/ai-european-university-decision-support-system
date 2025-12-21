@@ -30,6 +30,17 @@ body {
   color: #2d3748;
 }
 
+/* App layout helpers to keep footer at bottom */
+.app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-main {
+  flex: 1 0 auto;
+}
+
 @keyframes gradientShift {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
