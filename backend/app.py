@@ -3,6 +3,35 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import pandas as pd
 import os
+UNIVERSITIES = [
+    # 🇫🇷 FRANCE
+    {"university":"Sorbonne University","country":"France","city":"Paris","ranking":60,"min_gpa":3.2,"min_ielts":6.5,"average_fees_eur":8000,"field":"Engineering"},
+    {"university":"Université Paris-Saclay","country":"France","city":"Paris","ranking":45,"min_gpa":3.3,"min_ielts":6.5,"average_fees_eur":7000,"field":"Engineering"},
+    {"university":"Grenoble INP","country":"France","city":"Grenoble","ranking":90,"min_gpa":3.0,"min_ielts":6.0,"average_fees_eur":6500,"field":"Engineering"},
+    {"university":"University of Lille","country":"France","city":"Lille","ranking":120,"min_gpa":2.8,"min_ielts":6.0,"average_fees_eur":6000,"field":"Engineering"},
+
+    # 🇩🇪 GERMANY
+    {"university":"TU Munich","country":"Germany","city":"Munich","ranking":25,"min_gpa":3.5,"min_ielts":7.0,"average_fees_eur":9000,"field":"Engineering"},
+    {"university":"RWTH Aachen","country":"Germany","city":"Aachen","ranking":50,"min_gpa":3.3,"min_ielts":6.5,"average_fees_eur":8000,"field":"Engineering"},
+    {"university":"University of Stuttgart","country":"Germany","city":"Stuttgart","ranking":100,"min_gpa":3.0,"min_ielts":6.0,"average_fees_eur":7000,"field":"Engineering"},
+
+    # 🇮🇹 ITALY
+    {"university":"Politecnico di Milano","country":"Italy","city":"Milan","ranking":40,"min_gpa":3.2,"min_ielts":6.5,"average_fees_eur":4000,"field":"Engineering"},
+    {"university":"University of Bologna","country":"Italy","city":"Bologna","ranking":90,"min_gpa":2.8,"min_ielts":6.0,"average_fees_eur":3500,"field":"Engineering"},
+    {"university":"Sapienza University of Rome","country":"Italy","city":"Rome","ranking":70,"min_gpa":3.0,"min_ielts":6.5,"average_fees_eur":4500,"field":"Engineering"},
+
+    # 🇳🇱 NETHERLANDS
+    {"university":"TU Delft","country":"Netherlands","city":"Delft","ranking":20,"min_gpa":3.5,"min_ielts":7.0,"average_fees_eur":14000,"field":"Engineering"},
+    {"university":"University of Amsterdam","country":"Netherlands","city":"Amsterdam","ranking":55,"min_gpa":3.2,"min_ielts":6.5,"average_fees_eur":13000,"field":"Engineering"},
+
+    # 🇪🇸 SPAIN
+    {"university":"University of Barcelona","country":"Spain","city":"Barcelona","ranking":80,"min_gpa":3.0,"min_ielts":6.5,"average_fees_eur":3000,"field":"Engineering"},
+    {"university":"Polytechnic University of Madrid","country":"Spain","city":"Madrid","ranking":95,"min_gpa":3.0,"min_ielts":6.0,"average_fees_eur":2800,"field":"Engineering"},
+
+    # 🇸🇪 SWEDEN
+    {"university":"KTH Royal Institute of Technology","country":"Sweden","city":"Stockholm","ranking":35,"min_gpa":3.4,"min_ielts":6.5,"average_fees_eur":15000,"field":"Engineering"},
+]
+
 from modules.admission_prediction import predict_admission
 from modules.recommendation_engine import recommend_universities
 from modules.nlp_query_handler import answer_query
@@ -62,11 +91,64 @@ def predict(profile: StudentProfile):
 @app.post("/recommend")
 def recommend(profile: StudentProfile):
     try:
-        recommendations = recommend_universities(profile)
+        # Load university dataset
+        csv_path = "backend/data/universities.csv"
+        if not os.path.exists(csv_path):
+            csv_path = "data/universities.csv"
+
+        df = pd.read_csv(csv_path)
+
+        # Normalize inputs
+        gpa = profile.gpa or 0
+        ielts = profile.ielts or 0
+        budget = profile.budget or 10**9
+        country = (profile.country or "").lower()
+        field = (profile.field or "").lower()
+
+        results = []
+
+        for _, uni in df.iterrows():
+            # Eligibility filters
+            if gpa < uni.get("min_gpa", 0):
+                continue
+            if ielts < uni.get("min_ielts", 0):
+                continue
+            if budget < uni.get("average_fees_eur", 0):
+                continue
+            if country and country != str(uni.get("country", "")).lower():
+                continue
+            if field and field not in str(uni.get("field", "")).lower():
+                continue
+
+            # Match score calculation
+            gpa_score = min(gpa / 4, 1)
+            ielts_score = min(ielts / 9, 1)
+            cost_score = 1 - (uni["average_fees_eur"] / budget)
+
+            match_score = round(
+                (gpa_score * 0.4) + (ielts_score * 0.3) + (cost_score * 0.3),
+                2
+            )
+
+            results.append({
+                "university": uni["university"],
+                "country": uni["country"],
+                "city": uni.get("city", ""),
+                "ranking": uni.get("ranking", 500),
+                "average_fees_eur": uni["average_fees_eur"],
+                "field": uni.get("field", ""),
+                "match_score": match_score
+            })
+
+        # Sort best matches
+        results.sort(key=lambda x: x["match_score"], reverse=True)
+
         return {
             "status": "success",
-            "recommendations": recommendations
+            "total": len(results),
+            "recommendations": results[:10]  # top 10 only
         }
+
     except Exception as e:
         return {"status": "error", "message": str(e)}
 
