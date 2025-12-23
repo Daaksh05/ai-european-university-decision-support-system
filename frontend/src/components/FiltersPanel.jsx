@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import api from "../services/api";
 import "../styles/FiltersPanel.css";
 
-const FiltersPanel = ({ onFilterChange, isOpen, onClose }) => {
+const FiltersPanel = ({ onFilterChange, onFiltered, isOpen, onClose }) => {
   const [filters, setFilters] = useState({
     minRanking: 1,
     maxRanking: 500,
@@ -13,13 +14,64 @@ const FiltersPanel = ({ onFilterChange, isOpen, onClose }) => {
     admissionChance: 0,
   });
 
+  const [allRecommendations, setAllRecommendations] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  // Fetch recommendations when component mounts
+  useEffect(() => {
+    const fetchRecommendations = async () => {
+      try {
+        setLoading(true);
+        const response = await api.post("/recommend", {
+          gpa: sessionStorage.getItem("profileGPA") ? parseFloat(sessionStorage.getItem("profileGPA")) : 3.5,
+          ielts: sessionStorage.getItem("profileIELTS") ? parseFloat(sessionStorage.getItem("profileIELTS")) : 6.5,
+          budget: sessionStorage.getItem("profileBudget") ? parseFloat(sessionStorage.getItem("profileBudget")) : 20000,
+          country: sessionStorage.getItem("profileCountry") || "",
+          field: sessionStorage.getItem("profileField") || "",
+        });
+        if (response.data.status === "success") {
+          setAllRecommendations(response.data.recommendations || []);
+          applyFilters(response.data.recommendations || [], filters);
+        }
+      } catch (err) {
+        console.error("Error fetching recommendations:", err);
+        setAllRecommendations([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRecommendations();
+  }, []);
+
   const countries = ["Germany", "Netherlands", "UK", "Sweden", "France", "Switzerland"];
   const programTypes = ["Engineering", "Business", "Medicine", "Law", "Science", "Arts"];
+
+  const applyFilters = (universities, filterObj) => {
+    const filtered = universities.filter(u => {
+      const ranking = u.ranking || 999;
+      const tuition = u.average_fees_eur || 0;
+      const country = u.country || "";
+      const program = u.field || "";
+      const hasScholarship = u.scholarships && u.scholarships.length > 0;
+
+      return (
+        ranking >= filterObj.minRanking &&
+        ranking <= filterObj.maxRanking &&
+        tuition >= filterObj.minTuition &&
+        tuition <= filterObj.maxTuition &&
+        (!filterObj.country || country.toLowerCase() === filterObj.country.toLowerCase()) &&
+        (!filterObj.programType || program.toLowerCase() === filterObj.programType.toLowerCase()) &&
+        (!filterObj.scholarshipAvailable || hasScholarship)
+      );
+    });
+    if (onFiltered) onFiltered(filtered);
+  };
 
   const handleFilterChange = (key, value) => {
     const updatedFilters = { ...filters, [key]: value };
     setFilters(updatedFilters);
-    if (onFilterChange) onFilterChange(updatedFilters);
+    applyFilters(allRecommendations, updatedFilters);
   };
 
   const handleReset = () => {
@@ -34,7 +86,7 @@ const FiltersPanel = ({ onFilterChange, isOpen, onClose }) => {
       admissionChance: 0,
     };
     setFilters(resetFilters);
-    if (onFilterChange) onFilterChange(resetFilters);
+    applyFilters(allRecommendations, resetFilters);
   };
 
   return (

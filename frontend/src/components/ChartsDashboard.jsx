@@ -1,36 +1,78 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import api from "../services/api";
 import "../styles/ChartsDashboard.css";
 
 const ChartsDashboard = ({ universities, studentProfile }) => {
   const [activeChart, setActiveChart] = useState("cost-vs-ranking");
+  const [recommendations, setRecommendations] = useState([]);
+  const [roiData, setRoiData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  // Mock chart data - replace with actual data in production
+  // Fetch recommendations on mount
+  useEffect(() => {
+    const fetchRecommendations = async () => {
+      try {
+        setLoading(true);
+        const gpa = sessionStorage.getItem("profileGPA") ? parseFloat(sessionStorage.getItem("profileGPA")) : 3.5;
+        const ielts = sessionStorage.getItem("profileIELTS") ? parseFloat(sessionStorage.getItem("profileIELTS")) : 6.5;
+        const budget = sessionStorage.getItem("profileBudget") ? parseFloat(sessionStorage.getItem("profileBudget")) : 20000;
+        const country = sessionStorage.getItem("profileCountry") || "";
+        const field = sessionStorage.getItem("profileField") || "";
+
+        const response = await api.post("/recommend", { gpa, ielts, budget, country, field });
+        if (response.data.status === "success" && response.data.recommendations) {
+          setRecommendations(response.data.recommendations);
+          calculateROI(response.data.recommendations);
+        }
+      } catch (err) {
+        console.error("Error fetching recommendations:", err);
+        setRecommendations([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRecommendations();
+  }, []);
+
+  // Calculate ROI for each university
+  const calculateROI = (universities) => {
+    const roiCalculations = universities.slice(0, 8).map((uni) => ({
+      name: (uni.university || uni.name || "Unknown").substring(0, 15),
+      tuitionFee: uni.average_fees_eur || 0,
+      expectedSalary: 50000,
+      roi: ((50000 - (uni.average_fees_eur || 0)) / (uni.average_fees_eur || 1)) * 100,
+      timeToBreakeven: Math.ceil((uni.average_fees_eur || 20000) / (50000 / 40)),
+    }));
+    setRoiData(roiCalculations);
+  };
+
+  // Real chart data from recommendations
   const generateCostVsRankingData = () => {
-    if (!universities || !Array.isArray(universities)) return [];
-    return universities.slice(0, 10).map((uni) => ({
-      name: uni.name.substring(0, 15),
-      cost: uni.tuition_fee || Math.random() * 50000,
-      ranking: uni.ranking || Math.floor(Math.random() * 500),
-      matchPercentage: Math.random() * 100,
+    if (!recommendations || !Array.isArray(recommendations)) return [];
+    return recommendations.slice(0, 10).map((uni) => ({
+      name: (uni.university || uni.name || "Unknown").substring(0, 15),
+      cost: uni.average_fees_eur || 0,
+      ranking: uni.ranking || 500,
+      matchPercentage: (uni.match_score || 0) * 100,
     }));
   };
 
   const generateAcceptanceProbabilityData = () => {
-    if (!universities || !Array.isArray(universities)) return [];
-    return universities.slice(0, 8).map((uni) => ({
-      name: uni.name.substring(0, 15),
-      probability: Math.random() * 100,
-      chance: Math.random() > 0.5 ? "High" : "Medium",
-    }));
+    if (!recommendations || !Array.isArray(recommendations)) return [];
+    const gpa = sessionStorage.getItem("profileGPA") ? parseFloat(sessionStorage.getItem("profileGPA")) : 3.5;
+    return recommendations.slice(0, 8).map((uni) => {
+      const acceptanceProbability = Math.min(95, Math.max(20, (gpa / 4) * 100));
+      return {
+        name: (uni.university || uni.name || "Unknown").substring(0, 15),
+        probability: acceptanceProbability,
+        chance: acceptanceProbability > 70 ? "High" : acceptanceProbability > 40 ? "Medium" : "Low",
+      };
+    });
   };
 
   const generateRoiData = () => {
-    if (!universities || !Array.isArray(universities)) return [];
-    return universities.slice(0, 8).map((uni) => ({
-      name: uni.name.substring(0, 15),
-      roi: Math.random() * 300,
-      timeToBreakeven: Math.floor(Math.random() * 10) + 2,
-    }));
+    return roiData;
   };
 
   const costVsRankingData = generateCostVsRankingData();
@@ -193,7 +235,12 @@ const ChartsDashboard = ({ universities, studentProfile }) => {
 
       {/* Download Report Button */}
       <div className="dashboard-actions">
-        <button className="btn btn-secondary">
+        <button 
+          className="btn btn-secondary"
+          onClick={() => {
+            alert("📋 PDF generation not yet available. Backend support needed.\n\nTo enable: Add a /generate-pdf endpoint to backend that combines recommendations, cost analysis, and ROI data.");
+          }}
+        >
           📥 Download Full Report (PDF)
         </button>
       </div>

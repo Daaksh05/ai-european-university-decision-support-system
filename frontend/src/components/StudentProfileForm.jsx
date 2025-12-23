@@ -71,6 +71,12 @@ function StudentProfileForm() {
 
       if (recommendRes.data.status === "success") {
         setUniversities(recommendRes.data.recommendations || []);
+        // SAVE PROFILE TO SESSION STORAGE FOR RECOMMENDATIONS PAGE
+        sessionStorage.setItem("profileGPA", profile.gpa);
+        sessionStorage.setItem("profileIELTS", profile.ielts);
+        sessionStorage.setItem("profileBudget", profile.budget);
+        sessionStorage.setItem("profileCountry", profile.country);
+        sessionStorage.setItem("profileField", profile.field);
         if (!recommendRes.data.recommendations || recommendRes.data.recommendations.length === 0) {
           setError("🤔 No universities match your criteria. Try adjusting your budget or IELTS score.");
         }
