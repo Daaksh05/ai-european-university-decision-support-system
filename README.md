@@ -1,103 +1,93 @@
-# AI University Decision Support System
+# 🎓 AI University Decision Support System (UniDecide)
 
-An AI-driven decision support system designed to assist students in selecting suitable international (European) universities through personalized, data-driven recommendations. The system analyzes academic profiles, test scores, financial constraints, and career goals to predict admission eligibility and recommend best-fit universities and programs.
-
-This project integrates **Machine Learning, Natural Language Processing (NLP), FastAPI, and a React frontend** to provide an intelligent, scalable, and user-friendly platform for overseas higher education decision-making.
+An intelligent full-stack web application that helps students choose the right European universities based on their academic profile, budget, and preferences.
 
 ---
 
-## 🚀 Key Features
+## 🚀 Features
 
-- Student profile analysis (academics, test scores, budget, preferences)
-- Admission eligibility prediction using ML
-- University and course recommendation engine
-- Cost, scholarship, and ROI comparison
-- NLP-based enquiry handling
-- Modular backend with RESTful APIs
-- React-based frontend for user interaction
+### 👤 Student Profile Analysis
+- Input GPA, IELTS, Budget, Country, Field of Study
+- Calculates **Admission Chance** as:
+  - 🟢 HIGH
+  - 🟡 MEDIUM
+  - 🔴 LOW
+- Shows **probability (%)** and personalized feedback
+
+### 🏫 University Recommendations
+- Recommends **European universities** dynamically
+- Matches universities based on:
+  - GPA eligibility
+  - IELTS requirements
+  - Tuition budget
+  - Country & field preference
+- Sorted by **best match score**
+
+### 📊 Analytics Dashboard
+- Cost vs Ranking analysis
+- Acceptance probability visualization
+- ROI analysis (tuition vs expected salary)
+- Real data (no mock values)
+
+### 💬 Ask AI Assistant
+- Students can ask questions about:
+  - Universities
+  - IELTS requirements
+  - Scholarships
+  - Study destinations
+- Backend-driven intelligent responses
+
+### 🎓 Scholarships Module
+- View scholarships by country
+- Filter by coverage & amount
+- Scholarship statistics
 
 ---
 
-## 🛠️ Tech Stack
+## 🧠 Tech Stack
 
-**Frontend**
+### Frontend
 - React.js
 - Axios
-- HTML, CSS, JavaScript
+- CSS / Tailwind-style UI
+- SessionStorage for profile flow
 
-**Backend**
-- Python
+### Backend
 - FastAPI
-- Uvicorn
-
-**AI / Data**
-- Scikit-learn (ML logic)
+- Python
+- Pydantic
 - Pandas
-- NLP (rule-based / extensible)
-
-**Tools**
-- Git & GitHub
-- PowerShell
-- VS Code
+- Rule-based + ML-assisted logic
 
 ---
 
-## 📁 Project Folder Structure
-
-## 📁 Project Folder Structure
+## 📁 Project Structure
 
 ```text
 ai-university-decision-support-system/
+│
 ├── backend/
 │   ├── app.py
-│   ├── requirements.txt
 │   ├── modules/
-│   │   ├── profile_analysis.py
 │   │   ├── admission_prediction.py
 │   │   ├── recommendation_engine.py
-│   │   ├── nlp_query_handler.py
 │   │   ├── cost_roi_analysis.py
-│   │   └── admin_management.py
+│   │   └── nlp_query_handler.py
 │   ├── data/
 │   │   ├── universities.csv
 │   │   └── scholarships.csv
-│   ├── models/
-│   │   └── admission_model.pkl
-│   ├── data_fetcher/
-│   │   ├── fetch_universities.py
-│   │   ├── fetch_scholarships.py
-│   │   └── clean_data.py
-│   └── utils/
-│       └── helpers.py
 │
 ├── frontend/
-│   ├── public/
 │   ├── src/
 │   │   ├── components/
 │   │   │   ├── StudentProfileForm.jsx
-│   │   │   ├── EligibilityResult.jsx
-│   │   │   ├── UniversityList.jsx
-│   │   │   ├── QueryBox.jsx
-│   │   │   └── AdminPanel.jsx
+│   │   │   ├── ChartsDashboard.jsx
+│   │   │   └── UniversityList.jsx
 │   │   ├── pages/
-│   │   │   ├── Home.jsx
-│   │   │   ├── Dashboard.jsx
-│   │   │   └── Admin.jsx
-│   │   ├── services/
-│   │   │   └── api.js
-│   │   ├── App.js
-│   │   └── index.js
-│   └── package.json
+│   │   │   ├── ProfilePage.jsx
+│   │   │   ├── Recommendations.jsx
+│   │   │   ├── Analytics.jsx
+│   │   │   └── AskAI.jsx
+│   │   └── services/api.js
 │
-├── docs/
-│   ├── abstract.md
-│   ├── methodology.md
-│   └── system_architecture.md
-│
-├── diagrams/
-│   └── architecture.png
-│
-├── .gitignore
-├── README.md
-└── LICENSE
-
+└── README.md
