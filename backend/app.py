@@ -80,13 +80,51 @@ def root():
 @app.post("/predict")
 def predict(profile: StudentProfile):
     try:
-        admission_chance = predict_admission(profile)
+        gpa = profile.gpa or 0
+        ielts = profile.ielts or 0
+        budget = profile.budget or 0
+
+        # ---------- Admission Probability Logic ----------
+        score = 0
+
+        # GPA contribution (max 40)
+        score += min(gpa / 4.0, 1) * 40
+
+        # IELTS contribution (max 30)
+        score += min(ielts / 9.0, 1) * 30
+
+        # Budget contribution (max 30)
+        if budget >= 20000:
+            score += 30
+        elif budget >= 12000:
+            score += 20
+        elif budget >= 8000:
+            score += 10
+
+        probability = round(score)
+
+        # ---------- Chance Mapping ----------
+        if probability >= 70:
+            chance = "HIGH"
+            message = "Excellent profile! Strong chance of admission."
+        elif probability >= 40:
+            chance = "MEDIUM"
+            message = "Decent profile. You have a fair chance."
+        else:
+            chance = "LOW"
+            message = "Profile needs improvement to increase chances."
+
         return {
             "status": "success",
-            "admission_chance": admission_chance
+            "chance": chance,
+            "probability": probability,
+            "message": message
         }
+
     except Exception as e:
         return {"status": "error", "message": str(e)}
+
+
 
 @app.post("/recommend")
 def recommend(profile: StudentProfile):
