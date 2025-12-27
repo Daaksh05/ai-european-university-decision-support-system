@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import api from "../services/api";
+import UniversityList from "./UniversityList";
 import "../styles/StudentProfileForm.css";
 
 const StudentProfileForm = () => {
-  const [profile, setProfile] = useState({
+  const [formData, setFormData] = useState({
     gpa: "",
     ielts: "",
     budget: "",
@@ -12,108 +13,64 @@ const StudentProfileForm = () => {
   });
 
   const [prediction, setPrediction] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [recommendations, setRecommendations] = useState([]);
   const [error, setError] = useState("");
 
   const handleChange = (e) => {
-    setProfile({ ...profile, [e.target.name]: e.target.value });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
+  const handleSubmit = async () => {
     setError("");
     setPrediction(null);
+    setRecommendations([]);
 
     try {
-      const res = await api.post("/predict", {
-        gpa: Number(profile.gpa),
-        ielts: Number(profile.ielts),
-        budget: Number(profile.budget),
-        country: profile.country,
-        field: profile.field,
+      const predictRes = await api.post("/predict", {
+        gpa: Number(formData.gpa),
+        ielts: Number(formData.ielts),
+        budget: Number(formData.budget),
+        country: formData.country,
+        field: formData.field,
       });
 
-      if (res.data.status === "success") {
-        setPrediction(res.data);
-      } else {
-        setError("Prediction failed");
-      }
+      setPrediction(predictRes.data);
+
+      const recommendRes = await api.post("/recommend", {
+        gpa: Number(formData.gpa),
+        ielts: Number(formData.ielts),
+        budget: Number(formData.budget),
+        country: formData.country,
+        field: formData.field,
+      });
+
+      setRecommendations(recommendRes.data.recommendations || []);
     } catch (err) {
-      setError("Backend not running or API error");
-    } finally {
-      setLoading(false);
+      setError("Backend not running or error occurred");
     }
   };
 
+  const chanceClass =
+    prediction?.chance === "HIGH"
+      ? "high"
+      : prediction?.chance === "MEDIUM"
+      ? "medium"
+      : "low";
+
   return (
     <div className="profile-container">
-      <h2>🎓 Student Profile</h2>
+      <input name="gpa" placeholder="GPA" onChange={handleChange} />
+      <input name="ielts" placeholder="IELTS" onChange={handleChange} />
+      <input name="budget" placeholder="Budget (€)" onChange={handleChange} />
+      <input name="country" placeholder="Country" onChange={handleChange} />
+      <input name="field" placeholder="Field of Study" onChange={handleChange} />
 
-      {error && <div className="error-box">{error}</div>}
+      <button onClick={handleSubmit}>🚀 SUBMIT</button>
 
-      <form onSubmit={handleSubmit}>
-        <input
-          type="number"
-          step="0.1"
-          name="gpa"
-          placeholder="GPA (out of 4)"
-          value={profile.gpa}
-          onChange={handleChange}
-          required
-        />
+      {error && <p style={{ color: "red" }}>{error}</p>}
 
-        <input
-          type="number"
-          step="0.5"
-          name="ielts"
-          placeholder="IELTS (out of 9)"
-          value={profile.ielts}
-          onChange={handleChange}
-          required
-        />
-
-        <input
-          type="number"
-          name="budget"
-          placeholder="Budget (€)"
-          value={profile.budget}
-          onChange={handleChange}
-          required
-        />
-
-        <input
-          type="text"
-          name="country"
-          placeholder="Preferred Country"
-          value={profile.country}
-          onChange={handleChange}
-        />
-
-        <input
-          type="text"
-          name="field"
-          placeholder="Field of Study (optional)"
-          value={profile.field}
-          onChange={handleChange}
-        />
-
-        <button type="submit" disabled={loading}>
-          {loading ? "Predicting..." : "🚀 SUBMIT"}
-        </button>
-      </form>
-
-      {/* ================= ADMISSION CHANCE ================= */}
       {prediction && (
-        <div
-          className={`admission-card ${
-            prediction.chance === "HIGH"
-              ? "green"
-              : prediction.chance === "MEDIUM"
-              ? "yellow"
-              : "red"
-          }`}
-        >
+        <div className={`admission-box ${chanceClass}`}>
           <h3>🎯 ADMISSION CHANCE</h3>
           <h2>{prediction.chance}</h2>
           <p>{prediction.message}</p>
@@ -121,6 +78,10 @@ const StudentProfileForm = () => {
             <b>Probability:</b> {prediction.probability}%
           </p>
         </div>
+      )}
+
+      {recommendations.length > 0 && (
+        <UniversityList universities={recommendations} />
       )}
     </div>
   );

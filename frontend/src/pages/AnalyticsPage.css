@@ -1,8 +1,18 @@
-/* Analytics Page Styles */
+/* ================================
+   Analytics Page Styles (FIXED)
+================================ */
+
 .analytics-page {
   padding: 40px 20px;
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.02) 0%, rgba(240, 147, 251, 0.02) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(102, 126, 234, 0.12) 0%,
+    rgba(240, 147, 251, 0.12) 100%
+  );
+  opacity: 1;
 }
+
+/* ---------- Header ---------- */
 
 .analytics-header {
   max-width: 1200px;
@@ -22,9 +32,11 @@
 
 .analytics-header p {
   font-size: 16px;
-  color: #718096;
+  color: #334155; /* DARKER */
   line-height: 1.6;
 }
+
+/* ---------- Layout ---------- */
 
 .analytics-container {
   max-width: 1200px;
@@ -34,13 +46,43 @@
   gap: 30px;
 }
 
+/* ---------- Section Card ---------- */
+
 .analytics-section {
-  background: linear-gradient(135deg, rgba(102,126,234,0.06) 0%, rgba(199, 210, 254,0.04) 50%, rgba(240,147,251,0.04) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.96),
+    rgba(248, 250, 252, 0.96)
+  );
   border-radius: 16px;
   padding: 30px;
-  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
-  border: 1px solid rgba(102,126,234,0.06);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.12);
+  border: 1px solid rgba(99, 102, 241, 0.15);
+  opacity: 1;
 }
+
+/* ---------- Section Title ---------- */
+
+.section-title {
+  margin-bottom: 30px;
+  border-bottom: 2px solid rgba(99, 102, 241, 0.25);
+  padding-bottom: 20px;
+}
+
+.section-title h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b; /* SOLID TEXT */
+  margin: 0 0 8px 0;
+}
+
+.section-title p {
+  font-size: 14px;
+  color: #475569;
+  margin: 0;
+}
+
+/* ---------- Metric Cards ---------- */
 
 .analytics-section .card-grid {
   display: grid;
@@ -53,37 +95,29 @@
   padding: 18px;
   border-radius: 12px;
   color: #0f172a;
-  background: linear-gradient(135deg, rgba(99,102,241,0.08), rgba(236,72,153,0.04));
-  box-shadow: 0 8px 20px rgba(99,102,241,0.08);
+  background: linear-gradient(
+    135deg,
+    rgba(99, 102, 241, 0.18),
+    rgba(236, 72, 153, 0.12)
+  );
+  box-shadow: 0 10px 24px rgba(99, 102, 241, 0.18);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .metric-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 18px 40px rgba(99,102,241,0.12);
+  box-shadow: 0 20px 48px rgba(99, 102, 241, 0.28);
 }
 
-.section-title {
-  margin-bottom: 30px;
-  border-bottom: 2px solid rgba(102, 126, 234, 0.1);
-  padding-bottom: 20px;
+/* ---------- Chart Fix ---------- */
+
+.analytics-section canvas,
+.analytics-section svg {
+  opacity: 1 !important;
+  filter: none !important;
 }
 
-.section-title h2 {
-  font-size: 24px;
-  font-weight: 700;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin: 0 0 8px 0;
-}
-
-.section-title p {
-  font-size: 14px;
-  color: #718096;
-  margin: 0;
-}
+/* ---------- Responsive ---------- */
 
 @media (max-width: 1024px) {
   .analytics-container {

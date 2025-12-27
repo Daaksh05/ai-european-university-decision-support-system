@@ -1,0 +1,31 @@
+/* StudentProfileForm.css */
+
+.profile-container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+}
+
+.admission-box {
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: 20px;
+  color: #fff;
+}
+
+.admission-box.low {
+  background: #e53935;
+}
+
+.admission-box.medium {
+  background: #fbc02d;
+  color: #000;
+}
+
+.admission-box.high {
+  background: #43a047;
+}
+
+.admission-box h3 {
+  margin-bottom: 10px;
+}
