@@ -1,4 +1,4 @@
-# 🎓 AI University Decision Support System (UniDecide)
+# 🎓 AI European University Decision Support System (UniDecide)
 
 An intelligent full-stack web application that helps students choose the right European universities based on their academic profile, budget, and preferences.
 
