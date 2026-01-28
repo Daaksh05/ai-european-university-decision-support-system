@@ -8,6 +8,8 @@ import RecommendationsPage from "./pages/RecommendationsPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
 import ScholarshipsPage from "./pages/ScholarshipsPage";
 import AskAIPage from "./pages/AskAIPage";
+import ResumeBuilderHome from "./pages/ResumeBuilderHome";
+import ResumeBuilderPage from "./pages/ResumeBuilderPage";
 import "./App.css";
 
 function App() {
@@ -23,6 +25,9 @@ function App() {
             <Route path="/analytics" element={<AnalyticsPage />} />
             <Route path="/scholarships" element={<ScholarshipsPage />} />
             <Route path="/ask-ai" element={<AskAIPage />} />
+            {/* Resume Builder Routes - Independent Module */}
+            <Route path="/resume-builder" element={<ResumeBuilderHome />} />
+            <Route path="/resume-builder/:resumeId" element={<ResumeBuilderPage />} />
           </Routes>
         </main>
         <Footer />

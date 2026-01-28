@@ -1,0 +1,478 @@
+/* Resume Builder Main Styles */
+/* Europass-inspired European academic design */
+
+.resume-builder-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.resume-builder-page.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-spinner {
+  font-size: 1.5rem;
+  color: #333;
+  font-weight: 600;
+}
+
+/* Header */
+.resume-builder-header {
+  background: white;
+  border-bottom: 2px solid #e0e0e0;
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.header-left {
+  flex: 1;
+}
+
+.page-title {
+  margin: 0;
+  font-size: 1.8rem;
+  color: #1a1a1a;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.europass-badge {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-left: 0.5rem;
+}
+
+.page-subtitle {
+  margin: 0.25rem 0 0 0;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.header-right {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.save-status {
+  font-size: 0.85rem;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  background: #f0f0f0;
+  min-width: 100px;
+  text-align: center;
+}
+
+.save-status .status {
+  font-weight: 500;
+}
+
+.status.saving {
+  color: #ff9800;
+}
+
+.status.saved {
+  color: #4caf50;
+}
+
+.status.unsaved {
+  color: #ff5722;
+}
+
+.status.error {
+  color: #f44336;
+}
+
+.save-btn,
+.export-btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+}
+
+.save-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.save-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.save-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.export-btn {
+  background: #2196f3;
+  color: white;
+}
+
+.export-btn:hover {
+  background: #1976d2;
+  transform: translateY(-2px);
+}
+
+.export-btn.secondary {
+  background: #f5f5f5;
+  color: #333;
+  border: 1px solid #ddd;
+}
+
+.export-btn.secondary:hover {
+  background: #e8e8e8;
+}
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #333;
+}
+
+/* Container */
+.resume-builder-container {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Sidebar */
+.resume-builder-sidebar {
+  width: 35%;
+  background: white;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  padding: 2rem;
+  box-shadow: inset -2px 0 4px rgba(0, 0, 0, 0.03);
+}
+
+.resume-builder-sidebar.hidden {
+  display: none;
+}
+
+.steps-nav {
+  margin-bottom: 2rem;
+}
+
+.nav-title {
+  margin: 0 0 1rem 0;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  color: #666;
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+
+.steps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.step-button {
+  padding: 1rem;
+  border: none;
+  border-left: 3px solid transparent;
+  background: #f8f9fa;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-align: left;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.step-button:hover {
+  background: #f0f2f5;
+}
+
+.step-button.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-left-color: white;
+}
+
+.step-icon {
+  font-size: 1.5rem;
+}
+
+.step-label {
+  flex: 1;
+  font-weight: 600;
+}
+
+.nav-divider {
+  border: none;
+  height: 1px;
+  background: #e0e0e0;
+  margin: 1.5rem 0;
+}
+
+.resume-management {
+  margin-bottom: 1.5rem;
+}
+
+.resume-management h4 {
+  margin: 0 0 0.75rem 0;
+  font-size: 0.9rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.action-btn {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  background: #f8f9fa;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.action-btn:hover {
+  background: #f0f2f5;
+  border-color: #999;
+}
+
+.action-btn.delete-btn:hover {
+  background: #ffebee;
+  border-color: #f44336;
+  color: #f44336;
+}
+
+.forms-container {
+  margin-bottom: 2rem;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.form-wrapper {
+  animation: slideInLeft 0.3s ease;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Step Navigation */
+.step-navigation {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.nav-btn {
+  flex: 1;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.nav-btn:hover:not(:disabled) {
+  background: #f0f2f5;
+}
+
+.nav-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Main Preview Area */
+.resume-builder-main {
+  flex: 1;
+  background: #fafafa;
+  overflow-y: auto;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+/* Help Section */
+.help-section {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 100;
+}
+
+.help-details {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+.help-summary {
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  list-style: none;
+  user-select: none;
+  transition: all 0.2s ease;
+}
+
+.help-summary:hover {
+  background: #f8f9fa;
+}
+
+.help-details[open] .help-summary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.help-content {
+  padding: 1.5rem;
+  border-top: 1px solid #e0e0e0;
+  max-width: 400px;
+  font-size: 0.9rem;
+}
+
+.help-content h4 {
+  margin: 1rem 0 0.5rem 0;
+  font-size: 0.95rem;
+  color: #1a1a1a;
+}
+
+.help-content h4:first-child {
+  margin-top: 0;
+}
+
+.help-content ul,
+.help-content p {
+  margin: 0.5rem 0;
+  color: #555;
+}
+
+.help-content ul {
+  padding-left: 1.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .resume-builder-sidebar {
+    width: 40%;
+    padding: 1.5rem;
+  }
+
+  .resume-builder-header {
+    padding: 1rem;
+  }
+
+  .page-title {
+    font-size: 1.5rem;
+  }
+
+  .header-right {
+    gap: 0.5rem;
+  }
+
+  .save-btn,
+  .export-btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .help-section {
+    bottom: 1rem;
+    right: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .resume-builder-page {
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .resume-builder-container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .resume-builder-sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #e0e0e0;
+    max-height: 600px;
+    display: none;
+  }
+
+  .resume-builder-sidebar.visible {
+    display: block;
+  }
+
+  .resume-builder-main {
+    flex: 1;
+    padding: 1rem;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .header-right {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .header-left {
+    flex: none;
+  }
+
+  .page-title {
+    font-size: 1.2rem;
+  }
+
+  .europass-badge {
+    display: none;
+  }
+
+  .export-btn.secondary {
+    display: none;
+  }
+
+  .help-section {
+    display: none;
+  }
+}

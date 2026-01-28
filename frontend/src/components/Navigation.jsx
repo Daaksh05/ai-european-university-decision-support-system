@@ -53,6 +53,11 @@ function Navigation() {
                 Ask AI
               </Link>
             </li>
+            <li className="nav-item resume-builder-item">
+              <Link to="/resume-builder" className="nav-link resume-builder-link" onClick={() => setMenuOpen(false)}>
+                📄 Resume Builder
+              </Link>
+            </li>
           </ul>
         </div>
       </nav>

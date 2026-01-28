@@ -41,6 +41,7 @@ from data_fetcher.fetch_scholarships import (
     filter_scholarships as filter_scholarships_advanced,
     get_scholarship_statistics
 )
+from routes.resume import router as resume_router
 
 app = FastAPI()
 
@@ -52,6 +53,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# ✅ Include Resume Builder Routes (Independent Module)
+app.include_router(resume_router)
 
 # ---------- Data Models ----------
 class StudentProfile(BaseModel):
