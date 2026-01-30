@@ -42,6 +42,9 @@ from data_fetcher.fetch_scholarships import (
     get_scholarship_statistics
 )
 from routes.resume import router as resume_router
+from routes.resume_ai import router as resume_ai_router
+from routes.sop_ai import router as sop_ai_router
+from routes.visa_data import router as visa_data_router
 
 app = FastAPI()
 
@@ -56,21 +59,26 @@ app.add_middleware(
 
 # ✅ Include Resume Builder Routes (Independent Module)
 app.include_router(resume_router)
+app.include_router(resume_ai_router)
+app.include_router(sop_ai_router)
+app.include_router(visa_data_router)
+
+from typing import Optional
 
 # ---------- Data Models ----------
 class StudentProfile(BaseModel):
-    gpa: float = None
-    ielts: float = None
-    budget: float = None
-    country: str = None
-    field: str = None
+    gpa: Optional[float] = None
+    ielts: Optional[float] = None
+    budget: Optional[float] = None
+    country: Optional[str] = None
+    field: Optional[str] = None
 
 class QueryRequest(BaseModel):
     query: str
 
 class CostAnalysisRequest(BaseModel):
-    tuition_fee: float
-    country: str
+    tuition_fee: Optional[float] = None
+    country: Optional[str] = None
     duration_years: int = 2
 
 class ScholarshipRequest(BaseModel):
@@ -151,16 +159,28 @@ def recommend(profile: StudentProfile):
 
         for _, uni in df.iterrows():
             # Eligibility filters
-            if gpa < uni.get("min_gpa", 0):
+            uni_min_gpa = uni.get("min_gpa", 0)
+            uni_min_ielts = uni.get("min_ielts", uni.get("ielts_required", 0))
+
+            if gpa < uni_min_gpa:
                 continue
-            if ielts < uni.get("min_ielts", 0):
+            if ielts < uni_min_ielts:
                 continue
             if budget < uni.get("average_fees_eur", 0):
                 continue
-            if country and country != str(uni.get("country", "")).lower():
+            
+            # Country filter (if specified and not "all")
+            uni_country = str(uni.get("country", "")).lower()
+            if country and country != "all" and country != "all europe" and country != uni_country:
                 continue
-            if field and field not in str(uni.get("field", "")).lower():
-                continue
+
+            # Field filter (if specified) - Flexible matching
+            uni_field = str(uni.get("field", "")).lower()
+            if field and field not in uni_field:
+                # Try partial match if no exact match is found for compound fields
+                field_keywords = field.replace("/", " ").replace(",", " ").split()
+                if not any(kw in uni_field for kw in field_keywords):
+                    continue
 
             # Match score calculation
             gpa_score = min(gpa / 4, 1)

@@ -10,6 +10,8 @@ import ScholarshipsPage from "./pages/ScholarshipsPage";
 import AskAIPage from "./pages/AskAIPage";
 import ResumeBuilderHome from "./pages/ResumeBuilderHome";
 import ResumeBuilderPage from "./pages/ResumeBuilderPage";
+import SOPAssistantPage from "./pages/SOPAssistantPage";
+import VisaTrackerPage from "./pages/VisaTrackerPage";
 import "./App.css";
 
 function App() {
@@ -28,6 +30,8 @@ function App() {
             {/* Resume Builder Routes - Independent Module */}
             <Route path="/resume-builder" element={<ResumeBuilderHome />} />
             <Route path="/resume-builder/:resumeId" element={<ResumeBuilderPage />} />
+            <Route path="/sop-assistant" element={<SOPAssistantPage />} />
+            <Route path="/visa-tracker" element={<VisaTrackerPage />} />
           </Routes>
         </main>
         <Footer />

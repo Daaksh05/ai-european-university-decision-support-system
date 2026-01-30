@@ -92,7 +92,7 @@ export const saveResume = (resumeId, resumeData) => {
   try {
     const resumes = getAllResumes();
     const index = resumes.findIndex(r => r.id === resumeId);
-    
+
     if (index >= 0) {
       resumes[index] = {
         ...resumes[index],
@@ -130,30 +130,12 @@ export const deleteResume = (resumeId) => {
  */
 export const exportResumePDF = async (resumeId, resumeName = 'Resume') => {
   try {
-    const resume = getResumeById(resumeId);
-    if (!resume) throw new Error('Resume not found');
-    
-    // Send to backend for PDF generation with Europass formatting
-    const response = await axios.post(`${API_BASE_URL}/resume/export-pdf`, {
-      resume: resume
-    }, {
-      responseType: 'blob'
-    });
-    
-    // Create a download link
-    const url = window.URL.createObjectURL(new Blob([response.data]));
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', `${resumeName}_${new Date().getTime()}.pdf`);
-    document.body.appendChild(link);
-    link.click();
-    link.parentNode.removeChild(link);
-    
-    return true;
+    // For now, we use client-side export because it's already configured for Europass styling
+    // and the backend is currently a placeholder returning JSON instead of a PDF blob.
+    return exportResumePDFClient(resumeId, resumeName);
   } catch (error) {
     console.error('Error exporting PDF:', error);
-    // Fall back to client-side PDF export if backend fails
-    return exportResumePDFClient(resumeId, resumeName);
+    throw error;
   }
 };
 
@@ -164,11 +146,11 @@ export const exportResumePDFClient = (resumeId, resumeName = 'Resume') => {
   try {
     const resume = getResumeById(resumeId);
     if (!resume) throw new Error('Resume not found');
-    
+
     // Use html2pdf to export
     const element = document.getElementById('resume-preview-content');
     if (!element) throw new Error('Resume preview not found');
-    
+
     const options = {
       margin: 10,
       filename: `${resumeName}_${new Date().getTime()}.pdf`,
@@ -176,12 +158,12 @@ export const exportResumePDFClient = (resumeId, resumeName = 'Resume') => {
       html2canvas: { scale: 2 },
       jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' }
     };
-    
+
     // Dynamic import of html2pdf
     import('html2pdf.js').then(html2pdf => {
       html2pdf.default().set(options).from(element).save();
     });
-    
+
     return true;
   } catch (error) {
     console.error('Error in client PDF export:', error);
@@ -196,7 +178,7 @@ export const addEducation = (resumeId, education) => {
   try {
     const resume = getResumeById(resumeId);
     if (!resume) throw new Error('Resume not found');
-    
+
     resume.education.push({
       id: Date.now().toString(),
       institution: education.institution || '',
@@ -207,7 +189,7 @@ export const addEducation = (resumeId, education) => {
       description: education.description || '',
       grade: education.grade || ''
     });
-    
+
     return saveResume(resumeId, resume);
   } catch (error) {
     console.error('Error adding education:', error);
@@ -222,7 +204,7 @@ export const updateEducation = (resumeId, educationId, education) => {
   try {
     const resume = getResumeById(resumeId);
     if (!resume) throw new Error('Resume not found');
-    
+
     const index = resume.education.findIndex(e => e.id === educationId);
     if (index >= 0) {
       resume.education[index] = { ...resume.education[index], ...education };
@@ -242,7 +224,7 @@ export const deleteEducation = (resumeId, educationId) => {
   try {
     const resume = getResumeById(resumeId);
     if (!resume) throw new Error('Resume not found');
-    
+
     resume.education = resume.education.filter(e => e.id !== educationId);
     return saveResume(resumeId, resume);
   } catch (error) {
@@ -258,7 +240,7 @@ export const addWorkExperience = (resumeId, experience) => {
   try {
     const resume = getResumeById(resumeId);
     if (!resume) throw new Error('Resume not found');
-    
+
     resume.workExperience.push({
       id: Date.now().toString(),
       company: experience.company || '',
@@ -269,7 +251,7 @@ export const addWorkExperience = (resumeId, experience) => {
       description: experience.description || '',
       achievements: experience.achievements || []
     });
-    
+
     return saveResume(resumeId, resume);
   } catch (error) {
     console.error('Error adding work experience:', error);
@@ -284,7 +266,7 @@ export const updateWorkExperience = (resumeId, experienceId, experience) => {
   try {
     const resume = getResumeById(resumeId);
     if (!resume) throw new Error('Resume not found');
-    
+
     const index = resume.workExperience.findIndex(e => e.id === experienceId);
     if (index >= 0) {
       resume.workExperience[index] = { ...resume.workExperience[index], ...experience };
@@ -304,7 +286,7 @@ export const deleteWorkExperience = (resumeId, experienceId) => {
   try {
     const resume = getResumeById(resumeId);
     if (!resume) throw new Error('Resume not found');
-    
+
     resume.workExperience = resume.workExperience.filter(e => e.id !== experienceId);
     return saveResume(resumeId, resume);
   } catch (error) {
@@ -320,10 +302,10 @@ export const addSkill = (resumeId, skillType, skill) => {
   try {
     const resume = getResumeById(resumeId);
     if (!resume) throw new Error('Resume not found');
-    
+
     const validTypes = ['technical', 'languages', 'soft'];
     if (!validTypes.includes(skillType)) throw new Error('Invalid skill type');
-    
+
     if (!resume.skills[skillType].includes(skill)) {
       resume.skills[skillType].push(skill);
       return saveResume(resumeId, resume);
@@ -342,7 +324,7 @@ export const removeSkill = (resumeId, skillType, skill) => {
   try {
     const resume = getResumeById(resumeId);
     if (!resume) throw new Error('Resume not found');
-    
+
     resume.skills[skillType] = resume.skills[skillType].filter(s => s !== skill);
     return saveResume(resumeId, resume);
   } catch (error) {
@@ -358,7 +340,7 @@ export const addLanguage = (resumeId, language) => {
   try {
     const resume = getResumeById(resumeId);
     if (!resume) throw new Error('Resume not found');
-    
+
     resume.languages.push({
       id: Date.now().toString(),
       name: language.name || '',
@@ -366,7 +348,7 @@ export const addLanguage = (resumeId, language) => {
       certificate: language.certificate || '',
       certificationDate: language.certificationDate || ''
     });
-    
+
     return saveResume(resumeId, resume);
   } catch (error) {
     console.error('Error adding language:', error);
@@ -381,12 +363,12 @@ export const getAISuggestions = async (resumeId, section = null) => {
   try {
     const resume = getResumeById(resumeId);
     if (!resume) throw new Error('Resume not found');
-    
+
     const response = await axios.post(`${API_BASE_URL}/resume/ai-suggestions`, {
       resume: resume,
       section: section
     });
-    
+
     return response.data;
   } catch (error) {
     console.error('Error getting AI suggestions:', error);
@@ -401,16 +383,39 @@ export const getSkillGapAnalysis = async (resumeId, universityId = null) => {
   try {
     const resume = getResumeById(resumeId);
     if (!resume) throw new Error('Resume not found');
-    
+
     const response = await axios.post(`${API_BASE_URL}/resume/skill-gap-analysis`, {
       resume: resume,
       universityId: universityId
     });
-    
+
     return response.data;
   } catch (error) {
     console.error('Error getting skill gap analysis:', error);
     return null;
+  }
+};
+
+/**
+ * Generate AI professional summary
+ */
+export const generateAISummary = async (resume) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/resume/ai/generate-summary`, {
+      name: resume.personalInfo?.fullName || 'Professional',
+      headline: resume.personalInfo?.headline || '',
+      education: resume.education || [],
+      experience: resume.workExperience || [],
+      skills: [
+        ...(resume.skills?.technical || []),
+        ...(resume.skills?.soft || [])
+      ]
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error('Error generating AI summary:', error);
+    throw error;
   }
 };
 
@@ -431,5 +436,6 @@ export default {
   removeSkill,
   addLanguage,
   getAISuggestions,
-  getSkillGapAnalysis
+  getSkillGapAnalysis,
+  generateAISummary
 };

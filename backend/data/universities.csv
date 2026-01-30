@@ -1,15 +1,17 @@
-university,country,city,field,ielts_required,average_fees_eur,ranking,course_url
-Sorbonne University,France,Paris,Computer Science / AI,6.5,8000,60,https://www.sorbonne-universite.fr/masters-ai
-Université Paris-Saclay,France,Paris,AI / Data Science,6.5,7000,70,https://www.universite-paris-saclay.fr/masters-ai
-Grenoble INP,France,Grenoble,Informatics / AI,6.5,6500,120,https://www.grenoble-inp.fr/programs-ai
-University of Lille,France,Lille,Computer Science,6.0,6000,300,https://www.univ-lille.fr/computer-science
-TU Munich,Germany,Munich,AI / Robotics,6.5,9000,50,https://www.tum.de/masters-ai
-RWTH Aachen University,Germany,Aachen,Computer Science,6.5,8500,100,https://www.rwth-aachen.de/computer-science
-University of Amsterdam,Netherlands,Amsterdam,AI / Data Science,7.0,12000,55,https://www.uva.nl/masters-ai
-Delft University of Technology,Netherlands,Delft,Computer Science,7.0,13000,47,https://www.tudelft.nl/masters-ai
-KU Leuven,Belgium,Leuven,AI / Engineering,6.5,7500,61,https://www.kuleuven.be/masters-ai
-University of Helsinki,Finland,Helsinki,Data Science / AI,6.5,13000,110,https://www.helsinki.fi/masters-ai
-Politecnico di Milano,Italy,Milan,Computer Engineering,6.0,4000,123,https://www.polimi.it/masters-engineering
-University of Bologna,Italy,Bologna,Computer Science,6.0,3500,167,https://www.unibo.it/computer-science
-University of Barcelona,Spain,Barcelona,AI / Data Analytics,6.5,4500,184,https://www.ub.edu/masters-ai
-University of Vienna,Austria,Vienna,Computer Science,6.0,3000,151,https://www.univie.ac.at/computer-science
+university,country,city,field,min_gpa,min_ielts,average_fees_eur,ranking,course_url
+Sorbonne University,France,Paris,Computer Science / AI,3.0,6.5,8000,60,https://www.sorbonne-universite.fr/masters-ai
+Université Paris-Saclay,France,Paris,AI / Data Science,3.2,6.5,7000,70,https://www.universite-paris-saclay.fr/masters-ai
+Grenoble INP,France,Grenoble,Informatics / AI,2.8,6.5,6500,120,https://www.grenoble-inp.fr/programs-ai
+University of Lille,France,Lille,Computer Science,2.5,6.0,6000,300,https://www.univ-lille.fr/computer-science
+TU Munich,Germany,Munich,AI / Robotics / Computer Science,3.5,6.5,9000,50,https://www.tum.de/masters-ai
+RWTH Aachen University,Germany,Aachen,Computer Science / AI,3.3,6.5,8500,100,https://www.rwth-aachen.de/computer-science
+University of Amsterdam,Netherlands,Amsterdam,AI / Data Science,3.2,7.0,12000,55,https://www.uva.nl/masters-ai
+Delft University of Technology,Netherlands,Delft,Computer Science / AI,3.4,7.0,13000,47,https://www.tudelft.nl/masters-ai
+KU Leuven,Belgium,Leuven,AI / Engineering,3.0,6.5,7500,61,https://www.kuleuven.be/masters-ai
+University of Helsinki,Finland,Helsinki,Data Science / AI,3.0,6.5,13000,110,https://www.helsinki.fi/masters-ai
+Politecnico di Milano,Italy,Milan,Computer Engineering / AI,3.0,6.0,4000,123,https://www.polimi.it/masters-engineering
+University of Bologna,Italy,Bologna,Computer Science / Data Science,2.8,6.0,3500,167,https://www.unibo.it/computer-science
+University of Barcelona,Spain,Barcelona,AI / Data Analytics,3.0,6.5,4500,184,https://www.ub.edu/masters-ai
+University of Vienna,Austria,Vienna,Computer Science / AI,2.8,6.0,3000,151,https://www.univie.ac.at/computer-science
+Technical University of Berlin,Germany,Berlin,AI / Computer Science,3.2,6.5,500,200,https://www.tu-berlin.de/masters-ai
+KTH Royal Institute of Technology,Sweden,Stockholm,Computer Science / Machine Learning,3.4,6.5,15000,98,https://www.kth.se/masters-cs

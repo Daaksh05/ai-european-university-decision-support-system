@@ -5,15 +5,28 @@ import '../../styles/FormComponents.css';
  * LanguagesForm Component - Europass Languages Section
  * Manages language proficiency with CEFR levels (A1-C2)
  */
-const LanguagesForm = ({ data = [], onUpdate = () => {} }) => {
+const LanguagesForm = ({ data = [], onUpdate = () => { } }) => {
   const [languages, setLanguages] = useState(data);
   const [expandedId, setExpandedId] = useState(null);
   const [newLanguage, setNewLanguage] = useState({
     name: '',
     proficiency: 'B2',
+    listening: 'B2',
+    reading: 'B2',
+    spokenInteraction: 'B2',
+    spokenProduction: 'B2',
+    writing: 'B2',
     certificate: '',
     certificationDate: ''
   });
+
+  const categories = [
+    { id: 'listening', label: 'Listening' },
+    { id: 'reading', label: 'Reading' },
+    { id: 'spokenInteraction', label: 'Spoken Interaction' },
+    { id: 'spokenProduction', label: 'Spoken Production' },
+    { id: 'writing', label: 'Writing' }
+  ];
 
   const cefrLevels = [
     { code: 'A1', label: 'Beginner' },
@@ -22,21 +35,6 @@ const LanguagesForm = ({ data = [], onUpdate = () => {} }) => {
     { code: 'B2', label: 'Upper Intermediate' },
     { code: 'C1', label: 'Advanced' },
     { code: 'C2', label: 'Proficiency' }
-  ];
-
-  const commonLanguages = [
-    'English',
-    'French',
-    'German',
-    'Spanish',
-    'Italian',
-    'Portuguese',
-    'Dutch',
-    'Polish',
-    'Russian',
-    'Mandarin Chinese',
-    'Japanese',
-    'Arabic'
   ];
 
   const handleAddLanguage = () => {
@@ -56,6 +54,11 @@ const LanguagesForm = ({ data = [], onUpdate = () => {} }) => {
     setNewLanguage({
       name: '',
       proficiency: 'B2',
+      listening: 'B2',
+      reading: 'B2',
+      spokenInteraction: 'B2',
+      spokenProduction: 'B2',
+      writing: 'B2',
       certificate: '',
       certificationDate: ''
     });
@@ -85,25 +88,20 @@ const LanguagesForm = ({ data = [], onUpdate = () => {} }) => {
     <div className="form-section languages-form">
       <h3 className="form-section-title">Languages</h3>
       <p className="form-section-subtitle">
-        List languages you speak with CEFR proficiency levels
+        Self-assess your language skills using the Europass CEFR grid
       </p>
 
       {/* Existing Languages */}
       <div className="languages-entries">
         {languages.map((lang) => (
-          <div key={lang.id} className="language-entry">
+          <div key={lang.id} className="language-entry expanded">
             <div
               className="language-entry-header"
-              onClick={() =>
-                setExpandedId(expandedId === lang.id ? null : lang.id)
-              }
+              onClick={() => setExpandedId(expandedId === lang.id ? null : lang.id)}
             >
               <div className="language-entry-summary">
                 <h4>{lang.name}</h4>
-                <p>
-                  {cefrLevels.find(l => l.code === lang.proficiency)?.label} (
-                  {lang.proficiency})
-                </p>
+                <p>Overall: {lang.proficiency}</p>
               </div>
               <button
                 className="delete-btn"
@@ -116,132 +114,63 @@ const LanguagesForm = ({ data = [], onUpdate = () => {} }) => {
               </button>
             </div>
 
-            {expandedId === lang.id && (
-              <div className="language-entry-details">
-                <select
-                  value={lang.name}
-                  onChange={(e) =>
-                    handleUpdateLanguage(lang.id, { name: e.target.value })
-                  }
-                >
-                  <option value="">Select Language</option>
-                  {commonLanguages.map((l) => (
-                    <option key={l} value={l}>
-                      {l}
-                    </option>
-                  ))}
-                </select>
-
-                <div className="cefr-level-selector">
-                  <p>Proficiency Level (CEFR)</p>
-                  <div className="cefr-options">
-                    {cefrLevels.map((level) => (
-                      <label key={level.code} className="cefr-option">
-                        <input
-                          type="radio"
-                          name={`proficiency-${lang.id}`}
-                          value={level.code}
-                          checked={lang.proficiency === level.code}
-                          onChange={(e) =>
-                            handleUpdateLanguage(lang.id, {
-                              proficiency: e.target.value
-                            })
-                          }
-                        />
-                        <span className="cefr-label">
+            <div className="language-entry-details">
+              <div className="cefr-grid-container">
+                {categories.map(cat => (
+                  <div key={cat.id} className="cefr-category-row">
+                    <span className="category-label">{cat.label}</span>
+                    <div className="cefr-mini-options">
+                      {cefrLevels.map(level => (
+                        <button
+                          key={level.code}
+                          className={`cefr-mini-btn ${lang[cat.id] === level.code ? 'active' : ''}`}
+                          onClick={() => handleUpdateLanguage(lang.id, { [cat.id]: level.code })}
+                        >
                           {level.code}
-                          <small>{level.label}</small>
-                        </span>
-                      </label>
-                    ))}
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                ))}
+              </div>
 
+              <div className="form-row mt-3">
                 <input
                   type="text"
-                  placeholder="Certification (e.g., TOEFL, IELTS, DALF)"
-                  value={lang.certificate}
-                  onChange={(e) =>
-                    handleUpdateLanguage(lang.id, { certificate: e.target.value })
-                  }
+                  placeholder="Certification (e.g., TOEFL, IELTS)"
+                  value={lang.certificate || ''}
+                  onChange={(e) => handleUpdateLanguage(lang.id, { certificate: e.target.value })}
                 />
                 <input
                   type="month"
-                  placeholder="Certification Date"
-                  value={lang.certificationDate}
-                  onChange={(e) =>
-                    handleUpdateLanguage(lang.id, {
-                      certificationDate: e.target.value
-                    })
-                  }
+                  value={lang.certificationDate || ''}
+                  onChange={(e) => handleUpdateLanguage(lang.id, { certificationDate: e.target.value })}
                 />
               </div>
-            )}
+            </div>
           </div>
         ))}
       </div>
 
       {/* Add New Language */}
       <div className="add-new-section">
-        <h4>Add New Language</h4>
-
+        <h4>Add Language</h4>
         <div className="form-row">
-          <select
-            name="name"
-            value={newLanguage.name}
-            onChange={handleNewLanguageChange}
-          >
-            <option value="">Select a Language</option>
-            {commonLanguages.map((lang) => (
-              <option key={lang} value={lang}>
-                {lang}
-              </option>
-            ))}
-          </select>
           <input
             type="text"
-            placeholder="Or type a language"
+            name="name"
+            placeholder="Language Name (e.g. English)"
             value={newLanguage.name}
             onChange={handleNewLanguageChange}
           />
+          <select
+            name="proficiency"
+            value={newLanguage.proficiency}
+            onChange={handleNewLanguageChange}
+          >
+            {cefrLevels.map(l => <option key={l.code} value={l.code}>{l.code} - {l.label}</option>)}
+          </select>
         </div>
-
-        <div className="cefr-level-selector">
-          <p>Proficiency Level (CEFR)</p>
-          <div className="cefr-options">
-            {cefrLevels.map((level) => (
-              <label key={level.code} className="cefr-option">
-                <input
-                  type="radio"
-                  name="proficiency"
-                  value={level.code}
-                  checked={newLanguage.proficiency === level.code}
-                  onChange={handleNewLanguageChange}
-                />
-                <span className="cefr-label">
-                  {level.code}
-                  <small>{level.label}</small>
-                </span>
-              </label>
-            ))}
-          </div>
-        </div>
-
-        <input
-          type="text"
-          name="certificate"
-          placeholder="Certification (optional, e.g., TOEFL, IELTS, DALF)"
-          value={newLanguage.certificate}
-          onChange={handleNewLanguageChange}
-        />
-        <input
-          type="month"
-          name="certificationDate"
-          placeholder="Certification Date"
-          value={newLanguage.certificationDate}
-          onChange={handleNewLanguageChange}
-        />
-
         <button className="add-btn" onClick={handleAddLanguage}>
           + Add Language
         </button>
@@ -259,7 +188,7 @@ const LanguagesForm = ({ data = [], onUpdate = () => {} }) => {
         </p>
         <p>
           <strong>C1-C2:</strong> Proficient user - Can use language flexibly and
-          spontaneously
+          spontaneous
         </p>
       </div>
     </div>

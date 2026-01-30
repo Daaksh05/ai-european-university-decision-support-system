@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import BudgetPlanner from "./BudgetPlanner";
 
 function UniversityList({ universities }) {
   const [selectedUniversity, setSelectedUniversity] = useState(null);
@@ -19,12 +20,12 @@ function UniversityList({ universities }) {
       <h4 style={{ margin: "0 0 15px 0", fontSize: "18px" }}>📚 Recommended Universities</h4>
       <ul style={{ listStyle: "none", padding: 0, margin: "15px 0" }}>
         {universities.map((u, index) => (
-          <li 
+          <li
             key={index}
             style={{
               padding: "16px",
               marginBottom: "12px",
-              background: selectedUniversity === index 
+              background: selectedUniversity === index
                 ? "linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(240, 147, 251, 0.2) 100%)"
                 : "linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(79, 172, 254, 0.05) 100%)",
               borderRadius: "12px",
@@ -40,8 +41,8 @@ function UniversityList({ universities }) {
                 <div style={{ fontSize: "12px", color: "#667eea", fontWeight: "600", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: "4px" }}>
                   #{index + 1} University
                 </div>
-                <strong style={{ 
-                  fontSize: "16px", 
+                <strong style={{
+                  fontSize: "16px",
                   background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
@@ -52,12 +53,12 @@ function UniversityList({ universities }) {
                   {u.university || "Unknown University"}
                 </strong>
               </div>
-              <div style={{ 
-                background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)", 
-                color: "white", 
-                padding: "8px 12px", 
-                borderRadius: "8px", 
-                fontSize: "13px", 
+              <div style={{
+                background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                color: "white",
+                padding: "8px 12px",
+                borderRadius: "8px",
+                fontSize: "13px",
                 fontWeight: "700",
                 whiteSpace: "nowrap",
                 textAlign: "center"
@@ -84,8 +85,8 @@ function UniversityList({ universities }) {
           animation: "slideIn 0.4s ease"
         }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
-            <h5 style={{ 
-              margin: 0, 
+            <h5 style={{
+              margin: 0,
               fontSize: "16px",
               background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
               WebkitBackgroundClip: "text",
@@ -94,7 +95,7 @@ function UniversityList({ universities }) {
             }}>
               📖 University Details
             </h5>
-            <button 
+            <button
               onClick={() => setSelectedUniversity(null)}
               style={{
                 background: "linear-gradient(135deg, #f59e0b 0%, #d97706 100%)",
@@ -171,10 +172,15 @@ function UniversityList({ universities }) {
             ✅ This university matches your profile! Consider visiting their official website for admission details.
           </div>
 
+          <div style={{ marginTop: "20px" }}>
+            <h5 style={{ color: "#333", marginBottom: "10px" }}>📊 Financial Planning</h5>
+            <BudgetPlanner university={selectedUni} onClose={() => setSelectedUniversity(null)} />
+          </div>
+
           {selectedUni.course_url && (
-            <a 
-              href={selectedUni.course_url} 
-              target="_blank" 
+            <a
+              href={selectedUni.course_url}
+              target="_blank"
               rel="noopener noreferrer"
               style={{
                 display: "inline-block",
@@ -210,13 +216,13 @@ function UniversityList({ universities }) {
         </div>
       )}
 
-      <div style={{ 
-        marginTop: "15px", 
-        padding: "12px", 
+      <div style={{
+        marginTop: "15px",
+        padding: "12px",
         background: "linear-gradient(135deg, rgba(240, 147, 251, 0.1) 0%, rgba(79, 172, 254, 0.1) 100%)",
         borderRadius: "8px",
-        fontSize: "12px", 
-        color: "#667eea", 
+        fontSize: "12px",
+        color: "#667eea",
         fontWeight: "500",
         textAlign: "center"
       }}>

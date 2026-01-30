@@ -24,6 +24,34 @@ const ResumeBuilderPage = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [saveStatus, setSaveStatus] = useState('saved');
   const [showSidebar, setShowSidebar] = useState(true);
+  const [activeTemplate, setActiveTemplate] = useState('classic'); // 'classic' or 'modern'
+
+  // Completeness Calculation
+  const calculateCompleteness = () => {
+    if (!resume) return 0;
+    let score = 0;
+
+    // Personal Info (max 25)
+    if (resume.personalInfo?.fullName) score += 15;
+    if (resume.personalInfo?.email) score += 10;
+
+    // Education (max 20)
+    if (resume.education?.length > 0) score += 20;
+
+    // Work Experience (max 25)
+    if (resume.workExperience?.length > 0) score += 25;
+
+    // Skills (max 25)
+    if (resume.skills?.technical?.length > 0) score += 15;
+    if (resume.skills?.soft?.length > 0) score += 10;
+
+    // Languages (max 5)
+    if (resume.languages?.length > 0) score += 5;
+
+    return score;
+  };
+
+  const completeness = calculateCompleteness();
 
   // Auto-save interval
   useEffect(() => {
@@ -142,6 +170,21 @@ const ResumeBuilderPage = () => {
           <p className="page-subtitle">Create a professional European CV</p>
         </div>
 
+        <div className="header-center">
+          <div className="template-switcher">
+            <label htmlFor="template-select">Template:</label>
+            <select
+              id="template-select"
+              value={activeTemplate}
+              onChange={(e) => setActiveTemplate(e.target.value)}
+              className="template-select"
+            >
+              <option value="classic">Classic Europass</option>
+              <option value="modern">Modern Professional</option>
+            </select>
+          </div>
+        </div>
+
         <div className="header-right">
           <div className="save-status">
             {saveStatus === 'saving' && (
@@ -184,6 +227,24 @@ const ResumeBuilderPage = () => {
         <aside className={`resume-builder-sidebar ${showSidebar ? 'visible' : 'hidden'}`}>
           {/* Step Navigation */}
           <nav className="steps-nav">
+            <div className="completeness-section">
+              <div className="completeness-header">
+                <span className="completeness-label">Completeness</span>
+                <span className="completeness-value">{completeness}%</span>
+              </div>
+              <div className="progress-bar-bg">
+                <div
+                  className="progress-bar-fill"
+                  style={{ width: `${completeness}%`, background: completeness === 100 ? '#4caf50' : '#004494' }}
+                ></div>
+              </div>
+              {completeness < 100 && (
+                <p className="completeness-tip">
+                  💡 Tip: {completeness < 50 ? 'Add more details to stand out.' : 'Almost there! Add a few more sections.'}
+                </p>
+              )}
+            </div>
+
             <h3 className="nav-title">Build Your Resume</h3>
             <div className="steps-list">
               {steps.map((step) => (
@@ -230,6 +291,7 @@ const ResumeBuilderPage = () => {
               <div className="form-wrapper">
                 <PersonalInfoForm
                   data={resume.personalInfo}
+                  resume={resume}
                   onUpdate={(data) => handleUpdateResume('personalInfo', data)}
                 />
               </div>
@@ -322,6 +384,7 @@ const ResumeBuilderPage = () => {
           <ResumePreview
             resume={resume}
             onExportPDF={handleExportPDF}
+            template={activeTemplate}
           />
         </main>
       </div>

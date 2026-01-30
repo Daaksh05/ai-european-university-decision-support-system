@@ -44,6 +44,13 @@ const StudentProfileForm = () => {
         field: formData.field,
       });
 
+      // Save to sessionStorage for syncing with Analytics page
+      sessionStorage.setItem("profileGPA", formData.gpa);
+      sessionStorage.setItem("profileIELTS", formData.ielts);
+      sessionStorage.setItem("profileBudget", formData.budget);
+      sessionStorage.setItem("profileCountry", formData.country);
+      sessionStorage.setItem("profileField", formData.field);
+
       setRecommendations(recommendRes.data.recommendations || []);
     } catch (err) {
       setError("Backend not running or error occurred");
@@ -54,16 +61,30 @@ const StudentProfileForm = () => {
     prediction?.chance === "HIGH"
       ? "high"
       : prediction?.chance === "MEDIUM"
-      ? "medium"
-      : "low";
+        ? "medium"
+        : "low";
 
   return (
     <div className="profile-container">
-      <input name="gpa" placeholder="GPA" onChange={handleChange} />
-      <input name="ielts" placeholder="IELTS" onChange={handleChange} />
-      <input name="budget" placeholder="Budget (€)" onChange={handleChange} />
-      <input name="country" placeholder="Country" onChange={handleChange} />
-      <input name="field" placeholder="Field of Study" onChange={handleChange} />
+      <input name="gpa" type="number" step="0.1" min="0" max="4.0" placeholder="GPA (0.0 - 4.0)" onChange={handleChange} />
+      <input name="ielts" type="number" step="0.5" min="0" max="9.0" placeholder="IELTS (0.0 - 9.0)" onChange={handleChange} />
+      <input name="budget" type="number" min="0" placeholder="Budget (€)" onChange={handleChange} />
+
+      <select name="country" onChange={handleChange} value={formData.country}>
+        <option value="">Select Country (or All Europe)</option>
+        <option value="all">All Europe</option>
+        <option value="france">France</option>
+        <option value="germany">Germany</option>
+        <option value="netherlands">Netherlands</option>
+        <option value="italy">Italy</option>
+        <option value="spain">Spain</option>
+        <option value="belgium">Belgium</option>
+        <option value="finland">Finland</option>
+        <option value="austria">Austria</option>
+        <option value="sweden">Sweden</option>
+      </select>
+
+      <input name="field" placeholder="Field of Study (e.g., Computer Science)" onChange={handleChange} />
 
       <button onClick={handleSubmit}>🚀 SUBMIT</button>
 

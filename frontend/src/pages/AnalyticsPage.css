@@ -1,140 +1,201 @@
-/* ================================
-   Analytics Page Styles (FIXED)
-================================ */
+/* AnalyticsPage.css (Premium Interactive Design) */
 
-.analytics-page {
-  padding: 40px 20px;
-  background: linear-gradient(
-    135deg,
-    rgba(102, 126, 234, 0.12) 0%,
-    rgba(240, 147, 251, 0.12) 100%
-  );
-  opacity: 1;
+.analytics-page-wrapper {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  min-height: 100vh;
+  background: #f1f5f9;
 }
 
-/* ---------- Header ---------- */
+.analytics-sidebar {
+  background: #0f172a;
+  padding: 40px;
+  border-right: 1px solid #1e293b;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  color: #f8fafc;
+}
 
-.analytics-header {
-  max-width: 1200px;
-  margin: 0 auto 50px;
+.sidebar-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+  color: #f472b6;
+  /* Pink-400 Vibe */
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.filter-label {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+}
+
+.big-select {
+  width: 100%;
+  height: 55px;
+  padding: 0 16px;
+  background: #1e293b;
+  border: 2px solid #334155;
+  border-radius: 12px;
+  color: white;
+  font-size: 1.15rem;
+  font-weight: 600;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1.2em;
+}
+
+.big-select:hover {
+  border-color: #f472b6;
+  background-color: #2d3748;
+}
+
+.big-select:focus {
+  border-color: #f472b6;
+  box-shadow: 0 0 0 4px rgba(244, 114, 182, 0.2);
+}
+
+.big-range {
+  width: 100%;
+  height: 10px;
+  background: #334155;
+  border-radius: 5px;
+  outline: none;
+  cursor: pointer;
+  -webkit-appearance: none;
+}
+
+.big-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 28px;
+  height: 28px;
+  background: #f472b6;
+  border: 3px solid white;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
+}
+
+.big-range::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+  background: #ec4899;
+}
+
+.submit-filters-btn {
+  margin-top: 10px;
+  width: 100%;
+  padding: 18px;
+  background: linear-gradient(135deg, #f472b6 0%, #a855f7 100%);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-size: 1.1rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(244, 114, 182, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.submit-filters-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px rgba(244, 114, 182, 0.4);
+}
+
+.submit-filters-btn:active {
+  transform: translateY(0);
+}
+
+.sync-note {
+  margin-top: auto;
+  padding: 15px;
+  background: rgba(244, 114, 182, 0.1);
+  border: 1px solid rgba(244, 114, 182, 0.2);
+  border-radius: 12px;
   text-align: center;
 }
 
+.sync-note p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #f472b6;
+  font-weight: 700;
+}
+
+/* Rest of the Analytics Content */
+.analytics-content {
+  padding: 50px;
+  overflow-y: auto;
+}
+
 .analytics-header h1 {
-  font-size: 40px;
+  font-size: 3rem;
   font-weight: 800;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #6366f1, #a855f7);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .analytics-header p {
-  font-size: 16px;
-  color: #334155; /* DARKER */
-  line-height: 1.6;
+  color: #64748b;
+  font-size: 1.2rem;
 }
 
-/* ---------- Layout ---------- */
-
-.analytics-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-  gap: 30px;
+.analytics-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
 }
 
-/* ---------- Section Card ---------- */
-
-.analytics-section {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.96),
-    rgba(248, 250, 252, 0.96)
-  );
-  border-radius: 16px;
-  padding: 30px;
-  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.12);
-  border: 1px solid rgba(99, 102, 241, 0.15);
-  opacity: 1;
+.analytics-card {
+  background: white;
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
+  border: 1px solid #e2e8f0;
 }
 
-/* ---------- Section Title ---------- */
-
-.section-title {
+.chart-header {
   margin-bottom: 30px;
-  border-bottom: 2px solid rgba(99, 102, 241, 0.25);
-  padding-bottom: 20px;
 }
 
-.section-title h2 {
-  font-size: 24px;
-  font-weight: 700;
-  color: #1e293b; /* SOLID TEXT */
-  margin: 0 0 8px 0;
+.chart-header h3 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #1e293b;
 }
-
-.section-title p {
-  font-size: 14px;
-  color: #475569;
-  margin: 0;
-}
-
-/* ---------- Metric Cards ---------- */
-
-.analytics-section .card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 16px;
-  margin-bottom: 18px;
-}
-
-.metric-card {
-  padding: 18px;
-  border-radius: 12px;
-  color: #0f172a;
-  background: linear-gradient(
-    135deg,
-    rgba(99, 102, 241, 0.18),
-    rgba(236, 72, 153, 0.12)
-  );
-  box-shadow: 0 10px 24px rgba(99, 102, 241, 0.18);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.metric-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 48px rgba(99, 102, 241, 0.28);
-}
-
-/* ---------- Chart Fix ---------- */
-
-.analytics-section canvas,
-.analytics-section svg {
-  opacity: 1 !important;
-  filter: none !important;
-}
-
-/* ---------- Responsive ---------- */
 
 @media (max-width: 1024px) {
-  .analytics-container {
+  .analytics-page-wrapper {
     grid-template-columns: 1fr;
   }
-}
 
-@media (max-width: 768px) {
-  .analytics-page {
-    padding: 20px 10px;
-  }
-
-  .analytics-header h1 {
-    font-size: 28px;
-  }
-
-  .analytics-section {
-    padding: 20px;
+  .analytics-sidebar {
+    height: auto;
+    position: relative;
+    border-right: none;
   }
 }

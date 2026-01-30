@@ -36,6 +36,44 @@
   flex: 1;
 }
 
+.header-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.template-switcher {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #f8f9fa;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.template-switcher label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #666;
+  text-transform: uppercase;
+}
+
+.template-select {
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  background: white;
+  font-weight: 600;
+  color: #004494;
+  cursor: pointer;
+  outline: none;
+}
+
+.template-select:focus {
+  border-color: #004494;
+}
+
 .page-title {
   margin: 0;
   font-size: 1.8rem;
@@ -46,7 +84,7 @@
 }
 
 .europass-badge {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #004494;
   color: white;
   padding: 0.25rem 0.75rem;
   border-radius: 20px;
@@ -108,7 +146,7 @@
 }
 
 .save-btn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #004494;
   color: white;
 }
 
@@ -133,13 +171,13 @@
 }
 
 .export-btn.secondary {
-  background: #f5f5f5;
-  color: #333;
-  border: 1px solid #ddd;
+  background: white;
+  color: #004494;
+  border: 2px solid #004494;
 }
 
 .export-btn.secondary:hover {
-  background: #e8e8e8;
+  background: #f0f7ff;
 }
 
 .menu-toggle {
@@ -174,6 +212,56 @@
 
 .steps-nav {
   margin-bottom: 2rem;
+}
+
+.completeness-section {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+  border: 1px solid #e0e0e0;
+}
+
+.completeness-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.completeness-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.completeness-value {
+  font-weight: 800;
+  color: #004494;
+  font-size: 1.1rem;
+}
+
+.progress-bar-bg {
+  height: 8px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 0.75rem;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  transition: width 0.5s ease-out;
+}
+
+.completeness-tip {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #555;
+  font-style: italic;
+  line-height: 1.4;
 }
 
 .nav-title {
@@ -212,9 +300,9 @@
 }
 
 .step-button.active {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #004494;
   color: white;
-  border-left-color: white;
+  border-left-color: #ffcc12;
 }
 
 .step-icon {
@@ -249,19 +337,23 @@
   display: block;
   width: 100%;
   padding: 0.75rem;
-  border: 1px solid #ddd;
-  background: #f8f9fa;
+  border: 2px solid #004494;
+  background: white;
+  color: #004494;
   border-radius: 6px;
   cursor: pointer;
   margin-bottom: 0.5rem;
   transition: all 0.2s ease;
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .action-btn:hover {
-  background: #f0f2f5;
-  border-color: #999;
+  background: #f0f7ff;
+  border-color: #003370;
+  color: #003370;
 }
 
 .action-btn.delete-btn:hover {
@@ -285,6 +377,7 @@
     opacity: 0;
     transform: translateX(-20px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);

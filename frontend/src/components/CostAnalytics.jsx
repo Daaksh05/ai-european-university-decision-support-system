@@ -22,92 +22,91 @@ ChartJS.register(
   Legend
 );
 
-const CostAnalytics = () => {
-  const [universities, setUniversities] = useState([]);
+const CostAnalytics = ({ filters }) => {
+  const [allUniversities, setAllUniversities] = useState([]);
+  const [filteredUniversities, setFilteredUniversities] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchRecommendations = async () => {
       try {
         setLoading(true);
-
-        const gpa = parseFloat(sessionStorage.getItem("profileGPA")) || 3.0;
-        const ielts = parseFloat(sessionStorage.getItem("profileIELTS")) || 6.5;
-        const budget = parseFloat(sessionStorage.getItem("profileBudget")) || 20000;
-        const country = sessionStorage.getItem("profileCountry") || "";
-        const field = sessionStorage.getItem("profileField") || "";
-
-        const res = await api.post("/recommend", {
-          gpa,
-          ielts,
-          budget,
-          country,
-          field,
-        });
-
-        if (res.data?.recommendations) {
-          setUniversities(res.data.recommendations.slice(0, 6));
-        }
+        const res = await api.get("/universities");
+        setAllUniversities(res.data.universities || []);
       } catch (err) {
         console.error("Cost analytics error:", err);
       } finally {
         setLoading(false);
       }
     };
-
     fetchRecommendations();
   }, []);
 
-  if (loading) {
-    return <p style={{ color: "#fff" }}>Loading cost analytics…</p>;
-  }
+  useEffect(() => {
+    let filtered = allUniversities;
+    if (filters?.budget) {
+      filtered = filtered.filter(u => u.average_fees_eur <= Number(filters.budget));
+    }
+    if (filters?.country && filters.country !== "all") {
+      filtered = filtered.filter(u => u.country.toLowerCase() === filters.country.toLowerCase());
+    }
+    setFilteredUniversities(filtered.slice(0, 5));
+  }, [allUniversities, filters]);
 
-  if (!universities.length) {
-    return <p style={{ color: "#fff" }}>No data available</p>;
-  }
+  if (loading) return <p>Calculating interactive costs...</p>;
+  if (!filteredUniversities.length) return null;
 
-  // ---------------- BAR CHART (TUITION FEE) ----------------
+  // ---------------- BAR CHART (TOTAL PROJECT COST) ----------------
   const barData = {
-    labels: universities.map((u) => u.university),
+    labels: filteredUniversities.map((u) => u.university),
     datasets: [
       {
-        label: "Annual Tuition Fee (€)",
-        data: universities.map((u) => u.average_fees_eur),
-        backgroundColor: "rgba(99,102,241,0.7)",
+        label: `Total Cost (${filters?.duration}y)`,
+        data: filteredUniversities.map((u) => {
+          const living = 1000 * 12 * filters.duration;
+          return (u.average_fees_eur * filters.duration) + living;
+        }),
+        backgroundColor: "rgba(168, 85, 247, 0.7)",
       },
     ],
   };
 
-  // ---------------- PIE CHART (COST SHARE) ----------------
-  const pieData = {
-    labels: universities.map((u) => u.university),
-    datasets: [
-      {
-        data: universities.map((u) => u.average_fees_eur),
-        backgroundColor: [
-          "#6366f1",
-          "#ec4899",
-          "#22c55e",
-          "#f59e0b",
-          "#0ea5e9",
-          "#a855f7",
-        ],
-      },
-    ],
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: "top" },
+      tooltip: {
+        callbacks: {
+          label: (context) => `Total: €${context.parsed.y.toLocaleString()}`
+        }
+      }
+    }
   };
 
   return (
-    <div className="cost-analytics">
-      <h3>💰 Cost Analytics</h3>
-
-      <div className="chart-box">
-        <h4>Annual Tuition Fee Comparison</h4>
-        <Bar data={barData} />
+    <div className="cost-analytics-container">
+      <div className="analytics-card-header">
+        <h3>💰 Cost Simulation ({filters?.duration} Years)</h3>
+        <p>Simulation includes estimated living costs (€1,000/mo)</p>
       </div>
 
-      <div className="chart-box">
-        <h4>Cost Distribution (Pie Chart)</h4>
-        <Pie data={pieData} />
+      <div style={{ height: "400px", marginTop: "20px" }}>
+        <Bar data={barData} options={chartOptions} />
+      </div>
+
+      <div className="cost-summary-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "20px", marginTop: "30px" }}>
+        {filteredUniversities.slice(0, 3).map((u, i) => {
+          const living = 1000 * 12 * filters.duration;
+          const total = (u.average_fees_eur * filters.duration) + living;
+          return (
+            <div key={i} style={{ padding: "20px", background: "#f8fafc", borderRadius: "12px", border: "1px solid #e2e8f0" }}>
+              <div style={{ fontSize: "0.8rem", color: "#64748b", fontWeight: "600" }}>{u.university}</div>
+              <div style={{ fontSize: "1.5rem", fontWeight: "800", color: "#1e293b", margin: "5px 0" }}>€{total.toLocaleString()}</div>
+              <div style={{ fontSize: "0.75rem", color: "#10b981" }}>Est. Total Budget</div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

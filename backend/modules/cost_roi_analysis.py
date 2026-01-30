@@ -8,43 +8,50 @@ def calculate_roi(tuition_fee, expected_salary):
     return round(expected_salary / tuition_fee, 2)
 
 def analyze_total_cost(tuition_fee, country, duration_years=2):
-    """Calculate total cost including living expenses by country"""
+    """Calculate total cost including living expenses by country with breakdown"""
+    # Breakdown percentages (typical distribution of living costs)
+    breakdown_ratios = {
+        "accommodation": 0.50,
+        "food": 0.25,
+        "transport": 0.10,
+        "other": 0.15
+    }
+
     living_costs = {
         "France": 900,
-        "Germany": 800,
+        "Germany": 850,
         "Netherlands": 1200,
         "Belgium": 1000,
         "Finland": 1100,
-        "Italy": 700,
+        "Italy": 750,
         "Spain": 800,
         "Austria": 950,
+        "Sweden": 1100,
         "UK": 1400,
-        "USA": 1500,
-        "Canada": 1300,
-        "Australia": 1400,
-        "China": 600,
-        "India": 400,
-        "Japan": 1100
     }
     
-    if country not in living_costs:
-        # Default to 1000 if country not found
-        print(f"Warning: Country '{country}' not in living costs database. Using default of 1000 EUR/month")
-        monthly_cost = 1000
-    else:
-        monthly_cost = living_costs[country]
+    country_clean = country.title() if country else "Default"
+    monthly_cost = living_costs.get(country_clean, 1000)
     
     yearly_living = monthly_cost * 12
-    total_cost = (tuition_fee + yearly_living) * duration_years
+    total_living_cost = yearly_living * duration_years
+    total_cost = (tuition_fee * duration_years) + total_living_cost
+    
+    breakdown = {
+        category: round(monthly_cost * ratio, 2)
+        for category, ratio in breakdown_ratios.items()
+    }
     
     return {
-        "tuition_fee": tuition_fee,
-        "country": country,
+        "tuition_fee_annual": tuition_fee,
+        "country": country_clean,
         "duration_years": duration_years,
         "monthly_living_cost": monthly_cost,
+        "breakdown": breakdown,
         "yearly_living_cost": yearly_living,
-        "total_cost": round(total_cost, 2),
-        "total_cost_per_month": round(total_cost / (duration_years * 12), 2)
+        "total_living_cost": total_living_cost,
+        "total_tuition": tuition_fee * duration_years,
+        "total_combined_cost": round(total_cost, 2)
     }
 
 def find_affordable_universities(profile, max_budget):
@@ -93,10 +100,12 @@ def match_scholarships(profile, country):
         df = pd.read_csv(csv_path)
         
         # Validate required columns
-        required_cols = ["scholarship_name", "country", "coverage", "amount_eur", "eligibility"]
+        required_cols = ["scholarship_name", "country", "coverage", "amount_eur", "eligibility", "website_url"]
         missing_cols = [col for col in required_cols if col not in df.columns]
         if missing_cols:
-            return []
+            print(f"Missing columns in scholarships.csv: {missing_cols}")
+            # Fallback to returning what we have if website_url is missing but we'll try to include it
+            if "scholarship_name" not in df.columns: return []
         
         # Filter scholarships by country
         scholarships = df[df["country"] == country]
@@ -108,7 +117,8 @@ def match_scholarships(profile, country):
                 "country": row["country"],
                 "coverage": row["coverage"],
                 "amount_eur": row["amount_eur"],
-                "eligibility": row["eligibility"]
+                "eligibility": row["eligibility"],
+                "website_url": row.get("website_url", "#")
             })
         
         return results

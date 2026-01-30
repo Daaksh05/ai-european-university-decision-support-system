@@ -39,13 +39,13 @@ function ScholarshipsMatcher() {
   return (
     <div>
       <h3>🎓 Scholarships Matcher</h3>
-      
+
       {error && (
-        <div style={{ 
-          padding: "12px", 
+        <div style={{
+          padding: "12px",
           background: "linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.1) 100%)",
-          color: "#dc2626", 
-          borderRadius: "10px", 
+          color: "#dc2626",
+          borderRadius: "10px",
           marginBottom: "12px",
           border: "1px solid rgba(239, 68, 68, 0.3)",
           fontSize: "14px",
@@ -80,10 +80,10 @@ function ScholarshipsMatcher() {
         ))}
       </select>
 
-      <button 
+      <button
         onClick={findScholarships}
         disabled={loading}
-        style={{ 
+        style={{
           background: loading ? "linear-gradient(135deg, #999, #777)" : "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
         }}
       >
@@ -106,8 +106,8 @@ function ScholarshipsMatcher() {
               }}
             >
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "10px" }}>
-                <strong style={{ 
-                  fontSize: "15px", 
+                <strong style={{
+                  fontSize: "15px",
                   background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
@@ -115,12 +115,12 @@ function ScholarshipsMatcher() {
                 }}>
                   {scholarship.name}
                 </strong>
-                <span style={{ 
-                  background: "linear-gradient(135deg, #10b981 0%, #059669 100%)", 
-                  color: "white", 
-                  padding: "6px 10px", 
-                  borderRadius: "6px", 
-                  fontSize: "12px", 
+                <span style={{
+                  background: "linear-gradient(135deg, #10b981 0%, #059669 100%)",
+                  color: "white",
+                  padding: "6px 10px",
+                  borderRadius: "6px",
+                  fontSize: "12px",
                   fontWeight: "700"
                 }}>
                   €{(scholarship.amount_eur || 0).toLocaleString()}
@@ -129,6 +129,31 @@ function ScholarshipsMatcher() {
               <div style={{ fontSize: "13px", color: "#666", lineHeight: "1.6" }}>
                 <p style={{ margin: "4px 0" }}>📋 <strong>Coverage:</strong> {scholarship.coverage}</p>
                 <p style={{ margin: "4px 0" }}>✅ <strong>Eligibility:</strong> {scholarship.eligibility}</p>
+                {scholarship.website_url && scholarship.website_url !== "#" && (
+                  <p style={{ margin: "12px 0 0 0" }}>
+                    <a
+                      href={scholarship.website_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "6px",
+                        color: "#667eea",
+                        fontWeight: "700",
+                        textDecoration: "none",
+                        fontSize: "13px",
+                        padding: "4px 0",
+                        borderBottom: "2px solid rgba(102, 126, 234, 0.3)",
+                        transition: "all 0.2s ease"
+                      }}
+                      onMouseOver={(e) => e.target.style.borderBottomColor = "#667eea"}
+                      onMouseOut={(e) => e.target.style.borderBottomColor = "rgba(102, 126, 234, 0.3)"}
+                    >
+                      🔗 Official Website
+                    </a>
+                  </p>
+                )}
               </div>
             </div>
           ))}

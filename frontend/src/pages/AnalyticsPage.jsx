@@ -1,33 +1,119 @@
-import React from "react";
+import React, { useState } from "react";
 import ChartsDashboard from "../components/ChartsDashboard";
 import CostAnalytics from "../components/CostAnalytics";
 import "./AnalyticsPage.css";
 
 function AnalyticsPage() {
+  const [filters, setFilters] = useState({
+    budget: sessionStorage.getItem("profileBudget") || 25000,
+    country: sessionStorage.getItem("profileCountry") || "all",
+    duration: 2,
+    salary: 50000
+  });
+
+  const [tempFilters, setTempFilters] = useState(filters);
+
+  const handleFilterChange = (e) => {
+    const { name, value } = e.target;
+    setTempFilters(prev => ({ ...prev, [name]: value }));
+  };
+
+  const applyFilters = () => {
+    setFilters(tempFilters);
+  };
+
   return (
-    <div className="analytics-page">
-      <div className="analytics-header">
-        <h1>Analytics & Insights</h1>
-        <p>Comprehensive analysis of universities, costs, and rankings</p>
-      </div>
+    <div className="analytics-page-wrapper">
+      <aside className="analytics-sidebar">
+        <h3>🎛️ Dashboard Controls</h3>
 
-      <div className="analytics-container">
-        <section className="analytics-section charts-section">
-          <div className="section-title">
-            <h2>University Metrics</h2>
-            <p>Acceptance rates, rankings, and program diversity</p>
-          </div>
-          <ChartsDashboard />
-        </section>
+        <div className="filter-group">
+          <label>Max Budget (€{Number(tempFilters.budget).toLocaleString()})</label>
+          <input
+            type="range"
+            name="budget"
+            min="0"
+            max="50000"
+            step="1000"
+            value={tempFilters.budget}
+            onChange={handleFilterChange}
+          />
+        </div>
 
-        <section className="analytics-section cost-section">
-          <div className="section-title">
-            <h2>Cost Analysis</h2>
-            <p>Budget planning and ROI insights</p>
-          </div>
-          <CostAnalytics />
-        </section>
-      </div>
+        <div className="filter-group">
+          <label>Target Country</label>
+          <select
+            name="country"
+            value={tempFilters.country}
+            onChange={handleFilterChange}
+            className="big-select"
+          >
+            <option value="all">All Europe</option>
+            <option value="France">France</option>
+            <option value="Germany">Germany</option>
+            <option value="Netherlands">Netherlands</option>
+            <option value="Italy">Italy</option>
+            <option value="Spain">Spain</option>
+            <option value="Belgium">Belgium</option>
+            <option value="Finland">Finland</option>
+            <option value="Austria">Austria</option>
+            <option value="Sweden">Sweden</option>
+          </select>
+        </div>
+
+        <div className="filter-group">
+          <label>Study Duration (Years)</label>
+          <select
+            name="duration"
+            value={tempFilters.duration}
+            onChange={handleFilterChange}
+            className="big-select"
+          >
+            <option value="1">1 Year</option>
+            <option value="2">2 Years</option>
+            <option value="3">3 Years</option>
+            <option value="4">4 Years</option>
+          </select>
+        </div>
+
+        <div className="filter-group">
+          <label>Expected Starting Salary (€{Number(tempFilters.salary).toLocaleString()})</label>
+          <input
+            type="range"
+            name="salary"
+            min="20000"
+            max="120000"
+            step="5000"
+            value={tempFilters.salary}
+            onChange={handleFilterChange}
+          />
+        </div>
+
+        <button className="apply-filters-btn" onClick={applyFilters}>
+          Update Dashboard 🚀
+        </button>
+
+        <div className="sync-note">
+          <p>💡 Click update to refresh charts</p>
+        </div>
+      </aside>
+
+      <main className="analytics-content">
+        <div className="analytics-header">
+          <h1>Interactive Analytics</h1>
+          <p>Visualize ROI, admission chances, and costs across Europe</p>
+        </div>
+
+        <div className="analytics-grid">
+          <section className="analytics-card">
+            <ChartsDashboard filters={filters} />
+          </section>
+
+          <section className="analytics-card">
+            <CostAnalytics filters={filters} />
+          </section>
+        </div>
+      </main>
     </div>
   );
 }

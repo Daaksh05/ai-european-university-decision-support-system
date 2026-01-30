@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import '../../styles/FormComponents.css';
+import { generateAISummary } from '../../services/resumeService';
 
 /**
  * PersonalInfo Component - Europass Personal Information Form
  * Collects name, contact details, location, and professional links
  */
-const PersonalInfoForm = ({ data = {}, onUpdate = () => {} }) => {
+const PersonalInfoForm = ({ data = {}, resume = {}, onUpdate = () => { } }) => {
   const [formData, setFormData] = useState(data);
+  const [isGenerating, setIsGenerating] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -15,11 +16,29 @@ const PersonalInfoForm = ({ data = {}, onUpdate = () => {} }) => {
     onUpdate(updated);
   };
 
+  const handleGenerateAI = async () => {
+    setIsGenerating(true);
+    try {
+      const result = await generateAISummary(resume);
+      if (result && result.summary) {
+        const updated = { ...formData, summary: result.summary };
+        setFormData(updated);
+        onUpdate(updated);
+      }
+    } catch (error) {
+      alert('Failed to generate summary. Please try again.');
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
   return (
     <div className="form-section personal-info-form">
+      {/* ... previous content ... */}
       <h3 className="form-section-title">Personal Information</h3>
       <p className="form-section-subtitle">Start with your basic information</p>
 
+      {/* ... keeping previous fields ... */}
       <div className="form-row">
         <div className="form-group">
           <label htmlFor="fullName">Full Name *</label>
@@ -128,7 +147,17 @@ const PersonalInfoForm = ({ data = {}, onUpdate = () => {} }) => {
 
       <div className="form-row">
         <div className="form-group">
-          <label htmlFor="summary">Professional Summary</label>
+          <div className="label-with-action">
+            <label htmlFor="summary">Professional Summary</label>
+            <button
+              type="button"
+              className="ai-gen-btn"
+              onClick={handleGenerateAI}
+              disabled={isGenerating}
+            >
+              {isGenerating ? '⌛ Generating...' : '✨ Generate with AI'}
+            </button>
+          </div>
           <textarea
             id="summary"
             name="summary"

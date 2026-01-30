@@ -1,11 +1,11 @@
-scholarship_name,country,eligible_universities,coverage,amount_eur,eligibility
-Eiffel Excellence Scholarship,France,Public Universities,Full,12000,Merit-based
-Charpak Master's Scholarship,France,Selected French Universities,Partial,8600,Indian Students
-Erasmus+ Scholarship,Europe,Partner Universities,Full,15000,Merit-based
-DAAD Scholarship,Germany,German Public Universities,Full,12000,Merit-based
-Orange Tulip Scholarship,Netherlands,Selected Universities,Partial,5000,Merit-based
-VLIR-UOS Scholarship,Belgium,Flemish Universities,Full,15000,Developing Countries
-Italian Government Scholarship,Italy,Public Universities,Partial,9000,Merit-based
-Finnish Government Scholarship,Finland,Public Universities,Partial,8000,Merit-based
-Spanish MAEC-AECID Scholarship,Spain,Public Universities,Partial,7000,Merit-based
-Austria Ernst Mach Grant,Austria,Public Universities,Partial,9000,Merit-based
+scholarship_name,country,eligible_universities,coverage,amount_eur,eligibility,website_url
+Eiffel Excellence Scholarship,France,Public Universities,Full,12000,Merit-based,https://www.campusfrance.org/en/eiffel-scholarship-program-of-excellence
+Charpak Master's Scholarship,France,Selected French Universities,Partial,8600,Indian Students,https://www.inde.campusfrance.org/charpak-master-s-scholarship
+Erasmus+ Scholarship,Europe,Partner Universities,Full,15000,Merit-based,https://erasmus-plus.ec.europa.eu/opportunities/opportunities-for-individuals/students/studying-abroad
+DAAD Scholarship,Germany,German Public Universities,Full,12000,Merit-based,https://www.daad.de/en/study-and-research-in-germany/scholarships/
+Orange Tulip Scholarship,Netherlands,Selected Universities,Partial,5000,Merit-based,https://www.studyinnl.org/finances/orange-tulip-scholarship
+VLIR-UOS Scholarship,Belgium,Flemish Universities,Full,15000,Developing Countries,https://www.vliruos.be/en/scholarships/6
+Italian Government Scholarship,Italy,Public Universities,Partial,9000,Merit-based,https://studyinitaly.esteri.it/en/Scholarships
+Finnish Government Scholarship,Finland,Public Universities,Partial,8000,Merit-based,https://www.studyinfinland.fi/scholarships
+Spanish MAEC-AECID Scholarship,Spain,Public Universities,Partial,7000,Merit-based,https://www.aecid.es/EN/grants
+Austria Ernst Mach Grant,Austria,Public Universities,Partial,9000,Merit-based,https://oead.at/en/to-austria/grants-and-scholarships/ernst-mach-grant/

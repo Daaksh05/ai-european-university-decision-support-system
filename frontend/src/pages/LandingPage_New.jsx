@@ -94,6 +94,24 @@ function LandingPageNew() {
                 Filter by country, budget, ranking, and more to find your ideal match in seconds.
               </p>
             </div>
+
+            <div className="feature-card highlight">
+              <div className="feature-icon">✨</div>
+              <h3>AI SOP Assistant</h3>
+              <p>
+                Generate perfectly tailored Motivation Letters and Statements of Purpose for your target universities.
+              </p>
+              <Link to="/sop-assistant" className="feature-link">Try Now →</Link>
+            </div>
+
+            <div className="feature-card">
+              <div className="feature-icon">🛂</div>
+              <h3>Visa Tracker</h3>
+              <p>
+                Stay organized with country-specific student visa checklists and progress tracking for your arrival.
+              </p>
+              <Link to="/visa-tracker" className="feature-link">Track Progress →</Link>
+            </div>
           </div>
         </div>
       </section>
