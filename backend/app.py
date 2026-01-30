@@ -1,8 +1,13 @@
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
 import pandas as pd
 import os
+from fastapi import FastAPI, Depends, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+from sqlalchemy.orm import Session
+from database import get_session, engine, create_db_and_tables
+from db_models.university import University
+from db_models.scholarship import Scholarship
+from sqlmodel import select
 UNIVERSITIES = [
     # 🇫🇷 FRANCE
     {"university":"Sorbonne University","country":"France","city":"Paris","ranking":60,"min_gpa":3.2,"min_ielts":6.5,"average_fees_eur":8000,"field":"Engineering"},
@@ -48,7 +53,22 @@ from routes.visa_data import router as visa_data_router
 
 app = FastAPI()
 
+# ✅ Database Table Creation
+@app.on_event("startup")
+def on_startup():
+    create_db_and_tables()
+
 # ✅ CORS (THIS IS REQUIRED)
+@app.middleware("http")
+async def add_cors_header(request, call_next):
+    response = await call_next(request)
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Methods"] = "*"
+    response.headers["Access-Control-Allow-Headers"] = "*"
+    return response
+
+# Standard CORSMiddleware is better, but the user had specific comments. 
+# Re-adding original CORS setup:
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000"],
@@ -139,45 +159,41 @@ def predict(profile: StudentProfile):
 
 
 @app.post("/recommend")
-def recommend(profile: StudentProfile):
+def recommend(profile: StudentProfile, db: Session = Depends(get_session)):
     try:
-        # Load university dataset
-        csv_path = "backend/data/universities.csv"
-        if not os.path.exists(csv_path):
-            csv_path = "data/universities.csv"
-
-        df = pd.read_csv(csv_path)
-
+        # Query universities from database
+        statement = select(University)
+        
+        # Build filters based on profile
+        if profile.country and profile.country != "all" and profile.country != "all europe":
+            statement = statement.where(University.country == profile.country)
+        
+        # We'll do field and numeric filtering in memory for complex matching logic
+        # or we could build more complex SQL queries.
+        # For now, let's fetch all (or filtered by country) and process matches.
+        
+        universities = db.exec(statement).all()
+        
         # Normalize inputs
         gpa = profile.gpa or 0
         ielts = profile.ielts or 0
         budget = profile.budget or 10**9
-        country = (profile.country or "").lower()
         field = (profile.field or "").lower()
 
         results = []
 
-        for _, uni in df.iterrows():
+        for uni in universities:
             # Eligibility filters
-            uni_min_gpa = uni.get("min_gpa", 0)
-            uni_min_ielts = uni.get("min_ielts", uni.get("ielts_required", 0))
-
-            if gpa < uni_min_gpa:
+            if gpa < uni.min_gpa:
                 continue
-            if ielts < uni_min_ielts:
+            if ielts < uni.min_ielts:
                 continue
-            if budget < uni.get("average_fees_eur", 0):
+            if budget < uni.average_fees_eur:
                 continue
             
-            # Country filter (if specified and not "all")
-            uni_country = str(uni.get("country", "")).lower()
-            if country and country != "all" and country != "all europe" and country != uni_country:
-                continue
-
             # Field filter (if specified) - Flexible matching
-            uni_field = str(uni.get("field", "")).lower()
+            uni_field = str(uni.field).lower()
             if field and field not in uni_field:
-                # Try partial match if no exact match is found for compound fields
                 field_keywords = field.replace("/", " ").replace(",", " ").split()
                 if not any(kw in uni_field for kw in field_keywords):
                     continue
@@ -185,7 +201,7 @@ def recommend(profile: StudentProfile):
             # Match score calculation
             gpa_score = min(gpa / 4, 1)
             ielts_score = min(ielts / 9, 1)
-            cost_score = 1 - (uni["average_fees_eur"] / budget)
+            cost_score = 1 - (uni.average_fees_eur / budget)
 
             match_score = round(
                 (gpa_score * 0.4) + (ielts_score * 0.3) + (cost_score * 0.3),
@@ -193,12 +209,12 @@ def recommend(profile: StudentProfile):
             )
 
             results.append({
-                "university": uni["university"],
-                "country": uni["country"],
-                "city": uni.get("city", ""),
-                "ranking": uni.get("ranking", 500),
-                "average_fees_eur": uni["average_fees_eur"],
-                "field": uni.get("field", ""),
+                "university": uni.university,
+                "country": uni.country,
+                "city": uni.city,
+                "ranking": uni.ranking,
+                "average_fees_eur": uni.average_fees_eur,
+                "field": uni.field,
                 "match_score": match_score
             })
 
@@ -259,31 +275,25 @@ def get_scholarships(request: ScholarshipRequest):
         return {"status": "error", "message": str(e)}
 
 @app.get("/universities")
-def get_all_universities():
+def get_all_universities(db: Session = Depends(get_session)):
     try:
-        csv_path = "backend/data/universities.csv"
-        if not os.path.exists(csv_path):
-            csv_path = "data/universities.csv"
-        df = pd.read_csv(csv_path)
+        universities = db.exec(select(University)).all()
         return {
             "status": "success",
-            "universities": df.to_dict(orient="records"),
-            "total": len(df)
+            "universities": [u.dict() for u in universities],
+            "total": len(universities)
         }
     except Exception as e:
         return {"status": "error", "message": str(e)}
 
 @app.get("/scholarships-list")
-def get_all_scholarships():
+def get_all_scholarships(db: Session = Depends(get_session)):
     try:
-        csv_path = "backend/data/scholarships.csv"
-        if not os.path.exists(csv_path):
-            csv_path = "data/scholarships.csv"
-        df = pd.read_csv(csv_path)
+        scholarships = db.exec(select(Scholarship)).all()
         return {
             "status": "success",
-            "scholarships": df.to_dict(orient="records"),
-            "total": len(df)
+            "scholarships": [s.dict() for s in scholarships],
+            "total": len(scholarships)
         }
     except Exception as e:
         return {"status": "error", "message": str(e)}
@@ -291,10 +301,10 @@ def get_all_scholarships():
 # ========== Advanced Scholarship Endpoints ==========
 
 @app.get("/scholarships-by-country/{country}")
-def scholarships_by_country(country: str):
+def scholarships_by_country(country: str, db: Session = Depends(get_session)):
     """Get scholarships available in a specific country"""
     try:
-        scholarships = fetch_scholarships_by_country(country)
+        scholarships = fetch_scholarships_by_country(country, db=db)
         return {
             "status": "success",
             "country": country,
@@ -305,10 +315,10 @@ def scholarships_by_country(country: str):
         return {"status": "error", "message": str(e)}
 
 @app.get("/scholarships-statistics")
-def scholarships_statistics():
+def scholarships_statistics(db: Session = Depends(get_session)):
     """Get statistics about all scholarships"""
     try:
-        stats = get_scholarship_statistics()
+        stats = get_scholarship_statistics(db=db)
         return {
             "status": "success",
             "statistics": stats
@@ -317,14 +327,15 @@ def scholarships_statistics():
         return {"status": "error", "message": str(e)}
 
 @app.get("/scholarships-filter")
-def filter_scholarships(country: str = None, coverage: str = None, min_amount: float = None, max_amount: float = None):
+def filter_scholarships(country: str = None, coverage: str = None, min_amount: float = None, max_amount: float = None, db: Session = Depends(get_session)):
     """Advanced scholarship filtering with multiple criteria"""
     try:
         scholarships = filter_scholarships_advanced(
             country=country,
             coverage=coverage,
             min_amount=min_amount,
-            max_amount=max_amount
+            max_amount=max_amount,
+            db=db
         )
         return {
             "status": "success",
