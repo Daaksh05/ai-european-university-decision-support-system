@@ -1,0 +1,29 @@
+services:
+  backend:
+    build: ./backend
+    container_name: university-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+      - /app/venv # Don't overwrite the container's venv with host's venv
+    environment:
+      - DATABASE_URL=sqlite:///./university_system.db
+    # In development, use reload for convenience
+    command: uvicorn app:app --host 0.0.0.0 --port 8000 --reload
+
+  frontend:
+    build: ./frontend
+    container_name: university-frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules # Don't overwrite the container's node_modules with host's node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true # Required for file watching to work in some Docker setups
+      - WDS_SOCKET_PORT=0 # Fix for web socket port issue in dev mode
+    depends_on:
+      - backend
+    # Command for development mode
+    command: npm start
