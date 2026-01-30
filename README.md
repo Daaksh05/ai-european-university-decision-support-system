@@ -1,93 +1,82 @@
-# 🎓 AI European University Decision Support System (UniDecide)
+# 🎓 UniDecide: AI European University Decision Support System
 
-An intelligent full-stack web application that helps students choose the right European universities based on their academic profile, budget, and preferences.
+[![React](https://img.shields.io/badge/Frontend-React-61DAFB?style=for-the-badge&logo=react)](https://react.dev/)
+[![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/)
+[![Python](https://img.shields.io/badge/Logic-Python-3776AB?style=for-the-badge&logo=python)](https://www.python.org/)
 
----
-
-## 🚀 Features
-
-### 👤 Student Profile Analysis
-- Input GPA, IELTS, Budget, Country, Field of Study
-- Calculates **Admission Chance** as:
-  - 🟢 HIGH
-  - 🟡 MEDIUM
-  - 🔴 LOW
-- Shows **probability (%)** and personalized feedback
-
-### 🏫 University Recommendations
-- Recommends **European universities** dynamically
-- Matches universities based on:
-  - GPA eligibility
-  - IELTS requirements
-  - Tuition budget
-  - Country & field preference
-- Sorted by **best match score**
-
-### 📊 Analytics Dashboard
-- Cost vs Ranking analysis
-- Acceptance probability visualization
-- ROI analysis (tuition vs expected salary)
-- Real data (no mock values)
-
-### 💬 Ask AI Assistant
-- Students can ask questions about:
-  - Universities
-  - IELTS requirements
-  - Scholarships
-  - Study destinations
-- Backend-driven intelligent responses
-
-### 🎓 Scholarships Module
-- View scholarships by country
-- Filter by coverage & amount
-- Scholarship statistics
+**UniDecide** is an intelligent, end-to-end platform designed to help international students navigate the entire journey of studying in Europe—from initial university selection to landing your student visa.
 
 ---
 
-## 🧠 Tech Stack
+## ✨ Key Features
 
-### Frontend
-- React.js
-- Axios
-- CSS / Tailwind-style UI
-- SessionStorage for profile flow
+### 🔍 1. AI University Recommender
+- **Smart Profile Matching**: Input your GPA, IELTS, and Budget to get a ranked list of universities.
+- **Admission Probability**: Real-time calculation of your chances (🔴 LOW, 🟡 MEDIUM, 🟢 HIGH) with detailed feedback.
+- **Cost & ROI Analytics**: Visual dashboards comparing tuition vs. ranking and future career ROI.
 
-### Backend
-- FastAPI
-- Python
-- Pydantic
-- Pandas
-- Rule-based + ML-assisted logic
+### 📝 2. AI Resume Builder (Europass Style)
+- **Completeness Meter**: Interactive progress tracking to ensure your CV meets professional European standards.
+- **✨ AI Summary Generator**: One-click professional bio generation tailored to your unique academic and work background.
+- **Modern & Classic Templates**: Switch between traditional Europass and contemporary professional layouts.
+- **CEFR Language Grid**: Expert-level language proficiency self-assessment (Listening, Reading, Speaking, Writing).
+
+### 🖋️ 3. AI SOP & Motivation Letter Assistant
+- **Tailored Letters**: Generate personalized Statement of Purpose (SOP) based on your target university requirements.
+- **Tone Selection**: Customize your application with **Professional**, **Academic**, or **Enthusiastic** styles.
+- **Live Preview**: Review your letter in a classic academic typeface before downloading as a file.
+
+### 🛂 4. Interactive Visa Tracker
+- **Country-Specific Intelligence**: Specialized student visa checklists for **Germany**, **France**, **Italy**, and **Spain**.
+- **Blocked Account Helper**: Clear guidance on financial requirements (e.g., German Sperrkonto calculations).
+- **Progress Persistence**: Your checklist status is saved automatically, allowing you to track your visa progress over time.
+
+### 🤖 5. Ask AI Assistant
+- An interactive chatbot to answer complex questions about European universities, local living costs, and scholarships.
 
 ---
 
-## 📁 Project Structure
+## 🛠️ Tech Stack
 
-```text
-ai-university-decision-support-system/
-│
-├── backend/
-│   ├── app.py
-│   ├── modules/
-│   │   ├── admission_prediction.py
-│   │   ├── recommendation_engine.py
-│   │   ├── cost_roi_analysis.py
-│   │   └── nlp_query_handler.py
-│   ├── data/
-│   │   ├── universities.csv
-│   │   └── scholarships.csv
-│
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── StudentProfileForm.jsx
-│   │   │   ├── ChartsDashboard.jsx
-│   │   │   └── UniversityList.jsx
-│   │   ├── pages/
-│   │   │   ├── ProfilePage.jsx
-│   │   │   ├── Recommendations.jsx
-│   │   │   ├── Analytics.jsx
-│   │   │   └── AskAI.jsx
-│   │   └── services/api.js
-│
-└── README.md
+| Layer | Technologies |
+| :--- | :--- |
+| **Frontend** | React 18, Axios, CSS Modules, Chart.js, Framer Motion |
+| **Backend** | FastAPI (Python 3.9+), Pydantic, Pandas |
+| **Data Engine** | Multi-dimensional Rule Engine & ML-based Probability Models |
+| **Persistence** | SessionStorage & LocalStorage for high-privacy data management |
+
+---
+
+## 🚀 Getting Started
+
+### 1. Backend Setup
+```bash
+cd backend
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
+uvicorn app:app --reload
+```
+
+### 2. Frontend Setup
+```bash
+cd frontend
+npm install
+npm start
+```
+
+---
+
+## 📁 Architecture
+
+- **`backend/routes/`**: Moduralized API services for AI Resume, SOP, Visa, and Recommendations.
+- **`frontend/src/services/`**: Centralized service layer for AI-driven frontend interactions.
+- **`frontend/src/pages/`**: Premium, responsive React views for each specialized tool.
+
+---
+
+## 🌟 Our Mission
+Applying for higher education abroad is a life-changing but high-stress process. **UniDecide** aims to replace dozens of messy spreadsheets and confusing embassy websites with a single, AI-guided dashboard that makes the "European Dream" organized, data-driven, and accessible to everyone.
+
+---
+*Created with ❤️ for future international scholars.*
