@@ -26,6 +26,24 @@ const ChartsDashboard = ({ filters }) => {
   const [allUniversities, setAllUniversities] = useState([]);
   const [filteredUniversities, setFilteredUniversities] = useState([]);
   const [focusedUni, setFocusedUni] = useState(null);
+  const [userProfile, setUserProfile] = useState({
+    gpa: null,
+    ielts: null,
+    budget: null
+  });
+
+  // Fetch user profile from sessionStorage
+  useEffect(() => {
+    const gpa = sessionStorage.getItem("profileGPA");
+    const ielts = sessionStorage.getItem("profileIELTS");
+    const budget = sessionStorage.getItem("profileBudget");
+
+    setUserProfile({
+      gpa: gpa ? parseFloat(gpa) : null,
+      ielts: ielts ? parseFloat(ielts) : null,
+      budget: budget ? parseFloat(budget) : null
+    });
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,9 +60,18 @@ const ChartsDashboard = ({ filters }) => {
   useEffect(() => {
     let filtered = allUniversities;
 
-    // Apply Budget Filter
-    if (filters?.budget) {
-      filtered = filtered.filter(u => u.average_fees_eur <= Number(filters.budget));
+    // Apply Profile-Based Eligibility Filters (GPA, IELTS)
+    if (userProfile.gpa !== null) {
+      filtered = filtered.filter(u => userProfile.gpa >= u.min_gpa);
+    }
+    if (userProfile.ielts !== null) {
+      filtered = filtered.filter(u => userProfile.ielts >= u.min_ielts);
+    }
+
+    // Apply Budget Filter (use user profile budget if available, otherwise use filter budget)
+    const budgetToUse = userProfile.budget || filters?.budget;
+    if (budgetToUse) {
+      filtered = filtered.filter(u => u.average_fees_eur <= Number(budgetToUse));
     }
 
     // Apply Country Filter
@@ -53,7 +80,7 @@ const ChartsDashboard = ({ filters }) => {
     }
 
     setFilteredUniversities(filtered.slice(0, 8)); // Limit to top 8 for readability
-  }, [allUniversities, filters]);
+  }, [allUniversities, filters, userProfile]);
 
   // ---------------- COST vs RANKING ----------------
   const costVsRankingData = {
@@ -141,7 +168,7 @@ const ChartsDashboard = ({ filters }) => {
           <p>Highlight: {focusedUni || "None"}</p>
         </div>
         <div style={{ height: "300px" }}>
-          <Bar data={costVsRankingData} options={chartOptions} />
+          <Bar key={`cost-${JSON.stringify(filters)}`} data={costVsRankingData} options={chartOptions} />
         </div>
       </div>
 
@@ -149,14 +176,14 @@ const ChartsDashboard = ({ filters }) => {
         <div className="chart-item half">
           <h3>📈 Projected ROI Analysis</h3>
           <div style={{ height: "300px" }}>
-            <Bar data={roiData} options={chartOptions} />
+            <Bar key={`roi-${JSON.stringify(filters)}`} data={roiData} options={chartOptions} />
           </div>
         </div>
 
         <div className="chart-item half">
           <h3>🎯 Admission Overview</h3>
           <div style={{ height: "300px" }}>
-            <Pie data={admissionData} options={{ ...chartOptions, plugins: { ...chartOptions.plugins, legend: { display: true, position: "bottom" } } }} />
+            <Pie key={`admission-${JSON.stringify(filters)}`} data={admissionData} options={{ ...chartOptions, plugins: { ...chartOptions.plugins, legend: { display: true, position: "bottom" } } }} />
           </div>
         </div>
       </div>

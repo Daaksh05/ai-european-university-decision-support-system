@@ -26,6 +26,24 @@ const CostAnalytics = ({ filters }) => {
   const [allUniversities, setAllUniversities] = useState([]);
   const [filteredUniversities, setFilteredUniversities] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [userProfile, setUserProfile] = useState({
+    gpa: null,
+    ielts: null,
+    budget: null
+  });
+
+  // Fetch user profile from sessionStorage
+  useEffect(() => {
+    const gpa = sessionStorage.getItem("profileGPA");
+    const ielts = sessionStorage.getItem("profileIELTS");
+    const budget = sessionStorage.getItem("profileBudget");
+
+    setUserProfile({
+      gpa: gpa ? parseFloat(gpa) : null,
+      ielts: ielts ? parseFloat(ielts) : null,
+      budget: budget ? parseFloat(budget) : null
+    });
+  }, []);
 
   useEffect(() => {
     const fetchRecommendations = async () => {
@@ -44,14 +62,26 @@ const CostAnalytics = ({ filters }) => {
 
   useEffect(() => {
     let filtered = allUniversities;
-    if (filters?.budget) {
-      filtered = filtered.filter(u => u.average_fees_eur <= Number(filters.budget));
+
+    // Apply Profile-Based Eligibility Filters (GPA, IELTS)
+    if (userProfile.gpa !== null) {
+      filtered = filtered.filter(u => userProfile.gpa >= u.min_gpa);
     }
+    if (userProfile.ielts !== null) {
+      filtered = filtered.filter(u => userProfile.ielts >= u.min_ielts);
+    }
+
+    // Apply Budget Filter (use user profile budget if available, otherwise use filter budget)
+    const budgetToUse = userProfile.budget || filters?.budget;
+    if (budgetToUse) {
+      filtered = filtered.filter(u => u.average_fees_eur <= Number(budgetToUse));
+    }
+
     if (filters?.country && filters.country !== "all") {
       filtered = filtered.filter(u => u.country.toLowerCase() === filters.country.toLowerCase());
     }
     setFilteredUniversities(filtered.slice(0, 5));
-  }, [allUniversities, filters]);
+  }, [allUniversities, filters, userProfile]);
 
   if (loading) return <p>Calculating interactive costs...</p>;
   if (!filteredUniversities.length) return null;
@@ -92,7 +122,7 @@ const CostAnalytics = ({ filters }) => {
       </div>
 
       <div style={{ height: "400px", marginTop: "20px" }}>
-        <Bar data={barData} options={chartOptions} />
+        <Bar key={`cost-analytics-${JSON.stringify(filters)}`} data={barData} options={chartOptions} />
       </div>
 
       <div className="cost-summary-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "20px", marginTop: "30px" }}>
