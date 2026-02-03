@@ -75,7 +75,16 @@ function AnalyticsPage() {
             <option value="Computer Science / AI">Computer Science / AI</option>
             <option value="Data Science">Data Science</option>
             <option value="Business / MBA">Business / MBA</option>
+            <option value="Medicine / Healthcare">Medicine / Healthcare</option>
+            <option value="Social Sciences">Social Sciences</option>
+            <option value="Natural Sciences">Natural Sciences</option>
+            <option value="Law & Legal Studies">Law & Legal Studies</option>
             <option value="Arts / Humanities">Arts / Humanities</option>
+            <option value="Architecture & Design">Architecture & Design</option>
+            <option value="Psychology">Psychology</option>
+            <option value="Education">Education</option>
+            <option value="Hospitality & Tourism">Hospitality & Tourism</option>
+
           </select>
         </div>
 
@@ -135,9 +144,11 @@ function AnalyticsPage() {
             <CareerROIPredictor
               field={filters.field}
               country={filters.country}
-              totalInvestment={filters.budget}
+              expectedSalary={filters.salary}
+              totalInvestment={(Number(filters.budget) * Number(filters.duration)) + (1000 * 12 * Number(filters.duration))}
             />
           </section>
+
         </div>
       </main>
     </div>

@@ -38,7 +38,40 @@ def answer_query(query):
             "scholarships": "Regional DSU scholarships cover tuition and provide stipends.",
             "living": "Living costs: €700-€900/month. Northern cities are more expensive.",
             "visa": "Type D National Visa. Requires pre-enrollment on Universitaly portal."
+        },
+        "spain": {
+            "general": "Spain is known for its world-class business schools and strong architecture programs with relatively low tuition fees.",
+            "universities": "Top choices: University of Barcelona, Autonomous University of Madrid, and UPF.",
+            "ielts": "IELTS requirement: 6.0-6.5 standard for most programs.",
+            "scholarships": "MAEC-AECID and Fulbright Spain are notable scholarship programs.",
+            "living": "Living costs: €800-€1,100/month depending on the city (Madrid and Barcelona are pricier).",
+            "visa": "Student Visa (Type D) required for stays longer than 90 days."
+        },
+        "sweden": {
+            "general": "Sweden offers high-quality education with a focus on sustainability, innovation, and equality. Tuition is free for EU students, but others pay fees.",
+            "universities": "Top-ranked: KTH Royal Institute of Technology, Lund University, and Uppsala University.",
+            "ielts": "IELTS requirement: 6.5 minimum is typical.",
+            "scholarships": "Swedish Institute (SI) Scholarships for Global Professionals is a major grant.",
+            "living": "Living costs: €900-€1,200/month. High standard of living.",
+            "visa": "Residence permit for studies is required for non-EU students."
+        },
+        "belgium": {
+            "general": "Belgium offers a multi-cultural environment with high-quality education, particularly in political science and international relations.",
+            "universities": "Top choices: KU Leuven, Ghent University, and Université Catholique de Louvain.",
+            "ielts": "IELTS requirement: 6.5 standard.",
+            "scholarships": "Master Mind Scholarships (Flanders) and ARES grants (Wallonia-Brussels) are popular.",
+            "living": "Living costs: €850-€1,100/month.",
+            "visa": "Type D student visa. Requires proof of sufficient financial means."
+        },
+        "switzerland": {
+            "general": "Switzerland is home to world-leading research universities and prestigious hospitality schools, though living costs are among the highest in Europe.",
+            "universities": "Top tier: ETH Zurich, EPFL, and University of Zurich.",
+            "ielts": "IELTS requirement: 7.0 for top programs.",
+            "scholarships": "Swiss Government Excellence Scholarships are highly competitive.",
+            "living": "Living costs: €1,500-€2,200/month. Health insurance is mandatory and costly.",
+            "visa": "Study permit required. Process varies by canton."
         }
+
     }
     
     # 1. Detect Country First
@@ -79,4 +112,4 @@ def answer_query(query):
         return "Most countries offer 1-year post-study work visas. Tech hubs like Berlin, Amsterdam, and Paris have strong job markets for AI and CS graduates. Salaries range €35k-€55k."
 
     # Final Fallback
-    return "I can provide specific details about France, Germany, Netherlands, and Italy regarding scholarships, IELTS, costs, and visas. Try asking 'Scholarships in Germany' or 'Tuition fees in Italy'."
+    return "I can provide specific details about France, Germany, Netherlands, Italy, Spain, Sweden, Belgium, and Switzerland regarding scholarships, IELTS, costs, and visas. Try asking 'Scholarships in Spain' or 'Tuition fees in Switzerland'."

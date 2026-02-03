@@ -126,16 +126,23 @@ def match_scholarships(profile, country):
         print(f"Error reading scholarships data: {str(e)}")
         return []
 
-def predict_career_roi(field, country, total_investment):
-    """Predict salary and ROI based on field and country"""
+def predict_career_roi(field, country, total_investment, expected_salary=None):
+    """Predict salary and ROI based on field and country, with optional manual salary override"""
     # Industry average starting salaries (Master's level)
-    # Bases: Germany/Netherlands as high, Italy/Spain as mid, etc.
     salary_data = {
         "Engineering": {"Germany": 55000, "Netherlands": 52000, "France": 48000, "Italy": 38000, "Spain": 36000, "Default": 45000},
         "Computer Science / AI": {"Germany": 62000, "Netherlands": 60000, "France": 55000, "Italy": 42000, "Spain": 40000, "Default": 50000},
         "Data Science": {"Germany": 65000, "Netherlands": 62000, "France": 58000, "Italy": 45000, "Spain": 42000, "Default": 55000},
         "Business / MBA": {"Germany": 60000, "Netherlands": 58000, "France": 65000, "Italy": 50000, "Spain": 48000, "Default": 55000},
-        "Arts / Humanities": {"Germany": 38000, "Netherlands": 35000, "France": 36000, "Italy": 28000, "Spain": 26000, "Default": 32000}
+        "Medicine / Healthcare": {"Germany": 75000, "Netherlands": 70000, "France": 72000, "Italy": 55000, "Spain": 52000, "Default": 60000},
+        "Social Sciences": {"Germany": 42000, "Netherlands": 40000, "France": 38000, "Italy": 30000, "Spain": 28000, "Default": 35000},
+        "Natural Sciences": {"Germany": 50000, "Netherlands": 48000, "France": 45000, "Italy": 35000, "Spain": 32000, "Default": 42000},
+        "Law & Legal Studies": {"Germany": 65000, "Netherlands": 62000, "France": 60000, "Italy": 48000, "Spain": 45000, "Default": 55000},
+        "Arts / Humanities": {"Germany": 38000, "Netherlands": 35000, "France": 36000, "Italy": 28000, "Spain": 26000, "Default": 32000},
+        "Architecture & Design": {"Germany": 48000, "Netherlands": 46000, "France": 44000, "Italy": 36000, "Spain": 34000, "Default": 40000},
+        "Psychology": {"Germany": 45000, "Netherlands": 42000, "France": 40000, "Italy": 32000, "Spain": 30000, "Default": 38000},
+        "Education": {"Germany": 48000, "Netherlands": 45000, "France": 42000, "Italy": 34000, "Spain": 32000, "Default": 40000},
+        "Hospitality & Tourism": {"Germany": 40000, "Netherlands": 38000, "France": 45000, "Italy": 35000, "Spain": 33000, "Default": 36000}
     }
 
     # Normalize field input for lookup
@@ -144,15 +151,31 @@ def predict_career_roi(field, country, total_investment):
     if "data" in field_lower: field_key = "Data Science"
     elif "computer" in field_lower or "ai" in field_lower: field_key = "Computer Science / AI"
     elif "business" in field_lower or "mba" in field_lower: field_key = "Business / MBA"
+    elif "medicine" in field_lower or "health" in field_lower: field_key = "Medicine / Healthcare"
+    elif "social" in field_lower: field_key = "Social Sciences"
+    elif "natural" in field_lower or "science" in field_lower and "computer" not in field_lower and "data" not in field_lower: field_key = "Natural Sciences"
+    elif "law" in field_lower or "legal" in field_lower: field_key = "Law & Legal Studies"
     elif "art" in field_lower or "human" in field_lower: field_key = "Arts / Humanities"
+    elif "arch" in field_lower or "design" in field_lower: field_key = "Architecture & Design"
+    elif "psych" in field_lower: field_key = "Psychology"
+    elif "edu" in field_lower: field_key = "Education"
+    elif "hosp" in field_lower or "tour" in field_lower: field_key = "Hospitality & Tourism"
+
 
     country_clean = country.title() if country else "Default"
-    base_salaries = salary_data.get(field_key, salary_data["Engineering"])
-    annual_salary = base_salaries.get(country_clean, base_salaries.get("Default", 40000))
+    
+    # Use manual salary if provided, otherwise fallback to data
+    if expected_salary and expected_salary > 0:
+        annual_salary = float(expected_salary)
+        salary_source = "User Provided"
+    else:
+        base_salaries = salary_data.get(field_key, salary_data["Engineering"])
+        annual_salary = base_salaries.get(country_clean, base_salaries.get("Default", 40000))
+        salary_source = "Industry Average"
 
     # ROI Calculations
-    # Assume 30% tax and 15,000 yearly living expenses after graduation
-    net_annual_income = (annual_salary * 0.7) - 15000
+    # Assume 30% tax and 12,000 yearly living expenses (surplus calculation)
+    net_annual_income = (annual_salary * 0.7) - 12000
     
     if net_annual_income <= 0:
         break_even_years = 99  # Effectively infinite
@@ -169,8 +192,10 @@ def predict_career_roi(field, country, total_investment):
         "field": field_key,
         "country": country_clean,
         "estimated_starting_salary": annual_salary,
+        "salary_source": salary_source,
         "break_even_years": break_even_years,
         "roi_score": roi_score,
-        "explanation": f"Based on {field_key} graduates in {country_clean}, you can expect a starting salary of €{annual_salary:,}/year. With your investment, it will take approx {break_even_years} years to recover costs."
+        "explanation": f"Based on {field_key} in {country_clean} ({salary_source}), a starting salary of €{annual_salary:,}/year suggests you'll recover your €{total_investment:,} investment in approx {break_even_years} years."
     }
+
 

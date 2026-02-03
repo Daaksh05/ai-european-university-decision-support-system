@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import api from "../services/api";
 
-const CareerROIPredictor = ({ field, country, totalInvestment }) => {
+const CareerROIPredictor = ({ field, country, totalInvestment, expectedSalary }) => {
     const [prediction, setPrediction] = useState(null);
     const [loading, setLoading] = useState(false);
 
@@ -14,7 +14,8 @@ const CareerROIPredictor = ({ field, country, totalInvestment }) => {
                 const res = await api.post("/predict-roi", {
                     field,
                     country,
-                    total_investment: Number(totalInvestment)
+                    total_investment: Number(totalInvestment),
+                    expected_salary: Number(expectedSalary)
                 });
                 if (res.data.status === "success") {
                     setPrediction(res.data.roi_prediction);
@@ -27,7 +28,7 @@ const CareerROIPredictor = ({ field, country, totalInvestment }) => {
         };
 
         fetchPrediction();
-    }, [field, country, totalInvestment]);
+    }, [field, country, totalInvestment, expectedSalary]);
 
     if (loading) return <div className="roi-loading">Calculating Career ROI...</div>;
     if (!prediction) return null;

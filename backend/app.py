@@ -12,30 +12,44 @@ UNIVERSITIES = [
     # 🇫🇷 FRANCE
     {"university":"Sorbonne University","country":"France","city":"Paris","ranking":60,"min_gpa":3.2,"min_ielts":6.5,"average_fees_eur":8000,"field":"Engineering"},
     {"university":"Université Paris-Saclay","country":"France","city":"Paris","ranking":45,"min_gpa":3.3,"min_ielts":6.5,"average_fees_eur":7000,"field":"Engineering"},
-    {"university":"Grenoble INP","country":"France","city":"Grenoble","ranking":90,"min_gpa":3.0,"min_ielts":6.0,"average_fees_eur":6500,"field":"Engineering"},
-    {"university":"University of Lille","country":"France","city":"Lille","ranking":120,"min_gpa":2.8,"min_ielts":6.0,"average_fees_eur":6000,"field":"Engineering"},
+    {"university":"HEC Paris","country":"France","city":"Paris","ranking":15,"min_gpa":3.6,"min_ielts":7.5,"average_fees_eur":35000,"field":"Business / MBA"},
+    {"university":"Sciences Po","country":"France","city":"Paris","ranking":30,"min_gpa":3.5,"min_ielts":7.0,"average_fees_eur":15000,"field":"Social Sciences"},
 
     # 🇩🇪 GERMANY
     {"university":"TU Munich","country":"Germany","city":"Munich","ranking":25,"min_gpa":3.5,"min_ielts":7.0,"average_fees_eur":9000,"field":"Engineering"},
     {"university":"RWTH Aachen","country":"Germany","city":"Aachen","ranking":50,"min_gpa":3.3,"min_ielts":6.5,"average_fees_eur":8000,"field":"Engineering"},
-    {"university":"University of Stuttgart","country":"Germany","city":"Stuttgart","ranking":100,"min_gpa":3.0,"min_ielts":6.0,"average_fees_eur":7000,"field":"Engineering"},
+    {"university":"Charité - Universitätsmedizin Berlin","country":"Germany","city":"Berlin","ranking":10,"min_gpa":3.8,"min_ielts":7.0,"average_fees_eur":12000,"field":"Medicine / Healthcare"},
+    {"university":"Heidelberg University","country":"Germany","city":"Heidelberg","ranking":42,"min_gpa":3.6,"min_ielts":7.0,"average_fees_eur":1500,"field":"Natural Sciences"},
 
     # 🇮🇹 ITALY
     {"university":"Politecnico di Milano","country":"Italy","city":"Milan","ranking":40,"min_gpa":3.2,"min_ielts":6.5,"average_fees_eur":4000,"field":"Engineering"},
-    {"university":"University of Bologna","country":"Italy","city":"Bologna","ranking":90,"min_gpa":2.8,"min_ielts":6.0,"average_fees_eur":3500,"field":"Engineering"},
-    {"university":"Sapienza University of Rome","country":"Italy","city":"Rome","ranking":70,"min_gpa":3.0,"min_ielts":6.5,"average_fees_eur":4500,"field":"Engineering"},
+    {"university":"University of Bologna","country":"Italy","city":"Bologna","ranking":90,"min_gpa":2.8,"min_ielts":6.0,"average_fees_eur":3500,"field":"Law & Legal Studies"},
+    {"university":"SDA Bocconi","country":"Italy","city":"Milan","ranking":12,"min_gpa":3.5,"min_ielts":7.0,"average_fees_eur":38000,"field":"Business / MBA"},
 
     # 🇳🇱 NETHERLANDS
     {"university":"TU Delft","country":"Netherlands","city":"Delft","ranking":20,"min_gpa":3.5,"min_ielts":7.0,"average_fees_eur":14000,"field":"Engineering"},
-    {"university":"University of Amsterdam","country":"Netherlands","city":"Amsterdam","ranking":55,"min_gpa":3.2,"min_ielts":6.5,"average_fees_eur":13000,"field":"Engineering"},
+    {"university":"University of Amsterdam","country":"Netherlands","city":"Amsterdam","ranking":55,"min_gpa":3.2,"min_ielts":6.5,"average_fees_eur":13000,"field":"Psychology"},
+    {"university":"Leiden University","country":"Netherlands","city":"Leiden","ranking":70,"min_gpa":3.4,"min_ielts":7.0,"average_fees_eur":12000,"field":"Law & Legal Studies"},
 
     # 🇪🇸 SPAIN
     {"university":"University of Barcelona","country":"Spain","city":"Barcelona","ranking":80,"min_gpa":3.0,"min_ielts":6.5,"average_fees_eur":3000,"field":"Engineering"},
     {"university":"Polytechnic University of Madrid","country":"Spain","city":"Madrid","ranking":95,"min_gpa":3.0,"min_ielts":6.0,"average_fees_eur":2800,"field":"Engineering"},
+    {"university":"IE Business School","country":"Spain","city":"Madrid","ranking":20,"min_gpa":3.4,"min_ielts":7.0,"average_fees_eur":45000,"field":"Business / MBA"},
 
     # 🇸🇪 SWEDEN
     {"university":"KTH Royal Institute of Technology","country":"Sweden","city":"Stockholm","ranking":35,"min_gpa":3.4,"min_ielts":6.5,"average_fees_eur":15000,"field":"Engineering"},
+    {"university":"Karolinska Institute","country":"Sweden","city":"Stockholm","ranking":8,"min_gpa":3.8,"min_ielts":7.5,"average_fees_eur":20000,"field":"Medicine / Healthcare"},
+    {"university":"Lund University","country":"Sweden","city":"Lund","ranking":95,"min_gpa":3.2,"min_ielts":6.5,"average_fees_eur":14000,"field":"Natural Sciences"},
+
+    # 🇨🇭 SWITZERLAND
+    {"university":"ETH Zurich","country":"Switzerland","city":"Zurich","ranking":5,"min_gpa":3.9,"min_ielts":7.5,"average_fees_eur":25000,"field":"Engineering"},
+    {"university":"EHL Hospitality Business School","country":"Switzerland","city":"Lausanne","ranking":1,"min_gpa":3.2,"min_ielts":6.5,"average_fees_eur":45000,"field":"Hospitality & Tourism"},
+
+    # 🇧🇪 BELGIUM
+    {"university":"KU Leuven","country":"Belgium","city":"Leuven","ranking":45,"min_gpa":3.4,"min_ielts":7.0,"average_fees_eur":1000,"field":"Education"},
+    {"university":"Ghent University","country":"Belgium","city":"Ghent","ranking":75,"min_gpa":3.2,"min_ielts":6.5,"average_fees_eur":1000,"field":"Natural Sciences"},
 ]
+
 
 from modules.admission_prediction import predict_admission
 from modules.recommendation_engine import recommend_universities
@@ -113,6 +127,7 @@ class ROIPredictRequest(BaseModel):
     field: str
     country: str
     total_investment: float
+    expected_salary: Optional[float] = None
 
 # ---------- Routes ----------
 @app.get("/")
@@ -171,55 +186,56 @@ def predict(profile: StudentProfile):
 @app.post("/recommend")
 def recommend(profile: StudentProfile, db: Session = Depends(get_session)):
     try:
-        # Query universities from database
+        print(f"DEBUG: Processing /recommend for Profile: {profile.model_dump()}")
+        
+        # Fetch all universities for Python-side robust filtering
         statement = select(University)
-        
-        # Build filters based on profile
-        # Build filters based on profile
-        if profile.country and profile.country.lower() not in ["all", "all europe", ""]:
-            # Use case-insensitive matching if possible, or normalize to title case for DB consistency
-            target_country = profile.country.title() 
-            statement = statement.where(University.country == target_country)
-        
-        # We'll do field and numeric filtering in memory for complex matching logic
-        # or we could build more complex SQL queries.
-        # For now, let's fetch all (or filtered by country) and process matches.
-        
-        universities = db.exec(statement).all()
+        all_universities = db.exec(statement).all()
+        print(f"DEBUG: Total universities in DB: {len(all_universities)}")
         
         # Normalize inputs
         gpa = profile.gpa or 0
         ielts = profile.ielts or 0
-        budget = profile.budget or 10**9
-        field = (profile.field or "").lower()
+        budget = profile.budget or 0
+        target_country = (profile.country or "").strip().lower()
+        target_field = (profile.field or "").strip().lower()
 
         results = []
 
-        for uni in universities:
-            # Eligibility filters
-            if gpa < uni.min_gpa:
-                continue
-            if ielts < uni.min_ielts:
-                continue
-            if budget < uni.average_fees_eur:
-                continue
+        for uni in all_universities:
+            # 1. Country Filter (Skip if 'all' or empty)
+            uni_country = str(uni.country).lower()
+            if target_country and target_country not in ["all", "all europe", "select country"]:
+                if target_country != uni_country:
+                    continue
             
-            # Field filter (if specified) - Flexible matching
+            # 2. Field Filter (Skip if 'all' or empty)
             uni_field = str(uni.field).lower()
-            if field and field not in uni_field:
-                field_keywords = field.replace("/", " ").replace(",", " ").split()
-                if not any(kw in uni_field for kw in field_keywords):
+            if target_field and target_field not in ["all", "all fields", "select field of study"]:
+                import re
+                keywords = re.findall(r'\w+', target_field)
+                if not any(kw in uni_field for kw in keywords if len(kw) > 2):
                     continue
 
-            # Match score calculation
-            gpa_score = min(gpa / 4, 1)
-            ielts_score = min(ielts / 9, 1)
-            cost_score = 1 - (uni.average_fees_eur / budget)
+            # 3. Numeric Filters (Only if user provided > 0)
+            if gpa > 0 and gpa < uni.min_gpa:
+                continue
+            if ielts > 0 and ielts < uni.min_ielts:
+                continue
+            # If budget is provided, must be >= fee. If budget is 0, we assume 'unlimited' or 'flexible'
+            if budget > 0 and budget < uni.average_fees_eur:
+                continue
+            
+            # 4. Success - Calculate Match Score
+            calc_gpa = gpa if gpa > 0 else 3.2
+            calc_ielts = ielts if ielts > 0 else 6.5
+            calc_budget = budget if budget > 0 else 15000
 
-            match_score = round(
-                (gpa_score * 0.4) + (ielts_score * 0.3) + (cost_score * 0.3),
-                2
-            )
+            gpa_score = min(calc_gpa / 4, 1)
+            ielts_score = min(calc_ielts / 9, 1)
+            cost_score = 1 - (uni.average_fees_eur / (calc_budget + 1))
+
+            match_score = round((gpa_score * 0.4) + (ielts_score * 0.3) + (cost_score * 0.3), 2)
 
             results.append({
                 "university": uni.university,
@@ -228,8 +244,32 @@ def recommend(profile: StudentProfile, db: Session = Depends(get_session)):
                 "ranking": uni.ranking,
                 "average_fees_eur": uni.average_fees_eur,
                 "field": uni.field,
+                "min_gpa": uni.min_gpa,
+                "min_ielts": uni.min_ielts,
+                "course_url": uni.course_url,
                 "match_score": match_score
             })
+
+        print(f"DEBUG: Found {len(results)} matches")
+
+        # Fallback: If no results found, return affordable 'Safety' options
+        if not results and all_universities:
+            print("DEBUG: No matches found, returning safety options")
+            all_universities.sort(key=lambda x: x.average_fees_eur)
+            for uni in all_universities[:5]:
+                results.append({
+                    "university": uni.university,
+                    "country": uni.country,
+                    "city": uni.city,
+                    "ranking": uni.ranking,
+                    "average_fees_eur": uni.average_fees_eur,
+                    "field": uni.field,
+                    "min_gpa": uni.min_gpa,
+                    "min_ielts": uni.min_ielts,
+                    "course_url": uni.course_url,
+                    "match_score": 0.1,
+                    "note": "Safety Recommendation (Affordable Option)"
+                })
 
         # Sort best matches
         results.sort(key=lambda x: x["match_score"], reverse=True)
@@ -237,8 +277,11 @@ def recommend(profile: StudentProfile, db: Session = Depends(get_session)):
         return {
             "status": "success",
             "total": len(results),
-            "recommendations": results[:10]  # top 10 only
+            "recommendations": results[:10]
         }
+
+
+
 
     except Exception as e:
         return {"status": "error", "message": str(e)}
@@ -290,7 +333,12 @@ def get_scholarships(request: ScholarshipRequest):
 @app.post("/predict-roi")
 def get_roi_prediction(request: ROIPredictRequest):
     try:
-        prediction = predict_career_roi(request.field, request.country, request.total_investment)
+        prediction = predict_career_roi(
+            request.field, 
+            request.country, 
+            request.total_investment,
+            request.expected_salary
+        )
         return {
             "status": "success",
             "roi_prediction": prediction

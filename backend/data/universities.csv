@@ -1,17 +1,51 @@
 university,country,city,field,min_gpa,min_ielts,average_fees_eur,ranking,course_url
 Sorbonne University,France,Paris,Computer Science / AI,3.0,6.5,8000,60,https://www.sorbonne-universite.fr/masters-ai
 Université Paris-Saclay,France,Paris,AI / Data Science,3.2,6.5,7000,70,https://www.universite-paris-saclay.fr/masters-ai
-Grenoble INP,France,Grenoble,Informatics / AI,2.8,6.5,6500,120,https://www.grenoble-inp.fr/programs-ai
-University of Lille,France,Lille,Computer Science,2.5,6.0,6000,300,https://www.univ-lille.fr/computer-science
+HEC Paris,France,Paris,Business / MBA,3.6,7.5,35000,15,https://www.hec.edu/mba
+Sciences Po,France,Paris,Social Sciences,3.5,7.0,15000,30,https://www.sciencespo.fr
 TU Munich,Germany,Munich,AI / Robotics / Computer Science,3.5,6.5,9000,50,https://www.tum.de/masters-ai
-RWTH Aachen University,Germany,Aachen,Computer Science / AI,3.3,6.5,8500,100,https://www.rwth-aachen.de/computer-science
-University of Amsterdam,Netherlands,Amsterdam,AI / Data Science,3.2,7.0,12000,55,https://www.uva.nl/masters-ai
+RWTH Aachen University,Germany,Aachen,Engineering,3.3,6.5,8500,100,https://www.rwth-aachen.de/engineering
+Charité - Universitätsmedizin Berlin,Germany,Berlin,Medicine / Healthcare,3.8,7.0,12000,10,https://www.charite.de
+Heidelberg University,Germany,Heidelberg,Natural Sciences,3.6,7.0,1500,42,https://www.uni-heidelberg.de
+University of Amsterdam,Netherlands,Amsterdam,Psychology,3.2,7.0,12000,55,https://www.uva.nl/psychology
 Delft University of Technology,Netherlands,Delft,Computer Science / AI,3.4,7.0,13000,47,https://www.tudelft.nl/masters-ai
-KU Leuven,Belgium,Leuven,AI / Engineering,3.0,6.5,7500,61,https://www.kuleuven.be/masters-ai
+Leiden University,Netherlands,Leiden,Law & Legal Studies,3.4,7.0,12000,70,https://www.universiteitleiden.nl/law
+KU Leuven,Belgium,Leuven,Education,3.4,7.0,1000,45,https://www.kuleuven.be/education
 University of Helsinki,Finland,Helsinki,Data Science / AI,3.0,6.5,13000,110,https://www.helsinki.fi/masters-ai
-Politecnico di Milano,Italy,Milan,Computer Engineering / AI,3.0,6.0,4000,123,https://www.polimi.it/masters-engineering
-University of Bologna,Italy,Bologna,Computer Science / Data Science,2.8,6.0,3500,167,https://www.unibo.it/computer-science
+Politecnico di Milano,Italy,Milan,Architecture & Design,3.0,6.0,4000,123,https://www.polimi.it/architecture
+University of Bologna,Italy,Bologna,Law & Legal Studies,2.8,6.0,3500,167,https://www.unibo.it/law
 University of Barcelona,Spain,Barcelona,AI / Data Analytics,3.0,6.5,4500,184,https://www.ub.edu/masters-ai
+IE Business School,Spain,Madrid,Business / MBA,3.4,7.0,45000,20,https://www.ie.edu
 University of Vienna,Austria,Vienna,Computer Science / AI,2.8,6.0,3000,151,https://www.univie.ac.at/computer-science
 Technical University of Berlin,Germany,Berlin,AI / Computer Science,3.2,6.5,500,200,https://www.tu-berlin.de/masters-ai
 KTH Royal Institute of Technology,Sweden,Stockholm,Computer Science / Machine Learning,3.4,6.5,15000,98,https://www.kth.se/masters-cs
+Karolinska Institute,Sweden,Stockholm,Medicine / Healthcare,3.8,7.5,20000,8,https://ki.se
+ETH Zurich,Switzerland,Zurich,Engineering,3.9,7.5,25000,5,https://ethz.ch
+EHL Hospitality Business School,Switzerland,Lausanne,Hospitality & Tourism,3.2,6.5,45000,1,https://ehl.edu
+Uppsala University,Sweden,Uppsala,Law & Legal Studies,3.0,6.5,14000,120,https://www.uu.se/law
+Erasmus University Rotterdam,Netherlands,Rotterdam,Business / MBA,3.4,7.0,18000,30,https://www.rsm.nl/mba
+University of Amsterdam,Netherlands,Amsterdam,Business / MBA,3.2,7.0,15000,55,https://abs.uva.nl
+University of Zurich,Switzerland,Zurich,Natural Sciences,3.6,7.0,1500,70,https://www.uzh.ch
+TU Berlin,Germany,Berlin,Engineering,3.0,6.5,500,150,https://www.tu-berlin.de
+Politecnico di Torino,Italy,Turin,Engineering,3.2,6.0,3000,200,https://www.polito.it
+Ecole Polytechnique,France,Paris,Engineering,3.7,7.0,12000,61,https://www.polytechnique.edu
+CentraleSupélec,France,Paris,Engineering,3.5,6.5,15000,130,https://www.centralesupelec.fr
+Karlsruhe Institute of Technology,Germany,Karlsruhe,Engineering,3.2,6.5,3000,141,https://www.kit.edu
+Lund University,Sweden,Lund,Natural Sciences,3.1,6.5,14500,95,https://www.lunduniversity.lu.se
+Stockholm University,Sweden,Stockholm,Social Sciences,3.0,6.5,10000,153,https://www.su.se
+University of Geneva,Switzerland,Geneva,Social Sciences,3.3,7.0,1000,105,https://www.unige.ch
+University of Basel,Switzerland,Basel,Medicine / Healthcare,3.7,7.5,1800,149,https://www.unibas.ch
+Aalto University,Finland,Espoo,Architecture & Design,3.4,6.5,15000,112,https://www.aalto.fi
+University of Turku,Finland,Turku,Education,3.0,6.5,10000,285,https://www.utu.fi
+Free University of Berlin,Germany,Berlin,Arts / Humanities,3.2,7.0,500,118,https://www.fu-berlin.de
+Humboldt University of Berlin,Germany,Berlin,Arts / Humanities,3.3,7.0,500,128,https://www.hu-berlin.de
+University of Copenhagen,Denmark,Copenhagen,Natural Sciences,3.5,7.0,15000,79,https://www.ku.dk
+Technical University of Denmark,Denmark,Lyngby,Engineering,3.4,6.5,14500,103,https://www.dtu.dk
+Ghent University,Belgium,Ghent,Natural Sciences,3.2,6.5,1000,107,https://www.ugent.be
+Vrije Universiteit Brussel,Belgium,Brussels,Engineering,3.0,6.5,1000,251,https://www.vub.be
+University of Groningen,Netherlands,Groningen,Natural Sciences,3.3,6.5,12000,80,https://www.rug.nl
+Wageningen University,Netherlands,Wageningen,Natural Sciences,3.2,6.5,14000,124,https://www.wur.nl
+Sapienza University of Rome,Italy,Rome,Arts / Humanities,2.8,6.0,3000,171,https://www.uniroma1.it
+Autonomous University of Madrid,Spain,Madrid,Law & Legal Studies,3.0,6.5,4000,215,https://www.uam.es
+University of Oslo,Norway,Oslo,Medicine / Healthcare,3.6,7.0,1000,119,https://www.uio.no
+University of Bergen,Norway,Bergen,Psychology,3.3,6.5,1000,207,https://www.uib.no

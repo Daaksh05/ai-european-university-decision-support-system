@@ -142,12 +142,22 @@ function UniversityList({ universities }) {
 
             <div style={{ padding: "12px", background: "rgba(255,255,255,0.5)", borderRadius: "8px" }}>
               <div style={{ fontSize: "11px", color: "#999", fontWeight: "600", textTransform: "uppercase", marginBottom: "4px" }}>
-                IELTS Required
+                IELTS Requirement
               </div>
               <div style={{ fontWeight: "600", color: "#333" }}>
-                {selectedUni.ielts_required || "N/A"}
+                Min: {selectedUni.min_ielts || "N/A"}
               </div>
             </div>
+
+            <div style={{ padding: "12px", background: "rgba(255,255,255,0.5)", borderRadius: "8px" }}>
+              <div style={{ fontSize: "11px", color: "#999", fontWeight: "600", textTransform: "uppercase", marginBottom: "4px" }}>
+                GPA Requirement
+              </div>
+              <div style={{ fontWeight: "600", color: "#333" }}>
+                Min: {selectedUni.min_gpa || "N/A"}
+              </div>
+            </div>
+
 
             <div style={{ padding: "12px", background: "rgba(255,255,255,0.5)", borderRadius: "8px" }}>
               <div style={{ fontSize: "11px", color: "#999", fontWeight: "600", textTransform: "uppercase", marginBottom: "4px" }}>
