@@ -73,15 +73,15 @@ const StudentProfileForm = () => {
       <select name="country" onChange={handleChange} value={formData.country}>
         <option value="">Select Country (or All Europe)</option>
         <option value="all">All Europe</option>
-        <option value="france">France</option>
-        <option value="germany">Germany</option>
-        <option value="netherlands">Netherlands</option>
-        <option value="italy">Italy</option>
-        <option value="spain">Spain</option>
-        <option value="belgium">Belgium</option>
-        <option value="finland">Finland</option>
-        <option value="austria">Austria</option>
-        <option value="sweden">Sweden</option>
+        <option value="France">France</option>
+        <option value="Germany">Germany</option>
+        <option value="Netherlands">Netherlands</option>
+        <option value="Italy">Italy</option>
+        <option value="Spain">Spain</option>
+        <option value="Belgium">Belgium</option>
+        <option value="Finland">Finland</option>
+        <option value="Austria">Austria</option>
+        <option value="Sweden">Sweden</option>
       </select>
 
       <input name="field" placeholder="Field of Study (e.g., Computer Science)" onChange={handleChange} />

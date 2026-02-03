@@ -165,8 +165,11 @@ def recommend(profile: StudentProfile, db: Session = Depends(get_session)):
         statement = select(University)
         
         # Build filters based on profile
-        if profile.country and profile.country != "all" and profile.country != "all europe":
-            statement = statement.where(University.country == profile.country)
+        # Build filters based on profile
+        if profile.country and profile.country.lower() not in ["all", "all europe", ""]:
+            # Use case-insensitive matching if possible, or normalize to title case for DB consistency
+            target_country = profile.country.title() 
+            statement = statement.where(University.country == target_country)
         
         # We'll do field and numeric filtering in memory for complex matching logic
         # or we could build more complex SQL queries.
