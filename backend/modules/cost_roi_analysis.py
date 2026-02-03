@@ -126,3 +126,51 @@ def match_scholarships(profile, country):
         print(f"Error reading scholarships data: {str(e)}")
         return []
 
+def predict_career_roi(field, country, total_investment):
+    """Predict salary and ROI based on field and country"""
+    # Industry average starting salaries (Master's level)
+    # Bases: Germany/Netherlands as high, Italy/Spain as mid, etc.
+    salary_data = {
+        "Engineering": {"Germany": 55000, "Netherlands": 52000, "France": 48000, "Italy": 38000, "Spain": 36000, "Default": 45000},
+        "Computer Science / AI": {"Germany": 62000, "Netherlands": 60000, "France": 55000, "Italy": 42000, "Spain": 40000, "Default": 50000},
+        "Data Science": {"Germany": 65000, "Netherlands": 62000, "France": 58000, "Italy": 45000, "Spain": 42000, "Default": 55000},
+        "Business / MBA": {"Germany": 60000, "Netherlands": 58000, "France": 65000, "Italy": 50000, "Spain": 48000, "Default": 55000},
+        "Arts / Humanities": {"Germany": 38000, "Netherlands": 35000, "France": 36000, "Italy": 28000, "Spain": 26000, "Default": 32000}
+    }
+
+    # Normalize field input for lookup
+    field_key = "Engineering"
+    field_lower = field.lower()
+    if "data" in field_lower: field_key = "Data Science"
+    elif "computer" in field_lower or "ai" in field_lower: field_key = "Computer Science / AI"
+    elif "business" in field_lower or "mba" in field_lower: field_key = "Business / MBA"
+    elif "art" in field_lower or "human" in field_lower: field_key = "Arts / Humanities"
+
+    country_clean = country.title() if country else "Default"
+    base_salaries = salary_data.get(field_key, salary_data["Engineering"])
+    annual_salary = base_salaries.get(country_clean, base_salaries.get("Default", 40000))
+
+    # ROI Calculations
+    # Assume 30% tax and 15,000 yearly living expenses after graduation
+    net_annual_income = (annual_salary * 0.7) - 15000
+    
+    if net_annual_income <= 0:
+        break_even_years = 99  # Effectively infinite
+    else:
+        break_even_years = round(total_investment / net_annual_income, 1)
+
+    roi_score = 0
+    if break_even_years <= 2.0: roi_score = 95
+    elif break_even_years <= 3.5: roi_score = 80
+    elif break_even_years <= 5.0: roi_score = 60
+    else: roi_score = 40
+
+    return {
+        "field": field_key,
+        "country": country_clean,
+        "estimated_starting_salary": annual_salary,
+        "break_even_years": break_even_years,
+        "roi_score": roi_score,
+        "explanation": f"Based on {field_key} graduates in {country_clean}, you can expect a starting salary of €{annual_salary:,}/year. With your investment, it will take approx {break_even_years} years to recover costs."
+    }
+

@@ -40,7 +40,12 @@ UNIVERSITIES = [
 from modules.admission_prediction import predict_admission
 from modules.recommendation_engine import recommend_universities
 from modules.nlp_query_handler import answer_query
-from modules.cost_roi_analysis import analyze_total_cost, find_affordable_universities, match_scholarships
+from modules.cost_roi_analysis import (
+    analyze_total_cost, 
+    find_affordable_universities, 
+    match_scholarships,
+    predict_career_roi
+)
 from data_fetcher.fetch_scholarships import (
     fetch_scholarships_by_country,
     filter_scholarships as filter_scholarships_advanced,
@@ -103,6 +108,11 @@ class CostAnalysisRequest(BaseModel):
 
 class ScholarshipRequest(BaseModel):
     country: str
+
+class ROIPredictRequest(BaseModel):
+    field: str
+    country: str
+    total_investment: float
 
 # ---------- Routes ----------
 @app.get("/")
@@ -273,6 +283,17 @@ def get_scholarships(request: ScholarshipRequest):
         return {
             "status": "success",
             "scholarships": scholarships
+        }
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
+
+@app.post("/predict-roi")
+def get_roi_prediction(request: ROIPredictRequest):
+    try:
+        prediction = predict_career_roi(request.field, request.country, request.total_investment)
+        return {
+            "status": "success",
+            "roi_prediction": prediction
         }
     except Exception as e:
         return {"status": "error", "message": str(e)}

@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import ChartsDashboard from "../components/ChartsDashboard";
 import CostAnalytics from "../components/CostAnalytics";
+import CareerROIPredictor from "../components/CareerROIPredictor";
 import "./AnalyticsPage.css";
 
 function AnalyticsPage() {
   const [filters, setFilters] = useState({
     budget: sessionStorage.getItem("profileBudget") || 25000,
     country: sessionStorage.getItem("profileCountry") || "all",
+    field: sessionStorage.getItem("profileField") || "Engineering",
     duration: 2,
     salary: 50000
   });
@@ -62,6 +64,22 @@ function AnalyticsPage() {
         </div>
 
         <div className="filter-group">
+          <label>Field of Study</label>
+          <select
+            name="field"
+            value={tempFilters.field}
+            onChange={handleFilterChange}
+            className="big-select"
+          >
+            <option value="Engineering">Engineering</option>
+            <option value="Computer Science / AI">Computer Science / AI</option>
+            <option value="Data Science">Data Science</option>
+            <option value="Business / MBA">Business / MBA</option>
+            <option value="Arts / Humanities">Arts / Humanities</option>
+          </select>
+        </div>
+
+        <div className="filter-group">
           <label>Study Duration (Years)</label>
           <select
             name="duration"
@@ -111,6 +129,14 @@ function AnalyticsPage() {
 
           <section className="analytics-card">
             <CostAnalytics filters={filters} />
+          </section>
+
+          <section className="analytics-card roi-predictor-section">
+            <CareerROIPredictor
+              field={filters.field}
+              country={filters.country}
+              totalInvestment={filters.budget}
+            />
           </section>
         </div>
       </main>
