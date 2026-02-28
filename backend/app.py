@@ -204,59 +204,100 @@ def recommend(profile: StudentProfile):
         results = []
 
         import re
+        
+        # --- STAGE 1: Strict Filtering ---
         for uni in all_universities:
-            # Country Filter
             uni_country = str(uni.get("country", "")).lower()
             if target_country and target_country not in ["all", "all europe", "select country"]:
                 if target_country != uni_country:
                     continue
             
-            # Field Filter
             uni_field = str(uni.get("field", "")).lower()
             if target_field and target_field not in ["all", "all fields", "select field of study"]:
                 keywords = re.findall(r'\w+', target_field)
                 if not any(kw in uni_field for kw in keywords if len(kw) > 2):
                     continue
 
-            # Numeric Filters
             min_gpa = uni.get("min_gpa", 0)
             min_ielts = uni.get("min_ielts", 0)
             avg_fees = uni.get("average_fees_eur", 0)
 
-            if gpa > 0 and gpa < min_gpa:
-                continue
-            if ielts > 0 and ielts < min_ielts:
-                continue
-            if budget > 0 and budget < avg_fees:
-                continue
-            
-            # Match Score
-            calc_gpa = gpa if gpa > 0 else 3.2
-            calc_ielts = ielts if ielts > 0 else 6.5
-            calc_budget = budget if budget > 0 else 15000
+            # Check if it meets ALL numeric criteria
+            if (gpa == 0 or gpa >= min_gpa) and \
+               (ielts == 0 or ielts >= min_ielts) and \
+               (budget == 0 or budget >= avg_fees):
+                
+                # Success - Calculate Match Score
+                calc_gpa = gpa if gpa > 0 else 3.2
+                calc_ielts = ielts if ielts > 0 else 6.5
+                calc_budget = budget if budget > 0 else 15000
+                gpa_score = min(calc_gpa / 4, 1)
+                ielts_score = min(calc_ielts / 9, 1)
+                cost_score = 1 - (avg_fees / (calc_budget + 1))
+                match_score = round((gpa_score * 0.4) + (ielts_score * 0.3) + (cost_score * 0.3), 2)
 
-            gpa_score = min(calc_gpa / 4, 1)
-            ielts_score = min(calc_ielts / 9, 1)
-            cost_score = 1 - (avg_fees / (calc_budget + 1))
+                results.append({
+                    "university": uni.get("university"),
+                    "country": uni.get("country"),
+                    "city": uni.get("city"),
+                    "ranking": uni.get("ranking"),
+                    "average_fees_eur": avg_fees,
+                    "field": uni.get("field"),
+                    "min_gpa": min_gpa,
+                    "min_ielts": min_ielts,
+                    "course_url": uni.get("course_url", "#"),
+                    "match_score": match_score
+                })
 
-            match_score = round((gpa_score * 0.4) + (ielts_score * 0.3) + (cost_score * 0.3), 2)
+        # --- STAGE 2: Relaxed Numeric (Ignore Budget) ---
+        if not results:
+            for uni in all_universities:
+                uni_country = str(uni.get("country", "")).lower()
+                if target_country and target_country not in ["all", "all europe", "select country"]:
+                    if target_country != uni_country:
+                        continue
+                
+                uni_field = str(uni.get("field", "")).lower()
+                if target_field and target_field not in ["all", "all fields", "select field of study"]:
+                    keywords = re.findall(r'\w+', target_field)
+                    if not any(kw in uni_field for kw in keywords if len(kw) > 2):
+                        continue
+                
+                # Match only on acadmics
+                min_gpa = uni.get("min_gpa", 0)
+                min_ielts = uni.get("min_ielts", 0)
+                if (gpa == 0 or gpa >= min_gpa) and (ielts == 0 or ielts >= min_ielts):
+                    results.append({
+                        "university": uni.get("university"),
+                        "country": uni.get("country"),
+                        "city": uni.get("city"),
+                        "ranking": uni.get("ranking"),
+                        "average_fees_eur": uni.get("average_fees_eur"),
+                        "field": uni.get("field"),
+                        "match_score": 0.5,
+                        "note": "Matches Academics (Budget exceeds preference)"
+                    })
 
-            results.append({
-                "university": uni.get("university"),
-                "country": uni.get("country"),
-                "city": uni.get("city"),
-                "ranking": uni.get("ranking"),
-                "average_fees_eur": avg_fees,
-                "field": uni.get("field"),
-                "min_gpa": min_gpa,
-                "min_ielts": min_ielts,
-                "course_url": uni.get("course_url", "#"),
-                "match_score": match_score
-            })
+        # --- STAGE 3: Country Safety (Cheapest in Country) ---
+        if not results and target_country and target_country not in ["all", "all europe", "select country"]:
+            country_unis = [u for u in all_universities if str(u.get("country", "")).lower() == target_country]
+            if country_unis:
+                # Sort by fee
+                country_unis.sort(key=lambda x: x.get("average_fees_eur", 0))
+                for uni in country_unis[:5]:
+                    results.append({
+                        "university": uni.get("university"),
+                        "country": uni.get("country"),
+                        "city": uni.get("city"),
+                        "ranking": uni.get("ranking"),
+                        "average_fees_eur": uni.get("average_fees_eur"),
+                        "field": uni.get("field"),
+                        "match_score": 0.3,
+                        "note": f"Affordable option in {uni.get('country')}"
+                    })
 
-        # Safety Fallback: If no results found, return affordable 'Safety' options
-        if not results and all_universities:
-            # Sort all unis by fee ascending
+        # --- STAGE 4: Final Global Safety ---
+        if not results:
             safety_unis = sorted(all_universities, key=lambda x: x.get("average_fees_eur", 0))
             for uni in safety_unis[:5]:
                 results.append({
@@ -264,16 +305,13 @@ def recommend(profile: StudentProfile):
                     "country": uni.get("country"),
                     "city": uni.get("city"),
                     "ranking": uni.get("ranking"),
-                    "average_fees_eur": uni.get("average_fees_eur", 0),
+                    "average_fees_eur": uni.get("average_fees_eur"),
                     "field": uni.get("field"),
-                    "min_gpa": uni.get("min_gpa"),
-                    "min_ielts": uni.get("min_ielts"),
-                    "course_url": uni.get("course_url", "#"),
                     "match_score": 0.1,
-                    "note": "Safety Recommendation (Affordable Option)"
+                    "note": "Safety Recommendation (General)"
                 })
 
-        results.sort(key=lambda x: x["match_score"], reverse=True)
+        results.sort(key=lambda x: x.get("match_score", 0), reverse=True)
         return {
             "status": "success",
             "recommendations": results[:10],
