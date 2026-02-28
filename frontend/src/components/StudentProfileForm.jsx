@@ -58,7 +58,8 @@ const StudentProfileForm = () => {
       setRecommendations(recommendRes.data.recommendations || []);
     } catch (err) {
       console.error("API Error:", err);
-      setError("Something went wrong. Please check if the backend is running.");
+      const msg = err.response?.data?.message || err.message;
+      setError(`Backend Error (${err.response?.status || "Network"}): ${msg}`);
     } finally {
       setLoading(false);
     }

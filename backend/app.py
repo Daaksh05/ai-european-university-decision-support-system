@@ -96,7 +96,7 @@ async def add_cors_header(request, call_next):
 # Re-adding original CORS setup:
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -192,8 +192,6 @@ def predict(profile: StudentProfile):
 @app.post("/recommend")
 def recommend(profile: StudentProfile):
     try:
-        print(f"DEBUG: Processing /recommend for Profile: {profile.model_dump()}")
-        
         # Use hardcoded list to avoid DB issues on Vercel
         all_universities = UNIVERSITIES
         
@@ -205,6 +203,7 @@ def recommend(profile: StudentProfile):
 
         results = []
 
+        import re
         for uni in all_universities:
             # Country Filter
             uni_country = str(uni.get("country", "")).lower()
@@ -215,7 +214,6 @@ def recommend(profile: StudentProfile):
             # Field Filter
             uni_field = str(uni.get("field", "")).lower()
             if target_field and target_field not in ["all", "all fields", "select field of study"]:
-                import re
                 keywords = re.findall(r'\w+', target_field)
                 if not any(kw in uni_field for kw in keywords if len(kw) > 2):
                     continue
