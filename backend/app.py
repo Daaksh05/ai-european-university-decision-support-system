@@ -254,10 +254,30 @@ def recommend(profile: StudentProfile):
                 "match_score": match_score
             })
 
+        # Safety Fallback: If no results found, return affordable 'Safety' options
+        if not results and all_universities:
+            # Sort all unis by fee ascending
+            safety_unis = sorted(all_universities, key=lambda x: x.get("average_fees_eur", 0))
+            for uni in safety_unis[:5]:
+                results.append({
+                    "university": uni.get("university"),
+                    "country": uni.get("country"),
+                    "city": uni.get("city"),
+                    "ranking": uni.get("ranking"),
+                    "average_fees_eur": uni.get("average_fees_eur", 0),
+                    "field": uni.get("field"),
+                    "min_gpa": uni.get("min_gpa"),
+                    "min_ielts": uni.get("min_ielts"),
+                    "course_url": uni.get("course_url", "#"),
+                    "match_score": 0.1,
+                    "note": "Safety Recommendation (Affordable Option)"
+                })
+
         results.sort(key=lambda x: x["match_score"], reverse=True)
         return {
             "status": "success",
-            "recommendations": results[:10]
+            "recommendations": results[:10],
+            "total": len(results)
         }
     except Exception as e:
         print(f"Error in recommend: {e}")
