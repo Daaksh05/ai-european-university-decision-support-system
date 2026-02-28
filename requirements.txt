@@ -1,7 +1,0 @@
-fastapi
-uvicorn
-pandas
-sqlmodel
-python-dotenv
-pydantic
-numpy
