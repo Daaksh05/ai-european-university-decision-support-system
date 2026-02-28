@@ -132,7 +132,7 @@ class ROIPredictRequest(BaseModel):
 # ---------- Routes ----------
 @app.get("/")
 def root():
-    return {"message": "AI University Decision Support System is running"}
+    return {"message": "EuroPath AI: Your intelligent guide to Study, SOP, and Visa is running"}
 
 @app.post("/predict")
 def predict(profile: StudentProfile):

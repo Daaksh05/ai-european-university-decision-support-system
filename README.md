@@ -1,10 +1,10 @@
-# 🎓 UniDecide: AI European University Decision Support System
+# 🇪🇺 EuroPath AI: Your intelligent guide to Study, SOP, and Visa.
 
 [![React](https://img.shields.io/badge/Frontend-React-61DAFB?style=for-the-badge&logo=react)](https://react.dev/)
 [![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/)
 [![Python](https://img.shields.io/badge/Logic-Python-3776AB?style=for-the-badge&logo=python)](https://www.python.org/)
 
-**UniDecide** is an intelligent, end-to-end platform designed to help international students navigate the entire journey of studying in Europe—from initial university selection to landing your student visa dream.
+**EuroPath AI** is an intelligent, end-to-end platform designed to help international students navigate the entire journey of studying in Europe—from initial university selection to landing your student visa dream.
 
 ---
 
@@ -76,7 +76,7 @@ npm start
 ---
 
 ## 🌟 Our Mission
-Applying for higher education abroad is a life-changing but high-stress process. **UniDecide** aims to replace dozens of messy spreadsheets and confusing embassy websites with a single, AI-guided dashboard that makes the "European Dream" organized, data-driven, and accessible to everyone.
+Applying for higher education abroad is a life-changing but high-stress process. **EuroPath AI** aims to replace dozens of messy spreadsheets and confusing embassy websites with a single, AI-guided dashboard that makes the "European Dream" organized, data-driven, and accessible to everyone.
 
 ---
 *Created with ❤️ for future international scholars.*

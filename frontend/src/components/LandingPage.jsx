@@ -62,9 +62,9 @@ const LandingPage = () => {
       {/* Hero Section */}
       <section className="hero" style={{ transform: `translateY(${scrollY * 0.5}px)` }}>
         <div className="hero-content">
-          <h1 className="hero-title">Your Path to Global Education</h1>
+          <h1 className="hero-title">EuroPath AI: Your Path to Global Education</h1>
           <p className="hero-subtitle">
-            AI-powered recommendations for finding the perfect university
+            The intelligent guide to Study, SOP, and Visa recommendations
           </p>
           <div className="hero-buttons">
             <button
@@ -79,10 +79,10 @@ const LandingPage = () => {
         <div className="hero-visual">
           <div className="animated-gradient"></div>
         </div>
-      </section>
+      </section >
 
       {/* Features Section */}
-      <section className="features-section">
+      < section className="features-section" >
         <h2>Why Choose Us?</h2>
         <div className="features-grid">
           {features.map((feature, idx) => (
@@ -93,10 +93,10 @@ const LandingPage = () => {
             </div>
           ))}
         </div>
-      </section>
+      </section >
 
       {/* Stats Section */}
-      <section className="stats-section">
+      < section className="stats-section" >
         <div className="stat-box">
           <h3>500+</h3>
           <p>Universities</p>
@@ -113,10 +113,10 @@ const LandingPage = () => {
           <h3>40</h3>
           <p>Countries</p>
         </div>
-      </section>
+      </section >
 
       {/* How It Works */}
-      <section className="how-it-works">
+      < section className="how-it-works" >
         <h2>How It Works</h2>
         <div className="steps">
           <div className="step">
@@ -143,10 +143,10 @@ const LandingPage = () => {
             <p>Compare costs, scholarships, and ROI analysis</p>
           </div>
         </div>
-      </section>
+      </section >
 
       {/* Testimonials */}
-      <section className="testimonials-section">
+      < section className="testimonials-section" >
         <h2>What Students Say</h2>
         <div className="testimonials-tabs">
           {testimonials.map((testimonial, idx) => (
@@ -162,10 +162,10 @@ const LandingPage = () => {
             </div>
           ))}
         </div>
-      </section>
+      </section >
 
       {/* CTA Section */}
-      <section className="cta-section">
+      < section className="cta-section" >
         <h2>Ready to Find Your University?</h2>
         <p>Join thousands of students making informed decisions</p>
         <button
@@ -174,14 +174,13 @@ const LandingPage = () => {
         >
           Start Your Journey Today
         </button>
-      </section>
+      </section >
 
       {/* Footer */}
-      <footer className="landing-footer">
+      < footer className="landing-footer" >
         <div className="footer-content">
           <div className="footer-section">
-            <h4>About</h4>
-            <p>AI University Decision Support System</p>
+            <p>EuroPath AI: Intelligent Guide</p>
           </div>
           <div className="footer-section">
             <h4>Features</h4>
@@ -200,9 +199,9 @@ const LandingPage = () => {
             </ul>
           </div>
         </div>
-        <p className="footer-bottom">© 2025 AI University System. All rights reserved.</p>
-      </footer>
-    </div>
+        <p className="footer-bottom">© 2025 EuroPath AI. All rights reserved.</p>
+      </footer >
+    </div >
   );
 };
 
