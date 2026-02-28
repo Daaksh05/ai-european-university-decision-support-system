@@ -3,7 +3,10 @@ Scholarship Data Fetcher Module
 Provides utilities to fetch, validate, and manage scholarship data
 """
 
-import pandas as pd
+try:
+    import pandas as pd
+except ImportError:
+    pd = None
 import os
 from typing import List, Dict, Optional
 from sqlmodel import Session, select, func

@@ -6,7 +6,10 @@ This module provides advanced recommendation features without modifying existing
 from fastapi import APIRouter, Query, HTTPException
 from pydantic import BaseModel
 from typing import List, Optional, Dict, Any
-import numpy as np
+try:
+    import numpy as np
+except ImportError:
+    np = None
 
 router = APIRouter(prefix="/recommend", tags=["UniDecide: Recommendations"])
 

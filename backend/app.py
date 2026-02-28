@@ -1,4 +1,7 @@
-import pandas as pd
+try:
+    import pandas as pd
+except ImportError:
+    pd = None
 import os
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware

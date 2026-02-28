@@ -4,7 +4,11 @@ Provides evaluation metrics for recommendation quality without affecting current
 """
 
 from typing import List, Dict, Tuple, Optional
-import numpy as np
+try:
+    import numpy as np
+except ImportError:
+    np = None
+
 from dataclasses import dataclass
 
 @dataclass
