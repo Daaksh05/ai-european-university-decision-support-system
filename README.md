@@ -80,3 +80,4 @@ Applying for higher education abroad is a life-changing but high-stress process.
 
 ---
 *Created with ❤️ for future international scholars.*
+
