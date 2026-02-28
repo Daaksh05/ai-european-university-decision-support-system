@@ -12,12 +12,40 @@ from db_models.scholarship import Scholarship
 
 def fetch_scholarships_by_country(country: str, db: Optional[Session] = None) -> List[Dict]:
     """
-    Fetch scholarships available in a specific country
+    Fetch scholarships available in a specific country.
+    Tries DB first, fallbacks to CSV if DB fails or is None.
     """
-    if db is None:
-        with Session(engine) as session:
+    # 1. Try DB if possible
+    try:
+        if db:
+            return _fetch_scholarships_by_country(country, db)
+        
+        # Try to open a local session if not explicitly provided
+        from database import Session as LocalSession, engine
+        with LocalSession(engine) as session:
             return _fetch_scholarships_by_country(country, session)
-    return _fetch_scholarships_by_country(country, db)
+    except Exception as e:
+        print(f"DB Fetch failed for scholarships, falling back to CSV: {e}")
+        
+    # 2. Fallback to CSV logic (copied from match_scholarships style)
+    csv_path = "backend/data/scholarships.csv"
+    if not os.path.exists(csv_path):
+        csv_path = "data/scholarships.csv"
+    
+    if not os.path.exists(csv_path):
+        return []
+    
+    results = []
+    try:
+        with open(csv_path, mode='r', encoding='utf-8') as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                if row.get("country") == country:
+                    results.append(row)
+        return results
+    except Exception as e:
+        print(f"CSV Fetch failed for scholarships: {e}")
+        return []
 
 def _fetch_scholarships_by_country(country: str, session: Session) -> List[Dict]:
     try:
