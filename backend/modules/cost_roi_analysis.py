@@ -1,92 +1,47 @@
-try:
-    import pandas as pd
-except ImportError:
-    pd = None
-
+import csv
 import os
 
-def calculate_roi(tuition_fee, expected_salary):
-    """Calculate ROI (Return on Investment) for tuition fee vs expected salary"""
-    if tuition_fee == 0:
-        return 0
-    return round(expected_salary / tuition_fee, 2)
-
-def analyze_total_cost(tuition_fee, country, duration_years=2):
-    """Calculate total cost including living expenses by country with breakdown"""
-    # Breakdown percentages (typical distribution of living costs)
-    breakdown_ratios = {
-        "accommodation": 0.50,
-        "food": 0.25,
-        "transport": 0.10,
-        "other": 0.15
-    }
-
-    living_costs = {
-        "France": 900,
-        "Germany": 850,
-        "Netherlands": 1200,
-        "Belgium": 1000,
-        "Finland": 1100,
-        "Italy": 750,
-        "Spain": 800,
-        "Austria": 950,
-        "Sweden": 1100,
-        "UK": 1400,
-    }
-    
-    country_clean = country.title() if country else "Default"
-    monthly_cost = living_costs.get(country_clean, 1000)
-    
-    yearly_living = monthly_cost * 12
-    total_living_cost = yearly_living * duration_years
-    total_cost = (tuition_fee * duration_years) + total_living_cost
-    
-    breakdown = {
-        category: round(monthly_cost * ratio, 2)
-        for category, ratio in breakdown_ratios.items()
-    }
-    
-    return {
-        "tuition_fee_annual": tuition_fee,
-        "country": country_clean,
-        "duration_years": duration_years,
-        "monthly_living_cost": monthly_cost,
-        "breakdown": breakdown,
-        "yearly_living_cost": yearly_living,
-        "total_living_cost": total_living_cost,
-        "total_tuition": tuition_fee * duration_years,
-        "total_combined_cost": round(total_cost, 2)
-    }
-
-def find_affordable_universities(profile, max_budget):
-    """Find universities within budget"""
-    if not max_budget:
-        return {"error": "Budget is required"}
-    
+def check_affordability(max_budget):
+    """Check how many universities fit within a budget"""
     csv_path = "backend/data/universities.csv"
     if not os.path.exists(csv_path):
         csv_path = "data/universities.csv"
     
     if not os.path.exists(csv_path):
-        return {"error": f"Universities data file not found at {csv_path}"}
+        return {"error": "Universities data not found"}
     
     try:
-        df = pd.read_csv(csv_path)
+        universities = []
+        with open(csv_path, mode='r', encoding='utf-8') as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                try:
+                    fee = float(row.get("average_fees_eur", 0))
+                    row["average_fees_eur"] = fee
+                    universities.append(row)
+                except (ValueError, TypeError):
+                    continue
+
+        if not universities:
+            return {"error": "No valid data found in CSV"}
+            
+        affordable = [u for u in universities if u["average_fees_eur"] <= max_budget]
         
-        # Validate required columns
-        required_cols = ["university", "country", "average_fees_eur"]
-        missing_cols = [col for col in required_cols if col not in df.columns]
-        if missing_cols:
-            return {"error": f"Missing columns in CSV: {missing_cols}"}
+        total_count = len(universities)
+        affordable_count = len(affordable)
         
-        affordable = df[df["average_fees_eur"] <= max_budget]
+        cheapest = None
+        if affordable:
+            cheapest = min(affordable, key=lambda x: x["average_fees_eur"])
+            
+        avg_fee = sum(u["average_fees_eur"] for u in affordable) / affordable_count if affordable_count > 0 else 0
         
         return {
-            "total_universities": len(df),
-            "affordable_universities": len(affordable),
-            "percentage_affordable": round((len(affordable) / len(df)) * 100, 2) if len(df) > 0 else 0,
-            "cheapest_university": affordable.loc[affordable["average_fees_eur"].idxmin()].to_dict() if len(affordable) > 0 else None,
-            "average_fee_in_budget": round(affordable["average_fees_eur"].mean(), 2) if len(affordable) > 0 else 0
+            "total_universities": total_count,
+            "affordable_universities": affordable_count,
+            "percentage_affordable": round((affordable_count / total_count) * 100, 2) if total_count > 0 else 0,
+            "cheapest_university": cheapest,
+            "average_fee_in_budget": round(avg_fee, 2)
         }
     except Exception as e:
         return {"error": f"Error reading universities data: {str(e)}"}
@@ -101,29 +56,24 @@ def match_scholarships(profile, country):
         return []
     
     try:
-        df = pd.read_csv(csv_path)
-        
-        # Validate required columns
-        required_cols = ["scholarship_name", "country", "coverage", "amount_eur", "eligibility", "website_url"]
-        missing_cols = [col for col in required_cols if col not in df.columns]
-        if missing_cols:
-            print(f"Missing columns in scholarships.csv: {missing_cols}")
-            # Fallback to returning what we have if website_url is missing but we'll try to include it
-            if "scholarship_name" not in df.columns: return []
-        
-        # Filter scholarships by country
-        scholarships = df[df["country"] == country]
-        
         results = []
-        for _, row in scholarships.iterrows():
-            results.append({
-                "name": row["scholarship_name"],
-                "country": row["country"],
-                "coverage": row["coverage"],
-                "amount_eur": row["amount_eur"],
-                "eligibility": row["eligibility"],
-                "website_url": row.get("website_url", "#")
-            })
+        with open(csv_path, mode='r', encoding='utf-8') as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                if row.get("country") == country:
+                    try:
+                        amount = float(row.get("amount_eur", 0))
+                    except (ValueError, TypeError):
+                        amount = 0
+                        
+                    results.append({
+                        "name": row.get("scholarship_name"),
+                        "country": row.get("country"),
+                        "coverage": row.get("coverage"),
+                        "amount_eur": amount,
+                        "eligibility": row.get("eligibility"),
+                        "website_url": row.get("website_url", "#")
+                    })
         
         return results
     except Exception as e:
@@ -201,5 +151,3 @@ def predict_career_roi(field, country, total_investment, expected_salary=None):
         "roi_score": roi_score,
         "explanation": f"Based on {field_key} in {country_clean} ({salary_source}), a starting salary of €{annual_salary:,}/year suggests you'll recover your €{total_investment:,} investment in approx {break_even_years} years."
     }
-
-

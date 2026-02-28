@@ -1,12 +1,9 @@
 """
 Scholarship Data Fetcher Module
-Provides utilities to fetch, validate, and manage scholarship data
+Provides utilities to fetch, validate, and manage scholarship data using the CSV module
 """
 
-try:
-    import pandas as pd
-except ImportError:
-    pd = None
+import csv
 import os
 from typing import List, Dict, Optional
 from sqlmodel import Session, select, func
@@ -34,10 +31,7 @@ def _fetch_scholarships_by_country(country: str, session: Session) -> List[Dict]
 
 def fetch_all_scholarships() -> List[Dict]:
     """
-    Fetch all available scholarships
-    
-    Returns:
-        List[Dict]: List of all scholarships
+    Fetch all available scholarships from CSV
     """
     csv_path = "backend/data/scholarships.csv"
     if not os.path.exists(csv_path):
@@ -46,9 +40,13 @@ def fetch_all_scholarships() -> List[Dict]:
     if not os.path.exists(csv_path):
         return []
     
+    results = []
     try:
-        df = pd.read_csv(csv_path)
-        return df.to_dict(orient="records")
+        with open(csv_path, mode='r', encoding='utf-8') as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                results.append(row)
+        return results
     except Exception as e:
         print(f"Error fetching all scholarships: {str(e)}")
         return []
@@ -56,13 +54,7 @@ def fetch_all_scholarships() -> List[Dict]:
 
 def fetch_scholarships_by_coverage(coverage_type: str) -> List[Dict]:
     """
-    Fetch scholarships by coverage type (Full, Partial, etc.)
-    
-    Args:
-        coverage_type (str): Type of coverage (e.g., "Full", "Partial")
-        
-    Returns:
-        List[Dict]: List of scholarships matching the coverage type
+    Fetch scholarships by coverage type
     """
     csv_path = "backend/data/scholarships.csv"
     if not os.path.exists(csv_path):
@@ -71,10 +63,14 @@ def fetch_scholarships_by_coverage(coverage_type: str) -> List[Dict]:
     if not os.path.exists(csv_path):
         return []
     
+    results = []
     try:
-        df = pd.read_csv(csv_path)
-        scholarships = df[df["coverage"] == coverage_type]
-        return scholarships.to_dict(orient="records")
+        with open(csv_path, mode='r', encoding='utf-8') as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                if row.get("coverage") == coverage_type:
+                    results.append(row)
+        return results
     except Exception as e:
         print(f"Error fetching scholarships with coverage {coverage_type}: {str(e)}")
         return []
@@ -83,12 +79,6 @@ def fetch_scholarships_by_coverage(coverage_type: str) -> List[Dict]:
 def fetch_scholarships_by_eligibility(eligibility: str) -> List[Dict]:
     """
     Fetch scholarships by eligibility criteria
-    
-    Args:
-        eligibility (str): Eligibility criteria (e.g., "Merit-based", "Indian Students")
-        
-    Returns:
-        List[Dict]: List of scholarships matching the eligibility
     """
     csv_path = "backend/data/scholarships.csv"
     if not os.path.exists(csv_path):
@@ -97,10 +87,14 @@ def fetch_scholarships_by_eligibility(eligibility: str) -> List[Dict]:
     if not os.path.exists(csv_path):
         return []
     
+    results = []
     try:
-        df = pd.read_csv(csv_path)
-        scholarships = df[df["eligibility"].str.contains(eligibility, case=False, na=False)]
-        return scholarships.to_dict(orient="records")
+        with open(csv_path, mode='r', encoding='utf-8') as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                if eligibility.lower() in row.get("eligibility", "").lower():
+                    results.append(row)
+        return results
     except Exception as e:
         print(f"Error fetching scholarships with eligibility {eligibility}: {str(e)}")
         return []
@@ -169,14 +163,3 @@ def _filter_scholarships(country, coverage, min_amount, max_amount, session: Ses
     except Exception as e:
         print(f"Error filtering scholarships: {str(e)}")
         return []
-
-
-if __name__ == "__main__":
-    # Test the functions
-    print("Testing Scholarship Fetcher...")
-    print("\nAll scholarships:")
-    print(fetch_all_scholarships())
-    print("\nFrance scholarships:")
-    print(fetch_scholarships_by_country("France"))
-    print("\nStatistics:")
-    print(get_scholarship_statistics())
