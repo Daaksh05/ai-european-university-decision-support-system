@@ -1,6 +1,40 @@
 import csv
 import os
 
+def analyze_total_cost(tuition_fee, country, duration_years=2):
+    """Analyze total cost of education including living expenses"""
+    # Average living expenses per year by country
+    living_expenses = {
+        "Germany": 11000,
+        "Netherlands": 12000,
+        "France": 11000,
+        "Italy": 9000,
+        "Spain": 8500,
+        "Switzerland": 20000,
+        "Sweden": 12000,
+        "Belgium": 10000,
+        "Default": 10000
+    }
+    
+    annual_living = living_expenses.get(country, living_expenses["Default"])
+    total_living = annual_living * duration_years
+    total_tuition = tuition_fee * duration_years
+    total_cost = total_tuition + total_living
+    
+    return {
+        "tuition_per_year": tuition_fee,
+        "living_per_year": annual_living,
+        "total_tuition": total_tuition,
+        "total_living": total_living,
+        "total_investment": total_cost,
+        "duration_years": duration_years,
+        "country": country
+    }
+
+def find_affordable_universities(max_budget):
+    """Wrapper for check_affordability to match old API"""
+    return check_affordability(max_budget)
+
 def check_affordability(max_budget):
     """Check how many universities fit within a budget"""
     csv_path = "backend/data/universities.csv"
