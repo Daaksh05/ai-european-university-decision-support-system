@@ -1,26 +1,15 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "frontend/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "build"
-      }
-    },
-    {
-      "src": "api/index.py",
-      "use": "@vercel/python"
+  "buildCommand": "cd frontend && npm install && CI=false npm run build",
+  "outputDirectory": "frontend/build",
+  "functions": {
+    "api/index.py": {
+      "runtime": "@vercel/python@4.5.0"
     }
-  ],
-  "routes": [
+  },
+  "rewrites": [
     {
-      "src": "/api/(.*)",
-      "dest": "api/index.py"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "frontend/$1"
+      "source": "/api/:path*",
+      "destination": "/api/index.py"
     }
   ]
 }
