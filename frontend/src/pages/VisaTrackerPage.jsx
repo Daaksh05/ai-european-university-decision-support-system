@@ -15,7 +15,7 @@ const VisaTrackerPage = () => {
     useEffect(() => {
         const fetchCountries = async () => {
             try {
-                const response = await axios.get(`${API_BASE_URL}/api/visa/countries`);
+                const response = await axios.get(`${API_BASE_URL}/visa/countries`);
                 setCountries(response.data);
             } catch (error) {
                 console.error('Error fetching countries:', error);
@@ -41,7 +41,7 @@ const VisaTrackerPage = () => {
 
         setIsLoading(true);
         try {
-            const response = await axios.get(`${API_BASE_URL}/api/visa/requirements/${countryCode}`);
+            const response = await axios.get(`${API_BASE_URL}/visa/requirements/${countryCode}`);
             setRequirements(response.data);
         } catch (error) {
             console.error('Error fetching requirements:', error);

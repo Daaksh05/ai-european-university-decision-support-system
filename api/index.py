@@ -10,8 +10,24 @@ backend_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 if backend_dir not in sys.path:
     sys.path.insert(0, backend_dir)
 
-# Now import the FastAPI app from backend/app.py
-from app import app
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
-# Vercel expects the handler to be named 'app' or 'handler'
-# FastAPI is ASGI-compatible, so Vercel auto-detects it
+# Import the backend FastAPI app
+from app import app as backend_app
+
+# Create a wrapper app that mounts the backend under /api
+# This is needed because Vercel forwards the full path (e.g., /api/recommend)
+# but the backend routes are defined without the /api prefix (e.g., /recommend)
+app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Mount the backend app so /api/recommend -> /recommend in backend_app
+app.mount("/api", backend_app)
