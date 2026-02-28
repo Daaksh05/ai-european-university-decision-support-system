@@ -8,7 +8,7 @@ from pydantic import BaseModel
 from typing import List, Optional, Dict, Any
 import numpy as np
 
-router = APIRouter(prefix="/recommend", tags=["EuroPath AI: Recommendations"])
+router = APIRouter(prefix="/recommend", tags=["UniDecide: Recommendations"])
 
 class AdvancedRecommendationRequest(BaseModel):
     """Advanced recommendation request model"""

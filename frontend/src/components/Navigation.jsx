@@ -13,7 +13,7 @@ function Navigation() {
         <div className="nav-container">
           {/* Logo */}
           <Link to="/" className="nav-logo">
-            🇪🇺 EuroPath AI
+            🇪🇺 UniDecide
           </Link>
 
           {/* Mobile Menu Toggle */}

@@ -42,7 +42,7 @@ export default function Footer() {
       </div>
 
       <div className="footer-bottom">
-        <p>&copy; 2025 EuroPath AI. All rights reserved. | AI-Powered University Selection</p>
+        <p>&copy; 2025 UniDecide. All rights reserved. | AI-Powered University Selection</p>
       </div>
     </footer>
   );

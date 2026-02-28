@@ -62,7 +62,7 @@ const LandingPage = () => {
       {/* Hero Section */}
       <section className="hero" style={{ transform: `translateY(${scrollY * 0.5}px)` }}>
         <div className="hero-content">
-          <h1 className="hero-title">EuroPath AI: Your Path to Global Education</h1>
+          <h1 className="hero-title">UniDecide: Your Path to Global Education</h1>
           <p className="hero-subtitle">
             The intelligent guide to Study, SOP, and Visa recommendations
           </p>
@@ -180,7 +180,7 @@ const LandingPage = () => {
       < footer className="landing-footer" >
         <div className="footer-content">
           <div className="footer-section">
-            <p>EuroPath AI: Intelligent Guide</p>
+            <p>UniDecide: Intelligent Guide</p>
           </div>
           <div className="footer-section">
             <h4>Features</h4>
@@ -199,7 +199,7 @@ const LandingPage = () => {
             </ul>
           </div>
         </div>
-        <p className="footer-bottom">© 2025 EuroPath AI. All rights reserved.</p>
+        <p className="footer-bottom">© 2025 UniDecide. All rights reserved.</p>
       </footer >
     </div >
   );

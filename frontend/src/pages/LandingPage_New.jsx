@@ -41,7 +41,7 @@ function LandingPageNew() {
       {/* Features Section */}
       <section id="features" className="features-section">
         <div className="features-container">
-          <h2>Why Choose EuroPath AI?</h2>
+          <h2>Why Choose UniDecide?</h2>
           <p className="section-subtitle">
             Everything you need to make the right university choice
           </p>
@@ -183,7 +183,7 @@ function LandingPageNew() {
         <div className="cta-container">
           <h2>Ready to Find Your Perfect University?</h2>
           <p>
-            Join thousands of students who have successfully found their dream universities using EuroPath AI.
+            Join thousands of students who have successfully found their dream universities using UniDecide.
           </p>
           <Link to="/profile" className="cta-button large">
             Start Free Now
