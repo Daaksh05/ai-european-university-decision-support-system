@@ -3,7 +3,8 @@
   "outputDirectory": "frontend/build",
   "functions": {
     "api/index.py": {
-      "runtime": "@vercel/python@4.5.0"
+      "runtime": "@vercel/python@4.5.0",
+      "excludeFiles": "frontend/**"
     }
   },
   "rewrites": [
