@@ -1,12 +1,18 @@
 # 🇪🇺 UniDecide: Your intelligent guide to Study, SOP, and Visa.
 
+[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen?style=for-the-badge&logo=vercel)](https://ai-european-university-decision-support-system-cxwt7lrh9.vercel.app/)
 [![React](https://img.shields.io/badge/Frontend-React-61DAFB?style=for-the-badge&logo=react)](https://react.dev/)
 [![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/)
 [![Python](https://img.shields.io/badge/Logic-Python-3776AB?style=for-the-badge&logo=python)](https://www.python.org/)
 
 **UniDecide** is an intelligent, end-to-end platform designed to help international students navigate the entire journey of studying in Europe—from initial university selection to landing your student visa dream.
 
+> [!NOTE]
+> This project is actively maintained on the `feature/vercel-deploy` branch. If you are viewing this from a different branch, please switch to `feature/vercel-deploy` for the latest working production version.
+
 ---
+
+![UniDecide Landing Page](./docs/homepage.png)
 
 ## ✨ Key Features
 
