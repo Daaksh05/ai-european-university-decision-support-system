@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './VisaTrackerPage.css';
 
-const API_BASE_URL = 'http://localhost:8000';
+const API_BASE_URL = '/api';
 
 const VisaTrackerPage = () => {
     const [countries, setCountries] = useState([]);

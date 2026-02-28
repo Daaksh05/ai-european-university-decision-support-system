@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './SOPAssistantPage.css';
 
-const API_BASE_URL = 'http://localhost:8000';
+const API_BASE_URL = '/api';
 
 const SOPAssistantPage = () => {
     const [formData, setFormData] = useState({
