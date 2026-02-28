@@ -1,6 +1,6 @@
 # 🇪🇺 UniDecide: Your intelligent guide to Study, SOP, and Visa.
 
-[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen?style=for-the-badge&logo=vercel)](https://ai-european-university-decision-support-system-cxwt7lrh9.vercel.app/)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen?style=for-the-badge&logo=vercel)](https://ai-european-university-decision-sup.vercel.app/)
 [![React](https://img.shields.io/badge/Frontend-React-61DAFB?style=for-the-badge&logo=react)](https://react.dev/)
 [![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/)
 [![Python](https://img.shields.io/badge/Logic-Python-3776AB?style=for-the-badge&logo=python)](https://www.python.org/)
