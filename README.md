@@ -8,6 +8,14 @@
 
 ---
 
+> [!IMPORTANT]
+> **Project Status & Vision**
+> - **Work in Progress:** This project is currently being refined to be perfectly deliverable for students.
+> - **Project Vision:** The [Vercel Real-time Demo](https://ai-european-university-decision-support-system-cxwt7lrh9.vercel.app/) represents the overall vision and conceptual framework of the website.
+> - **Commit History Note:** The first **32 commits** represent the core project development and functional logic. All commits following the 32nd are strictly related to documentation, README enhancements, and minor deployment adjustments.
+
+---
+
 ## ✨ Key Features
 
 ### 🔍 1. AI University Recommender
