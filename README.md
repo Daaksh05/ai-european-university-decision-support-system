@@ -15,6 +15,12 @@
 > - **Commit History Note:** The first **32 commits** represent the core project development and functional logic. All commits following the 32nd are strictly related to documentation, README enhancements, and minor deployment adjustments.
 
 ---
+> [!NOTE]
+> This project is actively maintained on the `feature/vercel-deploy` branch. If you are viewing this from a different branch, please switch to `feature/vercel-deploy` for the latest working production version.
+
+---
+
+![UniDecide Landing Page](./docs/homepage.png)
 
 ## ✨ Key Features
 
