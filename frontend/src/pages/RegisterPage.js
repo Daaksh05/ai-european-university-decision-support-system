@@ -50,6 +50,7 @@ const RegisterPage = () => {
 
             navigate('/profile');
         } catch (err) {
+            console.error('Registration error detail:', err.response || err);
             setError(err.response?.data?.detail || 'Failed to register. Please try again.');
         } finally {
             setLoading(false);

@@ -24,6 +24,7 @@ const LoginPage = () => {
             await login({ username, password });
             navigate(from, { replace: true });
         } catch (err) {
+            console.error('Login error detail:', err.response || err);
             setError(err.response?.data?.detail || 'Failed to log in. Please check your credentials.');
         } finally {
             setLoading(false);
