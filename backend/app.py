@@ -83,6 +83,19 @@ app = FastAPI()
 def on_startup():
     try:
         create_db_and_tables()
+        # Seed a demo user for testing on Vercel
+        with Session(engine) as session:
+            from utils.auth_utils import get_password_hash
+            demo_user = session.exec(select(User).where(User.username == "demo")).first()
+            if not demo_user:
+                new_user = User(
+                    username="demo",
+                    email="demo@europath.ai",
+                    hashed_password=get_password_hash("demo123"),
+                    full_name="Demo User"
+                )
+                session.add(new_user)
+                session.commit()
     except Exception as e:
         print(f"Database initialization skipped or failed: {e}")
 
