@@ -1,10 +1,9 @@
 # Minimal dependencies for Vercel serverless function
-# Heavy packages like pandas/numpy are excluded to stay under 250MB limit
+# Using lightweight packages to stay under 250MB limit
 fastapi
 sqlmodel
 python-dotenv
-pydantic
+pydantic[email]
 bcrypt
-python-jose[cryptography]
+PyJWT
 passlib[bcrypt]
-email-validator

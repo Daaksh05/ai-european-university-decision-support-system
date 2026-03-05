@@ -2,7 +2,7 @@ import os
 import bcrypt
 from datetime import datetime, timedelta
 from typing import Optional, Union, Any
-from jose import jwt
+import jwt  # PyJWT
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -40,5 +40,5 @@ def decode_access_token(token: str) -> Optional[str]:
     try:
         decoded_token = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         return decoded_token["sub"] if "sub" in decoded_token else None
-    except jwt.JWTError:
+    except (jwt.PyJWTError, jwt.ExpiredSignatureError, jwt.InvalidTokenError):
         return None

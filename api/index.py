@@ -6,19 +6,12 @@ import sys
 import os
 
 # Add the backend directory to Python path so all relative imports work
-backend_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "backend")
+backend_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "backend")
 if backend_dir not in sys.path:
     sys.path.insert(0, backend_dir)
 
 # Import the backend FastAPI app
 from app import app as backend_app
-from database import create_db_and_tables
-
-# Ensure tables are created on cold start
-try:
-    create_db_and_tables()
-except Exception as e:
-    print(f"Startup DB creation skipped: {e}")
 
 # Vercel sends the full request path (e.g., /api/recommend)
 # but FastAPI routes are defined without /api prefix (e.g., /recommend)
