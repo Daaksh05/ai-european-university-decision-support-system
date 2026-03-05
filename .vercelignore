@@ -3,11 +3,11 @@ node_modules/
 .next/
 dist/
 build/
-backend/
+/backend/
 *.pyc
 __pycache__/
-venv/
+/venv/
 .vscode/
-*.db
+/*.db
 .env*
 !frontend/.env
