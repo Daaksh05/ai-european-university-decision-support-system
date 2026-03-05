@@ -12,6 +12,13 @@ if backend_dir not in sys.path:
 
 # Import the backend FastAPI app
 from app import app as backend_app
+from database import create_db_and_tables
+
+# Ensure tables are created on cold start
+try:
+    create_db_and_tables()
+except Exception as e:
+    print(f"Startup DB creation skipped: {e}")
 
 # Vercel sends the full request path (e.g., /api/recommend)
 # but FastAPI routes are defined without /api prefix (e.g., /recommend)

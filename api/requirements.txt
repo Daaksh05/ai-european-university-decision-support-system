@@ -4,3 +4,7 @@ fastapi
 sqlmodel
 python-dotenv
 pydantic
+bcrypt
+python-jose[cryptography]
+passlib[bcrypt]
+email-validator
