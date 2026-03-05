@@ -1,13 +1,13 @@
 > [!IMPORTANT]
 > **Project Status & Vision**
-> - **Work in Progress:** This project is currently being refined to be perfectly deliverable for students.
-> - **Project Vision:** The [Vercel Real-time Demo](https://ai-european-university-decision-support-system-cxwt7lrh9.vercel.app/) represents the overall vision and conceptual framework of the website.
+> - **🟢 Live & Working:** The project is deployed and fully functional at the link below.
+> - **🔗 Live Demo:** [https://europath-ai.vercel.app](https://europath-ai.vercel.app)
 > - **Commit History Note:** The first **32 commits** represent the core project development and functional logic. All commits following the 32nd are strictly related to documentation, README enhancements, and minor deployment adjustments.
 
 # 🇪🇺 EuroPath AI: Your intelligent guide to Study, SOP, and Visa.
 
 
-[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen?style=for-the-badge&logo=vercel)](https://ai-european-university-decision-support-system-cxwt7lrh9.vercel.app/)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen?style=for-the-badge&logo=vercel)](https://europath-ai.vercel.app)
 [![React](https://img.shields.io/badge/Frontend-React-61DAFB?style=for-the-badge&logo=react)](https://react.dev/)
 [![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/)
 [![Python](https://img.shields.io/badge/Logic-Python-3776AB?style=for-the-badge&logo=python)](https://www.python.org/)
