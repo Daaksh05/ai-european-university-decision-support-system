@@ -84,7 +84,8 @@ def on_startup():
     try:
         create_db_and_tables()
         # Seed a demo user for testing on Vercel
-        with Session(engine) as session:
+        from sqlmodel import Session as SmSession
+        with SmSession(engine) as session:
             from utils.auth_utils import get_password_hash
             demo_user = session.exec(select(User).where(User.username == "demo")).first()
             if not demo_user:
@@ -98,6 +99,7 @@ def on_startup():
                 session.commit()
     except Exception as e:
         print(f"Database initialization skipped or failed: {e}")
+
 
 # ✅ CORS (THIS IS REQUIRED)
 @app.middleware("http")

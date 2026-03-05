@@ -10,8 +10,22 @@ backend_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 if backend_dir not in sys.path:
     sys.path.insert(0, backend_dir)
 
+# Also ensure the Vercel-installed packages are importable
+# (some path manipulation can accidentally shadow them)
+try:
+    import jwt
+except ImportError:
+    pass  # Will be caught later with a better error
+
 # Import the backend FastAPI app
 from app import app as backend_app
+
+# Force DB creation since Vercel doesn't fire ASGI lifespan/startup events
+try:
+    from database import create_db_and_tables
+    create_db_and_tables()
+except Exception as e:
+    print(f"DB init at module level: {e}")
 
 # Vercel sends the full request path (e.g., /api/recommend)
 # but FastAPI routes are defined without /api prefix (e.g., /recommend)
