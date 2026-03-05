@@ -10,7 +10,7 @@ export default function Admin() {
     const fetchUsers = async () => {
         try {
             setRefreshing(true);
-            const response = await fetch('http://localhost:8000/api/admin/users');
+            const response = await fetch('/api/admin/users');
             if (!response.ok) throw new Error('Failed to fetch users');
             const data = await response.json();
             setUsers(data || []);
@@ -58,7 +58,7 @@ export default function Admin() {
     return (
         <div className="admin-container">
             <h1>Admin Dashboard</h1>
-            
+
             <button className="refresh-btn" onClick={handleRefresh} disabled={refreshing}>
                 {refreshing ? 'Refreshing...' : '🔄 Refresh'}
             </button>

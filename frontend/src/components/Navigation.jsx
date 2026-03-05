@@ -1,11 +1,20 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import "./Navigation.css";
 
 function Navigation() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
+
+  const handleLogout = () => {
+    logout();
+    setMenuOpen(false);
+    navigate("/");
+  };
 
   return (
     <>
@@ -13,7 +22,7 @@ function Navigation() {
         <div className="nav-container">
           {/* Logo */}
           <Link to="/" className="nav-logo">
-            🎓 UniDecide
+            🇪🇺 EuroPath <span className="logo-accent">AI</span>
           </Link>
 
           {/* Mobile Menu Toggle */}
@@ -49,6 +58,11 @@ function Navigation() {
               </Link>
             </li>
             <li className="nav-item">
+              <Link to="/relocation" className="nav-link" onClick={() => setMenuOpen(false)}>
+                Relocation
+              </Link>
+            </li>
+            <li className="nav-item">
               <Link to="/ask-ai" className="nav-link" onClick={() => setMenuOpen(false)}>
                 Ask AI
               </Link>
@@ -58,6 +72,27 @@ function Navigation() {
                 📄 Resume Builder
               </Link>
             </li>
+
+            {/* Auth Section */}
+            {!user ? (
+              <>
+                <li className="nav-item auth-item">
+                  <Link to="/login" className="nav-link login-btn" onClick={() => setMenuOpen(false)}>
+                    Login
+                  </Link>
+                </li>
+                <li className="nav-item auth-item">
+                  <Link to="/register" className="nav-link register-btn" onClick={() => setMenuOpen(false)}>
+                    Get Started
+                  </Link>
+                </li>
+              </>
+            ) : (
+              <li className="nav-item auth-item user-profile-item">
+                <span className="user-name">Hi, {user.full_name || user.username}</span>
+                <button className="logout-btn" onClick={handleLogout}>Logout</button>
+              </li>
+            )}
           </ul>
         </div>
       </nav>

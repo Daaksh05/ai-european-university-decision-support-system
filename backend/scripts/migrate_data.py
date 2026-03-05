@@ -1,4 +1,8 @@
-import pandas as pd
+try:
+    import pandas as pd
+except ImportError:
+    pd = None
+
 import os
 import sys
 from sqlmodel import Session, SQLModel, delete

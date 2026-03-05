@@ -4,7 +4,11 @@ Provides feature importance, SHAP values, and explanation generation
 """
 
 from typing import Dict, List, Any, Optional, Tuple
-import numpy as np
+try:
+    import numpy as np
+except ImportError:
+    np = None
+
 from dataclasses import dataclass
 
 @dataclass

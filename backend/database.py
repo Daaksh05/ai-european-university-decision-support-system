@@ -4,9 +4,13 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Default to SQLite for development - using absolute path to ensure consistency
-base_dir = os.path.dirname(os.path.abspath(__file__))
-db_path = os.path.join(base_dir, "university_system.db")
+# Use /tmp for SQLite on Vercel (the only writable directory)
+if os.environ.get("VERCEL"):
+    db_path = "/tmp/university_system.db"
+else:
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    db_path = os.path.join(base_dir, "university_system.db")
+
 DEFAULT_DATABASE_URL = f"sqlite:///{db_path}"
 DATABASE_URL = os.getenv("DATABASE_URL", DEFAULT_DATABASE_URL)
 

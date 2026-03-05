@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../services/api';
 import './VisaTrackerPage.css';
-
-const API_BASE_URL = 'http://localhost:8000';
 
 const VisaTrackerPage = () => {
     const [countries, setCountries] = useState([]);
@@ -15,7 +13,7 @@ const VisaTrackerPage = () => {
     useEffect(() => {
         const fetchCountries = async () => {
             try {
-                const response = await axios.get(`${API_BASE_URL}/api/visa/countries`);
+                const response = await api.get(`/visa/countries`);
                 setCountries(response.data);
             } catch (error) {
                 console.error('Error fetching countries:', error);
@@ -41,7 +39,7 @@ const VisaTrackerPage = () => {
 
         setIsLoading(true);
         try {
-            const response = await axios.get(`${API_BASE_URL}/api/visa/requirements/${countryCode}`);
+            const response = await api.get(`/visa/requirements/${countryCode}`);
             setRequirements(response.data);
         } catch (error) {
             console.error('Error fetching requirements:', error);

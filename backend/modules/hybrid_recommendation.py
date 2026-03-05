@@ -4,7 +4,11 @@ Combines ML predictions with rule-based ranking for better recommendations
 """
 
 from typing import List, Dict, Any, Optional
-import numpy as np
+try:
+    import numpy as np
+except ImportError:
+    np = None
+
 from dataclasses import dataclass
 
 @dataclass

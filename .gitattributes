@@ -1,0 +1,7 @@
+# Mark the frontend directory as vendored to exclude it from language statistics
+frontend/** linguist-vendored
+frontend/**/* linguist-vendored
+
+# Explicitly count Python files in backend
+backend/**/*.py linguist-detectable=true
+backend/*.py linguist-detectable=true

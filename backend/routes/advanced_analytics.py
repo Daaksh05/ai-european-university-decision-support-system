@@ -18,7 +18,11 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from typing import List, Dict, Any, Optional
 from services.analytics_service import analytics_service
-import pandas as pd
+try:
+    import pandas as pd
+except ImportError:
+    pd = None
+
 import os
 
 router = APIRouter(tags=["analytics"])

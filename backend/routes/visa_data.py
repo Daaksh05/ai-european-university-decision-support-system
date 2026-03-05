@@ -1,7 +1,22 @@
 from fastapi import APIRouter, HTTPException
-from typing import List, Dict
+from pydantic import BaseModel
+from typing import List, Dict, Optional
 
-router = APIRouter(prefix="/api/visa", tags=["Visa & Document Tracker"])
+router = APIRouter(prefix="/visa", tags=["EuroPath AI: Visa & Document Tracker"])
+
+class VisaItem(BaseModel):
+    id: str
+    label: str
+    description: str
+
+class VisaCategory(BaseModel):
+    title: str
+    items: List[VisaItem]
+
+class VisaRequirementResponse(BaseModel):
+    country_name: str
+    visa_type: str
+    categories: List[VisaCategory]
 
 # Country-specific visa requirements data
 VISA_REQUIREMENTS = {
@@ -83,14 +98,14 @@ VISA_REQUIREMENTS = {
     }
 }
 
-@router.get("/requirements/{country_code}")
+@router.get("/requirements/{country_code}", response_model=VisaRequirementResponse)
 async def get_visa_requirements(country_code: str):
     code = country_code.upper()
     if code not in VISA_REQUIREMENTS:
         raise HTTPException(status_code=404, detail="Country requirements not found")
     return VISA_REQUIREMENTS[code]
 
-@router.get("/countries")
+@router.get("/countries", response_model=List[Dict[str, str]])
 async def get_supported_countries():
     return [
         {"code": k, "name": v["country_name"]} 

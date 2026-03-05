@@ -28,13 +28,14 @@
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
 }
 
 .loading-spinner p {
-  color: #718096;
+  color: #334155;
   font-size: 1rem;
   font-weight: 500;
   margin: 0;
@@ -42,9 +43,12 @@
 }
 
 @keyframes pulse-text {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 0.6;
   }
+
   50% {
     opacity: 1;
   }

@@ -10,8 +10,8 @@
  */
 
 // Configuration
-const API_BASE = process.env.REACT_APP_API_URL || "http://localhost:8000";
-const API_V2_BASE = `${API_BASE}/api/v2`;
+const API_BASE = process.env.REACT_APP_API_URL || "/api";
+const API_V2_BASE = `${API_BASE}/v2`;
 
 // Error handler
 const handleResponse = async (response) => {
