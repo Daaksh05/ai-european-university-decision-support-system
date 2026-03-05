@@ -7,12 +7,15 @@ function LandingPageNew() {
   return (
     <div className="landing-page">
       {/* Hero Section */}
-      <WavyBackground className="hero-content" containerClassName="hero-section">
+      <WavyBackground
+        className="hero-content"
+        containerClassName="hero-section"
+      >
         <h1 className="hero-title">
           Find Your Perfect University with AI
         </h1>
         <p className="hero-subtitle">
-          Personalized guidance powered by artificial intelligence. Get recommendations tailored to your profile, budget, and dreams.
+          Personalized guidance powered by artificial intelligence. Get recommendations tailored to your profile, budget, and European goals.
         </p>
         <div className="hero-cta">
           <Link to="/profile" className="cta-button primary">
@@ -24,15 +27,15 @@ function LandingPageNew() {
         </div>
         <div className="hero-stats">
           <div className="stat">
-            <h3>500+</h3>
+            <h3>50+</h3>
             <p>Universities</p>
           </div>
           <div className="stat">
-            <h3>50+</h3>
+            <h3>8+</h3>
             <p>Countries</p>
           </div>
           <div className="stat">
-            <h3>10k+</h3>
+            <h3>100+</h3>
             <p>Success Stories</p>
           </div>
         </div>
@@ -41,7 +44,7 @@ function LandingPageNew() {
       {/* Features Section */}
       <section id="features" className="features-section">
         <div className="features-container">
-          <h2>Why Choose UniDecide?</h2>
+          <h2>Why Choose EuroPath AI?</h2>
           <p className="section-subtitle">
             Everything you need to make the right university choice
           </p>
@@ -183,7 +186,7 @@ function LandingPageNew() {
         <div className="cta-container">
           <h2>Ready to Find Your Perfect University?</h2>
           <p>
-            Join thousands of students who have successfully found their dream universities using UniDecide.
+            Join thousands of students who have successfully found their dream universities using EuroPath AI.
           </p>
           <Link to="/profile" className="cta-button large">
             Start Free Now

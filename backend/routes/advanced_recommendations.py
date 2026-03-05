@@ -11,7 +11,7 @@ try:
 except ImportError:
     np = None
 
-router = APIRouter(prefix="/recommend", tags=["UniDecide: Recommendations"])
+router = APIRouter(prefix="/recommend", tags=["EuroPath AI: Recommendations"])
 
 class AdvancedRecommendationRequest(BaseModel):
     """Advanced recommendation request model"""

@@ -17,6 +17,17 @@ def analyze_total_cost(tuition_fee, country, duration_years=2):
     }
     
     annual_living = living_expenses.get(country, living_expenses["Default"])
+    monthly_living = annual_living / 12
+    
+    # Realistic breakdown for frontend
+    breakdown = {
+        "accommodation": round(monthly_living * 0.45),
+        "food & groceries": round(monthly_living * 0.25),
+        "transportation": round(monthly_living * 0.10),
+        "utilities & internet": round(monthly_living * 0.10),
+        "leisure & personal": round(monthly_living * 0.10)
+    }
+
     total_living = annual_living * duration_years
     total_tuition = tuition_fee * duration_years
     total_cost = total_tuition + total_living
@@ -24,9 +35,11 @@ def analyze_total_cost(tuition_fee, country, duration_years=2):
     return {
         "tuition_per_year": tuition_fee,
         "living_per_year": annual_living,
+        "monthly_living_cost": round(monthly_living),
+        "breakdown": breakdown,
         "total_tuition": total_tuition,
-        "total_living": total_living,
-        "total_investment": total_cost,
+        "total_living_cost": total_living,
+        "total_combined_cost": total_cost,
         "duration_years": duration_years,
         "country": country
     }

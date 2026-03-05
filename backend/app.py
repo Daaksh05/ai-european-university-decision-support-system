@@ -72,6 +72,9 @@ from routes.resume import router as resume_router
 from routes.resume_ai import router as resume_ai_router
 from routes.sop_ai import router as sop_ai_router
 from routes.visa_data import router as visa_data_router
+from routes.relocation import router as relocation_router
+from routes.auth import router as auth_router
+from db_models.user import User
 
 app = FastAPI()
 
@@ -107,6 +110,8 @@ app.include_router(resume_router)
 app.include_router(resume_ai_router)
 app.include_router(sop_ai_router)
 app.include_router(visa_data_router)
+app.include_router(relocation_router)
+app.include_router(auth_router)
 
 from typing import Optional
 
@@ -138,7 +143,7 @@ class ROIPredictRequest(BaseModel):
 # ---------- Routes ----------
 @app.get("/")
 def root():
-    return {"message": "UniDecide: Your intelligent guide to Study, SOP, and Visa is running"}
+    return {"message": "EuroPath AI: Your intelligent guide to Study, SOP, and Visa is running"}
 
 @app.post("/predict")
 def predict(profile: StudentProfile):

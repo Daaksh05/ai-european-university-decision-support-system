@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../services/api';
 import './SOPAssistantPage.css';
-
-const API_BASE_URL = '/api';
 
 const SOPAssistantPage = () => {
     const [formData, setFormData] = useState({
@@ -26,7 +24,7 @@ const SOPAssistantPage = () => {
         e.preventDefault();
         setIsLoading(true);
         try {
-            const response = await axios.post(`${API_BASE_URL}/ai/sop/generate`, formData);
+            const response = await api.post(`/ai/sop/generate`, formData);
             setGeneratedSOP(response.data.sop_text);
         } catch (error) {
             console.error('Error generating SOP:', error);

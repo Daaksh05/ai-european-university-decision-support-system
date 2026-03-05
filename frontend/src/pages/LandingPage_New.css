@@ -17,9 +17,17 @@
 }
 
 @keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .hero-container {
@@ -51,7 +59,8 @@
   font-weight: 500;
   line-height: 1.6;
   margin-bottom: 32px;
-  opacity: 0.95;
+  color: #f1f5f9;
+  opacity: 0.9;
 }
 
 .hero-cta {
@@ -124,7 +133,8 @@
   font-size: 14px;
   font-weight: 500;
   margin: 0;
-  opacity: 0.9;
+  color: #f1f5f9;
+  opacity: 0.85;
 }
 
 .hero-graphic {
@@ -168,8 +178,15 @@
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-30px); }
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-30px);
+  }
 }
 
 @keyframes fadeInUp {
@@ -177,6 +194,7 @@
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -208,7 +226,7 @@
 .section-subtitle {
   text-align: center;
   font-size: 16px;
-  color: #718096;
+  color: #334155;
   margin-bottom: 60px;
   font-weight: 500;
 }
@@ -249,7 +267,7 @@
 }
 
 .feature-card p {
-  color: #718096;
+  color: #334155;
   font-size: 14px;
   line-height: 1.6;
   margin: 0;
@@ -321,7 +339,7 @@
 }
 
 .step-card p {
-  color: #718096;
+  color: #334155;
   font-size: 14px;
   margin-bottom: 20px;
   line-height: 1.6;
@@ -351,7 +369,7 @@
   .step-arrow {
     display: block;
   }
-  
+
   .steps-grid {
     grid-template-columns: repeat(4, 1fr);
   }

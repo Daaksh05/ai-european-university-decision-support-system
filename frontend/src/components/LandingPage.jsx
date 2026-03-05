@@ -98,19 +98,19 @@ const LandingPage = () => {
       {/* Stats Section */}
       < section className="stats-section" >
         <div className="stat-box">
-          <h3>500+</h3>
+          <h3>50+</h3>
           <p>Universities</p>
         </div>
         <div className="stat-box">
-          <h3>50K+</h3>
+          <h3>100+</h3>
           <p>Students Helped</p>
         </div>
         <div className="stat-box">
-          <h3>95%</h3>
+          <h3>99%</h3>
           <p>Satisfaction Rate</p>
         </div>
         <div className="stat-box">
-          <h3>40</h3>
+          <h3>8+</h3>
           <p>Countries</p>
         </div>
       </section >

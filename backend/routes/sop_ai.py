@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from typing import Optional, List
 
-router = APIRouter(prefix="/ai/sop", tags=["UniDecide: SOP Assistant"])
+router = APIRouter(prefix="/ai/sop", tags=["EuroPath AI: SOP Assistant"])
 
 class SOPRequest(BaseModel):
     universityName: str

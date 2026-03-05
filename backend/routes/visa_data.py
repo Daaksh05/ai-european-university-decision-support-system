@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from typing import List, Dict, Optional
 
-router = APIRouter(prefix="/visa", tags=["UniDecide: Visa & Document Tracker"])
+router = APIRouter(prefix="/visa", tags=["EuroPath AI: Visa & Document Tracker"])
 
 class VisaItem(BaseModel):
     id: str

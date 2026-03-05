@@ -6,7 +6,7 @@
 
 import axios from 'axios';
 
-const API_BASE_URL = '/api';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 const RESUME_STORAGE_KEY = 'europass_resume_data';
 
 // Default resume template
