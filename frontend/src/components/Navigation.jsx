@@ -72,6 +72,11 @@ function Navigation() {
                 📄 Resume Builder
               </Link>
             </li>
+            <li className="nav-item">
+              <a href="https://euro-uni-interview-prep.vercel.app" target="_blank" rel="noopener noreferrer" className="nav-link" onClick={() => setMenuOpen(false)}>
+                🎤 Interview Prep
+              </a>
+            </li>
 
             {/* Auth Section */}
             {!user ? (

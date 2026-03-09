@@ -41,6 +41,7 @@ const Footer = () => {
               <li><Link to="/visa-tracker">Visa Tracker</Link></li>
               <li><Link to="/sop-assistant">SOP Assistant</Link></li>
               <li><Link to="/ask-ai">Ask sidekick</Link></li>
+              <li><a href="https://euro-uni-interview-prep.vercel.app" target="_blank" rel="noopener noreferrer">Interview Prep</a></li>
             </ul>
           </div>
 

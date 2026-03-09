@@ -115,6 +115,15 @@ function LandingPageNew() {
               </p>
               <Link to="/visa-tracker" className="feature-link">Track Progress →</Link>
             </div>
+
+            <div className="feature-card highlight">
+              <div className="feature-icon">🎤</div>
+              <h3>AI Interview Prep</h3>
+              <p>
+                Practice university admission and visa interviews with our AI. Get real-time feedback and improve your confidence.
+              </p>
+              <a href="https://euro-uni-interview-prep.vercel.app" target="_blank" rel="noopener noreferrer" className="feature-link">Start Practice →</a>
+            </div>
           </div>
         </div>
       </section>
