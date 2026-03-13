@@ -86,6 +86,7 @@ async def answer_query(query):
             break
             
     # Attempt Groq Integration (Unrestricted)
+    print(f"DEBUG: Groq client status: {'Active' if groq_service.client else 'Missing/None'}")
     if groq_service.client:
         # Pass the entire simplified knowledge base as context
         kb_context = "\n".join([f"{c.capitalize()}: {str(v)}" for c, v in country_data.items()])
@@ -103,9 +104,14 @@ async def answer_query(query):
             f"Student Question: {query}"
         )
         
-        ai_response = await groq_service.generate_response(full_prompt, system_prompt)
-        if ai_response:
-            return ai_response
+        try:
+            ai_response = await groq_service.generate_response(full_prompt, system_prompt)
+            if ai_response:
+                return ai_response
+            else:
+                print("DEBUG: Groq returned empty response.")
+        except Exception as e:
+            print(f"DEBUG: Groq API Error in handler: {e}")
 
     # Fallback to keyword-based logic
     if target_country:
