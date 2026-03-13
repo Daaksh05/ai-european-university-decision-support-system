@@ -17,7 +17,13 @@
 **EuroPath AI** is an intelligent, end-to-end platform designed to help international students navigate the entire journey of studying in Europe—from initial university selection to landing your student visa dream.
 
 > [!NOTE]
-> This project is optimized for performance and privacy. All user-specific documentation is stored locally to ensure data security.
+> This project is optimized for performance and privacy. While the **Groq LLM Engine** handles intelligent matching, all personal documents (Resumes, SOPs) and profile data are stored locally in your browser to ensuring maximum data security.
+
+---
+
+### 🌐 Live Application
+The fully functional platform is available at:
+**🔗 [https://europath-ai.vercel.app](https://europath-ai.vercel.app)**
 
 ---
 
