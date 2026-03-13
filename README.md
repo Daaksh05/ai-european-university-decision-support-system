@@ -2,6 +2,8 @@
 > **Project Status & Vision**
 > - **🟢 Live & Working:** The project is deployed and fully functional at the link below.
 > - **🔗 Live Demo:** [https://europath-ai.vercel.app](https://europath-ai.vercel.app)
+> - **📢 Rebranding Notice:** **UniDecide** has been officially renamed to **EuroPath AI**. All future updates will be pushed to the new repository.
+> - **🧠 Advanced Matching Engine:** The system is now fully powered by **Large Language Models (LLMs)** via Groq, providing near-human accuracy in university matching and career guidance.
 > - **Commit History Note:** The first **32 commits** represent the core project development and functional logic. All commits following the 32nd are strictly related to documentation, README enhancements, and minor deployment adjustments.
 
 # 🇪🇺 EuroPath AI: Your intelligent guide to Study, SOP, and Visa.
