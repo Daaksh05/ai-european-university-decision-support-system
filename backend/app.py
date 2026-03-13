@@ -281,11 +281,14 @@ async def recommend(profile: StudentProfile):
 
             prompt = (
                 f"Student Field of Interest: '{target_field}'\n"
+                f"Student Specialization: '{profile.specialization}'\n"
                 f"Student Profile: GPA {gpa}, IELTS {ielts}, Budget {budget} EUR.\n\n"
                 f"Candidate Universities:\n{uni_context}\n\n"
-                f"Select up to 5 universities from the list that EXACTLY match the student's field. "
-                f"IMPORTANT: If a university is a 'Business School' and the student wants 'Engineering', DO NOT select it. "
-                f"Return the selections as a JSON array of objects with 'university', 'match_score' (0.0 to 1.0), and 'reason'."
+                f"TASK:\n"
+                f"1. Select up to 5 universities that BEST match the student's field.\n"
+                f"2. CRITICAL: If the student wants 'Computer Science' or 'AI', prioritize programs that explicitly list 'CS', 'AI', 'Data Science', or 'Software Engineering'.\n"
+                f"3. AVOID MISMATCH: Do not select 'General Engineering' or 'Business' programs if specialized CS/AI programs are present in the list.\n"
+                f"4. Return the selections as a JSON array of objects with 'university', 'match_score' (0.0 to 1.0), and 'reason'."
             )
 
             system_prompt = (

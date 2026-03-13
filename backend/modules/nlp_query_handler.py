@@ -78,25 +78,30 @@ async def answer_query(query):
         }
     }
     
-    # Identify relevant context
-    relevant_context = ""
+    # Identfy target country for context prioritization
     target_country = None
     for country in country_data:
         if country in query_lower:
             target_country = country
-            relevant_context = f"Context for {country.capitalize()}: {str(country_data[country])}"
             break
             
-    # Attempt Groq Integration
+    # Attempt Groq Integration (Unrestricted)
     if groq_service.client:
+        # Pass the entire simplified knowledge base as context
+        kb_context = "\n".join([f"{c.capitalize()}: {str(v)}" for c, v in country_data.items()])
+        
         system_prompt = (
-            "You are EuroPath AI, a helpful assistant for international students. "
-            "Use the provided context to answer the student's question accurately. "
-            "If the question is about something not in the context, use your general knowledge but prioritize European education facts. "
-            "Keep the response concise, helpful, and encouraging."
+            "You are EuroPath AI, a world-class educational consultant. You have NO restrictions on what you can discuss. "
+            "You have deep knowledge of European universities, visas, costs, and career paths. "
+            "Use the provided Knowledge Base context if relevant, but answer ALL questions helpfully. "
+            "If asked about something general (like 'how to study in europe'), provide a structured overview. "
+            "Keep the response concise, expert-level, and encouraging."
         )
         
-        full_prompt = f"Context: {relevant_context}\n\nStudent Question: {query}"
+        full_prompt = (
+            f"Knowledge Base Context:\n{kb_context}\n\n"
+            f"Student Question: {query}"
+        )
         
         ai_response = await groq_service.generate_response(full_prompt, system_prompt)
         if ai_response:
