@@ -13,50 +13,46 @@ from db_models.scholarship import Scholarship
 from sqlmodel import select
 UNIVERSITIES = [
     # 🇫🇷 FRANCE
-    {"university":"Sorbonne University","country":"France","city":"Paris","ranking":60,"min_gpa":3.2,"min_ielts":6.5,"average_fees_eur":8000,"field":"Engineering"},
-    {"university":"Université Paris-Saclay","country":"France","city":"Paris","ranking":45,"min_gpa":3.3,"min_ielts":6.5,"average_fees_eur":7000,"field":"Engineering"},
-    {"university":"HEC Paris","country":"France","city":"Paris","ranking":15,"min_gpa":3.6,"min_ielts":7.5,"average_fees_eur":35000,"field":"Business / MBA"},
-    {"university":"Sciences Po","country":"France","city":"Paris","ranking":30,"min_gpa":3.5,"min_ielts":7.0,"average_fees_eur":15000,"field":"Social Sciences"},
+    {"university":"Sorbonne University","country":"France","city":"Paris","ranking":60,"min_gpa":3.2,"min_ielts":6.5,"average_fees_eur":8000,"field":"Engineering (Mechanical, Electrical, Quantum)"},
+    {"university":"Université Paris-Saclay","country":"France","city":"Paris","ranking":45,"min_gpa":3.3,"min_ielts":6.5,"average_fees_eur":7000,"field":"Engineering, Computer Science, AI, Robotics"},
+    {"university":"HEC Paris","country":"France","city":"Paris","ranking":15,"min_gpa":3.6,"min_ielts":7.5,"average_fees_eur":35000,"field":"Business / MBA (Luxury Management, Finance)"},
+    {"university":"Sciences Po","country":"France","city":"Paris","ranking":30,"min_gpa":3.5,"min_ielts":7.0,"average_fees_eur":15000,"field":"Social Sciences (International Relations, Public Policy)"},
+    {"university":"EPITA: Graduate School of Computer Science","country":"France","city":"Paris","ranking":120,"min_gpa":3.0,"min_ielts":6.0,"average_fees_eur":10000,"field":"Computer Science, software Engineering, AI"},
 
     # 🇩🇪 GERMANY
-    {"university":"TU Munich","country":"Germany","city":"Munich","ranking":25,"min_gpa":3.5,"min_ielts":7.0,"average_fees_eur":9000,"field":"Engineering"},
-    {"university":"RWTH Aachen","country":"Germany","city":"Aachen","ranking":50,"min_gpa":3.3,"min_ielts":6.5,"average_fees_eur":8000,"field":"Engineering"},
-    {"university":"Charité - Universitätsmedizin Berlin","country":"Germany","city":"Berlin","ranking":10,"min_gpa":3.8,"min_ielts":7.0,"average_fees_eur":12000,"field":"Medicine / Healthcare"},
-    {"university":"Heidelberg University","country":"Germany","city":"Heidelberg","ranking":42,"min_gpa":3.6,"min_ielts":7.0,"average_fees_eur":1500,"field":"Natural Sciences"},
+    {"university":"TU Munich","country":"Germany","city":"Munich","ranking":25,"min_gpa":3.5,"min_ielts":7.0,"average_fees_eur":9000,"field":"Engineering (Mechanical, Automotive, Robotics, AI, CS)"},
+    {"university":"RWTH Aachen","country":"Germany","city":"Aachen","ranking":50,"min_gpa":3.3,"min_ielts":6.5,"average_fees_eur":8000,"field":"Engineering, Computer Science, Data Science"},
+    {"university":"TU Berlin","country":"Germany","city":"Berlin","ranking":150,"min_gpa":3.0,"min_ielts":6.5,"average_fees_eur":0,"field":"Engineering, Computer Science, AI"},
+    {"university":"Heidelberg University","country":"Germany","city":"Heidelberg","ranking":42,"min_gpa":3.6,"min_ielts":7.0,"average_fees_eur":1500,"field":"Natural Sciences (Physics, Molecular Biology)"},
 
     # 🇮🇹 ITALY
-    {"university":"Politecnico di Milano","country":"Italy","city":"Milan","ranking":40,"min_gpa":3.2,"min_ielts":6.5,"average_fees_eur":4000,"field":"Engineering"},
-    {"university":"University of Bologna","country":"Italy","city":"Bologna","ranking":90,"min_gpa":2.8,"min_ielts":6.0,"average_fees_eur":3500,"field":"Law & Legal Studies"},
-    {"university":"SDA Bocconi","country":"Italy","city":"Milan","ranking":12,"min_gpa":3.5,"min_ielts":7.0,"average_fees_eur":38000,"field":"Business / MBA"},
+    {"university":"Politecnico di Milano","country":"Italy","city":"Milan","ranking":40,"min_gpa":3.2,"min_ielts":6.5,"average_fees_eur":4000,"field":"Engineering, Computer Science, Design"},
+    {"university":"University of Bologna","country":"Italy","city":"Bologna","ranking":90,"min_gpa":2.8,"min_ielts":6.0,"average_fees_eur":3500,"field":"Law, Engineering, Computer Science"},
+    {"university":"SDA Bocconi","country":"Italy","city":"Milan","ranking":12,"min_gpa":3.5,"min_ielts":7.0,"average_fees_eur":38000,"field":"Business / MBA (Entrepreneurship, Fashion)"},
 
     # 🇳🇱 NETHERLANDS
-    {"university":"TU Delft","country":"Netherlands","city":"Delft","ranking":20,"min_gpa":3.5,"min_ielts":7.0,"average_fees_eur":14000,"field":"Engineering"},
-    {"university":"University of Amsterdam","country":"Netherlands","city":"Amsterdam","ranking":55,"min_gpa":3.2,"min_ielts":6.5,"average_fees_eur":13000,"field":"Psychology"},
-    {"university":"Leiden University","country":"Netherlands","city":"Leiden","ranking":70,"min_gpa":3.4,"min_ielts":7.0,"average_fees_eur":12000,"field":"Law & Legal Studies"},
+    {"university":"TU Delft","country":"Netherlands","city":"Delft","ranking":20,"min_gpa":3.5,"min_ielts":7.0,"average_fees_eur":14000,"field":"Engineering (Aerospace, Civil, Maritime, AI, CS)"},
+    {"university":"University of Amsterdam","country":"Netherlands","city":"Amsterdam","ranking":55,"min_gpa":3.2,"min_ielts":6.5,"average_fees_eur":13000,"field":"Psychology, AI, Computer Science"},
+    {"university":"Eindhoven University of Technology","country":"Netherlands","city":"Eindhoven","ranking":120,"min_gpa":3.3,"min_ielts":6.5,"average_fees_eur":15000,"field":"Engineering, Data Science, AI"},
 
     # 🇪🇸 SPAIN
-    {"university":"University of Barcelona","country":"Spain","city":"Barcelona","ranking":80,"min_gpa":3.0,"min_ielts":6.5,"average_fees_eur":3000,"field":"Engineering"},
-    {"university":"Polytechnic University of Madrid","country":"Spain","city":"Madrid","ranking":95,"min_gpa":3.0,"min_ielts":6.0,"average_fees_eur":2800,"field":"Engineering"},
-    {"university":"IE Business School","country":"Spain","city":"Madrid","ranking":20,"min_gpa":3.4,"min_ielts":7.0,"average_fees_eur":45000,"field":"Business / MBA"},
+    {"university":"University of Barcelona","country":"Spain","city":"Barcelona","ranking":80,"min_gpa":3.0,"min_ielts":6.5,"average_fees_eur":3000,"field":"Engineering, Computer Science, Biomedical"},
+    {"university":"Polytechnic University of Madrid","country":"Spain","city":"Madrid","ranking":95,"min_gpa":3.0,"min_ielts":6.0,"average_fees_eur":2800,"field":"Engineering, AI, CS, Industrial"},
 
     # 🇸🇪 SWEDEN
-    {"university":"KTH Royal Institute of Technology","country":"Sweden","city":"Stockholm","ranking":35,"min_gpa":3.4,"min_ielts":6.5,"average_fees_eur":15000,"field":"Engineering"},
-    {"university":"Karolinska Institute","country":"Sweden","city":"Stockholm","ranking":8,"min_gpa":3.8,"min_ielts":7.5,"average_fees_eur":20000,"field":"Medicine / Healthcare"},
-    {"university":"Lund University","country":"Sweden","city":"Lund","ranking":95,"min_gpa":3.2,"min_ielts":6.5,"average_fees_eur":14000,"field":"Natural Sciences"},
+    {"university":"KTH Royal Institute of Technology","country":"Sweden","city":"Stockholm","ranking":35,"min_gpa":3.4,"min_ielts":6.5,"average_fees_eur":15000,"field":"Engineering, Computer Science, AI, Energy"},
+    {"university":"Lund University","country":"Sweden","city":"Lund","ranking":95,"min_gpa":3.2,"min_ielts":6.5,"average_fees_eur":14000,"field":"Natural Sciences, CS, Engineering"},
 
     # 🇨🇭 SWITZERLAND
-    {"university":"ETH Zurich","country":"Switzerland","city":"Zurich","ranking":5,"min_gpa":3.9,"min_ielts":7.5,"average_fees_eur":25000,"field":"Engineering"},
-    {"university":"EHL Hospitality Business School","country":"Switzerland","city":"Lausanne","ranking":1,"min_gpa":3.2,"min_ielts":6.5,"average_fees_eur":45000,"field":"Hospitality & Tourism"},
-
-    # 🇧🇪 BELGIUM
-    {"university":"KU Leuven","country":"Belgium","city":"Leuven","ranking":45,"min_gpa":3.4,"min_ielts":7.0,"average_fees_eur":1000,"field":"Education"},
-    {"university":"Ghent University","country":"Belgium","city":"Ghent","ranking":75,"min_gpa":3.2,"min_ielts":6.5,"average_fees_eur":1000,"field":"Natural Sciences"},
+    {"university":"ETH Zurich","country":"Switzerland","city":"Zurich","ranking":5,"min_gpa":3.9,"min_ielts":7.5,"average_fees_eur":25000,"field":"Engineering, Computer Science, AI, Data Science"},
+    {"university":"EPFL","country":"Switzerland","city":"Lausanne","ranking":14,"min_gpa":3.7,"min_ielts":7.0,"average_fees_eur":1500,"field":"Engineering, Computer Science, AI"},
 ]
 
 
 from modules.admission_prediction import predict_admission
 from modules.recommendation_engine import recommend_universities
 from modules.nlp_query_handler import answer_query
+from services.groq_service import groq_service
 from modules.cost_roi_analysis import (
     analyze_total_cost, 
     find_affordable_universities, 
@@ -137,6 +133,7 @@ class StudentProfile(BaseModel):
     budget: Optional[float] = None
     country: Optional[str] = None
     field: Optional[str] = None
+    specialization: Optional[str] = None
 
 class QueryRequest(BaseModel):
     query: str
@@ -210,141 +207,141 @@ def predict(profile: StudentProfile):
 
 
 @app.post("/recommend")
-def recommend(profile: StudentProfile):
+async def recommend(profile: StudentProfile):
     try:
-        # Use hardcoded list to avoid DB issues on Vercel
+        # 1. Initial Broad Filtering (Local Knowledge Base)
         all_universities = UNIVERSITIES
         
-        gpa = profile.gpa or 0
-        ielts = profile.ielts or 0
-        budget = profile.budget or 0
+        gpa = float(profile.gpa or 0)
+        ielts = float(profile.ielts or 0)
+        budget = float(profile.budget or 0)
         target_country = (profile.country or "").strip().lower()
         target_field = (profile.field or "").strip().lower()
 
-        results = []
-
-        import re
-        
-        # --- STAGE 1: Strict Filtering ---
+        # Step 1: Filter by Country and basic Field check (Broad)
+        broad_matches = []
         for uni in all_universities:
             uni_country = str(uni.get("country", "")).lower()
-            if target_country and target_country not in ["all", "all europe", "select country"]:
+            if target_country and target_country not in ["all", "all europe", "select country", "select target country"]:
                 if target_country != uni_country:
                     continue
             
-            uni_field = str(uni.get("field", "")).lower()
-            if target_field and target_field not in ["all", "all fields", "select field of study"]:
-                keywords = re.findall(r'\w+', target_field)
-                if not any(kw in uni_field for kw in keywords if len(kw) > 2):
-                    continue
+            # Basic academic filter
+            min_gpa = float(uni.get("min_gpa", 0))
+            if gpa > 0 and gpa < min_gpa - 0.3: # Small grace margin
+                continue
+            
+            broad_matches.append(uni)
 
-            min_gpa = uni.get("min_gpa", 0)
-            min_ielts = uni.get("min_ielts", 0)
-            avg_fees = uni.get("average_fees_eur", 0)
+        # Step 2: Semantic Matching with Groq
+        if groq_service.client and broad_matches and target_field not in ["all", "all fields", "select field of study", ""]:
+            # Prepare a list of universities for the LLM to evaluate
+            candidates = list(broad_matches)[:15]
+            uni_context = "\n".join([
+                f"- {u['university']} ({u['country']}): Offers {u['field']}. Min GPA: {u['min_gpa']}, Fees: {u['average_fees_eur']} EUR."
+                for u in candidates
+            ])
 
-            # Check if it meets ALL numeric criteria
-            if (gpa == 0 or gpa >= min_gpa) and \
-               (ielts == 0 or ielts >= min_ielts) and \
-               (budget == 0 or budget >= avg_fees):
+            prompt = (
+                f"Student Field of Interest: '{target_field}'\n"
+                f"Student Profile: GPA {gpa}, IELTS {ielts}, Budget {budget} EUR.\n\n"
+                f"Candidate Universities:\n{uni_context}\n\n"
+                f"Select up to 5 universities from the list that EXACTLY match the student's field. "
+                f"IMPORTANT: If a university is a 'Business School' and the student wants 'Engineering', DO NOT select it. "
+                f"Return the selections as a JSON array of objects with 'university', 'match_score' (0.0 to 1.0), and 'reason'."
+            )
+
+            system_prompt = (
+                "You are the EuroPath AI Matching Engine. You specialize in European university admissions. "
+                "Your priority is academic relevance. Only match students to programs they actually want to study. "
+                "Return valid JSON only."
+            )
+
+            import json
+            raw_ai_response = await groq_service.generate_response(prompt, system_prompt)
+            
+            try:
+                # Extract JSON safely
+                content = raw_ai_response.strip()
+                if "```json" in content:
+                    content = content.split("```json")[1].split("```")[0].strip()
+                elif "```" in content:
+                    content = content.split("```")[1].split("```")[0].strip()
                 
-                # Success - Calculate Match Score
-                calc_gpa = gpa if gpa > 0 else 3.2
-                calc_ielts = ielts if ielts > 0 else 6.5
-                calc_budget = budget if budget > 0 else 15000
-                gpa_score = min(calc_gpa / 4, 1)
-                ielts_score = min(calc_ielts / 9, 1)
-                cost_score = 1 - (avg_fees / (calc_budget + 1))
-                match_score = round((gpa_score * 0.4) + (ielts_score * 0.3) + (cost_score * 0.3), 2)
+                ai_selections = json.loads(content)
+                
+                final_results = []
+                for selection in ai_selections:
+                    orig = next((u for u in candidates if u['university'] == selection['university']), None)
+                    if orig:
+                        final_results.append({
+                            **orig,
+                            "match_score": selection['match_score'],
+                            "note": selection.get('reason', 'Semantic Match')
+                        })
+                
+                if final_results:
+                    return {
+                        "status": "success",
+                        "engine": "Groq Semantic Engine",
+                        "recommendations": final_results,
+                        "total": len(final_results)
+                    }
+            except Exception as e:
+                print(f"Groq parsing error: {e}")
 
+        # Fallback to Rule-Based (Lenient Match)
+        results = []
+        import re
+        
+        # Normalize target field keywords
+        target_keywords = [kw.lower() for kw in re.findall(r'\w+', target_field) if len(kw) > 3] if target_field else []
+        
+        for uni in broad_matches:
+            uni_field = str(uni.get("field", "")).lower()
+            
+            # If target keywords match OR if it's a generally broad related field
+            is_match = False
+            if not target_keywords or target_field.lower() in ["all", "all fields", ""]:
+                is_match = True
+            else:
+                # Check keyword overlap
+                if any(kw in uni_field for kw in target_keywords):
+                    is_match = True
+                # Semantic logic: CS/AI often found in Engineering departments
+                elif ("computer" in target_field.lower() or "ai" in target_field.lower()) and "engineering" in uni_field:
+                    is_match = True
+            
+            if is_match:
                 results.append({
-                    "university": uni.get("university"),
-                    "country": uni.get("country"),
-                    "city": uni.get("city"),
-                    "ranking": uni.get("ranking"),
-                    "average_fees_eur": avg_fees,
-                    "field": uni.get("field"),
-                    "min_gpa": min_gpa,
-                    "min_ielts": min_ielts,
-                    "course_url": uni.get("course_url", "#"),
-                    "match_score": match_score
+                    **uni,
+                    "match_score": 0.6,
+                    "note": "Broad Interest Match"
                 })
 
-        # --- STAGE 2: Relaxed Numeric (Ignore Budget) ---
-        if not results:
-            for uni in all_universities:
-                uni_country = str(uni.get("country", "")).lower()
-                if target_country and target_country not in ["all", "all europe", "select country"]:
-                    if target_country != uni_country:
-                        continue
-                
-                uni_field = str(uni.get("field", "")).lower()
-                if target_field and target_field not in ["all", "all fields", "select field of study"]:
-                    keywords = re.findall(r'\w+', target_field)
-                    if not any(kw in uni_field for kw in keywords if len(kw) > 2):
-                        continue
-                
-                # Match only on acadmics
-                min_gpa = uni.get("min_gpa", 0)
-                min_ielts = uni.get("min_ielts", 0)
-                if (gpa == 0 or gpa >= min_gpa) and (ielts == 0 or ielts >= min_ielts):
-                    results.append({
-                        "university": uni.get("university"),
-                        "country": uni.get("country"),
-                        "city": uni.get("city"),
-                        "ranking": uni.get("ranking"),
-                        "average_fees_eur": uni.get("average_fees_eur"),
-                        "field": uni.get("field"),
-                        "match_score": 0.5,
-                        "note": "Matches Academics (Budget exceeds preference)"
-                    })
-
-        # --- STAGE 3: Country Safety (Cheapest in Country) ---
-        if not results and target_country and target_country not in ["all", "all europe", "select country"]:
-            country_unis = [u for u in all_universities if str(u.get("country", "")).lower() == target_country]
-            if country_unis:
-                # Sort by fee
-                country_unis.sort(key=lambda x: x.get("average_fees_eur", 0))
-                for uni in country_unis[:5]:
-                    results.append({
-                        "university": uni.get("university"),
-                        "country": uni.get("country"),
-                        "city": uni.get("city"),
-                        "ranking": uni.get("ranking"),
-                        "average_fees_eur": uni.get("average_fees_eur"),
-                        "field": uni.get("field"),
-                        "match_score": 0.3,
-                        "note": f"Affordable option in {uni.get('country')}"
-                    })
-
-        # --- STAGE 4: Final Global Safety ---
-        if not results:
-            safety_unis = sorted(all_universities, key=lambda x: x.get("average_fees_eur", 0))
-            for uni in safety_unis[:5]:
+        # If still no results, return top 3 in the selected country as general options
+        if not results and broad_matches:
+            for uni in broad_matches[:3]:
                 results.append({
-                    "university": uni.get("university"),
-                    "country": uni.get("country"),
-                    "city": uni.get("city"),
-                    "ranking": uni.get("ranking"),
-                    "average_fees_eur": uni.get("average_fees_eur"),
-                    "field": uni.get("field"),
-                    "match_score": 0.1,
-                    "note": "Safety Recommendation (General)"
+                    **uni,
+                    "match_score": 0.4,
+                    "note": "General Country Option"
                 })
 
         results.sort(key=lambda x: x.get("match_score", 0), reverse=True)
         return {
             "status": "success",
+            "engine": "Hybrid Engine (Fallback)",
             "recommendations": results[:10],
             "total": len(results)
         }
     except Exception as e:
-        print(f"Error in recommend: {e}")
         return {"status": "error", "message": str(e)}
 
 @app.post("/query")
-def query_handler(request: QueryRequest):
+async def query_handler(request: QueryRequest):
     try:
-        answer = answer_query(request.query)
+        answer = await answer_query(request.query)
         return {
             "status": "success",
             "answer": answer

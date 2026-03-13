@@ -4,12 +4,13 @@ except ImportError:
     pd = None
 
 import os
+from services.groq_service import groq_service
 
-def answer_query(query):
-    """Intelligent NLP-based query answering system with context prioritization"""
+async def answer_query(query):
+    """Intelligent NLP-based query answering system with Groq synthesis and local context prioritization"""
     query_lower = query.lower()
     
-    # Comprehensive knowledge base
+    # Comprehensive knowledge base (Ground Truth)
     country_data = {
         "france": {
             "general": "France offers affordable education (€6,000-€8,000/year) with strong AI and Computer Science programs.",
@@ -75,17 +76,33 @@ def answer_query(query):
             "living": "Living costs: €1,500-€2,200/month. Health insurance is mandatory and costly.",
             "visa": "Study permit required. Process varies by canton."
         }
-
     }
     
-    # 1. Detect Country First
+    # Identify relevant context
+    relevant_context = ""
     target_country = None
     for country in country_data:
         if country in query_lower:
             target_country = country
+            relevant_context = f"Context for {country.capitalize()}: {str(country_data[country])}"
             break
             
-    # 2. Topic Detection & Response Generation
+    # Attempt Groq Integration
+    if groq_service.client:
+        system_prompt = (
+            "You are EuroPath AI, a helpful assistant for international students. "
+            "Use the provided context to answer the student's question accurately. "
+            "If the question is about something not in the context, use your general knowledge but prioritize European education facts. "
+            "Keep the response concise, helpful, and encouraging."
+        )
+        
+        full_prompt = f"Context: {relevant_context}\n\nStudent Question: {query}"
+        
+        ai_response = await groq_service.generate_response(full_prompt, system_prompt)
+        if ai_response:
+            return ai_response
+
+    # Fallback to keyword-based logic
     if target_country:
         data = country_data[target_country]
         if "scholarship" in query_lower or "funding" in query_lower:
@@ -99,21 +116,18 @@ def answer_query(query):
         if "visa" in query_lower or "permit" in query_lower:
             return f"For {target_country.capitalize()} visa: {data['visa']}"
         
-        # Default for country but no specific topic
         return f"{target_country.capitalize()} info: {data['general']} {data['universities']} {data['scholarships']}"
 
-    # 3. Global Topic Detection (No country specified)
     if "scholarship" in query_lower or "funding" in query_lower:
         return "Popular scholarships include: Erasmus+ (Global), DAAD (Germany), Eiffel (France), and Holland Scholarship (Netherlands). Most require merit-based selection. Apply 6-12 months early!"
     
     if "ielts" in query_lower or "english" in query_lower:
-        return "Most European universities require IELTS 6.0-7.0. Germany/France typically 6.5, Netherlands 7.0, and Italy 6.0. Always check the specific program's requirement."
+        return "Most European universities require IELTS 6.0-7.0. Germany/France typically 6.5, Netherlands 7.0, and Italy 6.0."
 
     if "cost" in query_lower or "fee" in query_lower or "budget" in query_lower:
-        return "Tuition varies: Germany/Italy are cheapest (€0-€4,000), France/Belgium mid-range (€5k-€9k), Netherlands/Sweden higher (€12k-€15k). Living costs average €800-€1,200/month."
+        return "Tuition varies: Germany/Italy are cheapest (€0-€4,000), France/Belgium mid-range (€5k-€9k), Netherlands/Sweden higher (€12k-€15k)."
 
     if "work" in query_lower or "job" in query_lower:
-        return "Most countries offer 1-year post-study work visas. Tech hubs like Berlin, Amsterdam, and Paris have strong job markets for AI and CS graduates. Salaries range €35k-€55k."
+        return "Most countries offer 1-year post-study work visas. Tech hubs like Berlin, Amsterdam, and Paris have strong job markets for AI and CS graduates."
 
-    # Final Fallback
-    return "I can provide specific details about France, Germany, Netherlands, Italy, Spain, Sweden, Belgium, and Switzerland regarding scholarships, IELTS, costs, and visas. Try asking 'Scholarships in Spain' or 'Tuition fees in Switzerland'."
+    return "I can provide specific details about France, Germany, Netherlands, Italy, Spain, Sweden, Belgium, and Switzerland. Try asking 'Scholarships in Spain'."

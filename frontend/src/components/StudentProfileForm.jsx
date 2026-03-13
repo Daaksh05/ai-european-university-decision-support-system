@@ -10,6 +10,7 @@ const StudentProfileForm = () => {
     budget: "",
     country: "",
     field: "",
+    specialization: "",
   });
 
   const [prediction, setPrediction] = useState(null);
@@ -44,6 +45,7 @@ const StudentProfileForm = () => {
         budget: Number(formData.budget),
         country: formData.country,
         field: formData.field,
+        specialization: formData.specialization,
       });
 
       console.log("Recommend API Response:", recommendRes.data);
@@ -54,6 +56,7 @@ const StudentProfileForm = () => {
       sessionStorage.setItem("profileBudget", formData.budget);
       sessionStorage.setItem("profileCountry", formData.country);
       sessionStorage.setItem("profileField", formData.field);
+      sessionStorage.setItem("profileSpecialization", formData.specialization);
 
       setRecommendations(recommendRes.data.recommendations || []);
     } catch (err) {
@@ -112,6 +115,14 @@ const StudentProfileForm = () => {
           <option value="Hospitality & Tourism">Hospitality & Tourism</option>
         </select>
 
+        <input 
+          name="specialization" 
+          type="text" 
+          placeholder="Specialization (e.g. AI, Robotics, Finance)" 
+          onChange={handleChange} 
+          value={formData.specialization}
+          className="specialization-input"
+        />
       </div>
 
       <button onClick={handleSubmit} disabled={loading}>

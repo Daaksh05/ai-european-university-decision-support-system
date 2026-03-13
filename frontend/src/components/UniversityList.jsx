@@ -178,9 +178,26 @@ function UniversityList({ universities }) {
             </div>
           </div>
 
-          <div style={{ marginTop: "16px", padding: "12px", background: "linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%)", borderRadius: "8px", borderLeft: "3px solid #10b981", fontSize: "13px", color: "#047857" }}>
-            ✅ This university matches your profile! Consider visiting their official website for admission details.
-          </div>
+
+            {selectedUni.note && (
+              <div style={{ 
+                marginTop: "10px", 
+                padding: "8px 12px", 
+                background: selectedUni.note.includes("Semantic") ? "rgba(102, 126, 234, 0.1)" : "rgba(240, 147, 251, 0.1)",
+                borderRadius: "8px",
+                fontSize: "12px",
+                borderLeft: `3px solid ${selectedUni.note.includes("Semantic") ? "#667eea" : "#f093fb"}`
+              }}>
+                <span style={{ fontWeight: "700", marginRight: "6px" }}>
+                  {selectedUni.note.includes("Semantic") ? "🤖 Neural Match:" : "⚙️ Engine Match:"}
+                </span>
+                <span style={{ color: "#555" }}>{selectedUni.note}</span>
+              </div>
+            )}
+
+            <div style={{ marginTop: "16px", padding: "12px", background: "linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%)", borderRadius: "8px", borderLeft: "3px solid #10b981", fontSize: "13px", color: "#047857" }}>
+              ✅ This university matches your profile! {selectedUni.note && "The AI found a strong correlation between your background and their curriculum."}
+            </div>
 
           <div style={{ marginTop: "20px" }}>
             <h5 style={{ color: "#333", marginBottom: "10px" }}>📊 Financial Planning</h5>

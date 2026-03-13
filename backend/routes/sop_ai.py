@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from typing import Optional, List
+from services.groq_service import groq_service
 
 router = APIRouter(prefix="/ai/sop", tags=["EuroPath AI: SOP Assistant"])
 
@@ -15,10 +16,41 @@ class SOPRequest(BaseModel):
 async def generate_sop(request: SOPRequest):
     """
     Generates a tailored Statement of Purpose (SOP) / Motivation Letter.
-    Simulates AI-driven generation with template-based logic.
+    Uses Groq LLM if available, otherwise falls back to template-based logic.
     """
     try:
-        # Tone adjustments
+        # Attempt to use Groq for high-quality generation
+        if groq_service.client:
+            prompt = (
+                f"Write a high-quality, professional Statement of Purpose for a student applying to the "
+                f"{request.courseName} program at {request.universityName}. "
+                f"Student Background: {request.studentBackground}. "
+                f"Career Goals: {request.careerGoals}. "
+                f"Tone: {request.tone}. "
+                f"The SOP should be structured into 4-5 paragraphs, focusing on motivation, background, "
+                f"why this specific university, and future aspirations. Ensure it sounds authentic and persuasive."
+            )
+            
+            system_prompt = (
+                "You are an expert academic advisor specializing in European university admissions. "
+                "Your task is to write compelling, structured, and grammatically perfect Statements of Purpose."
+            )
+            
+            ai_generated_sop = await groq_service.generate_response(prompt, system_prompt)
+            
+            if ai_generated_sop:
+                return {
+                    "status": "success",
+                    "sop_text": ai_generated_sop,
+                    "engine": "Groq LLM (Llama 3)",
+                    "metadata": {
+                        "university": request.universityName,
+                        "course": request.courseName,
+                        "tone": request.tone
+                    }
+                }
+
+        # Fallback to Template logic if Groq is not configured
         tone_map = {
             "Professional": "structured and result-oriented",
             "Academic": "deeply intellectual and research-focused",
@@ -70,6 +102,7 @@ async def generate_sop(request: SOPRequest):
         return {
             "status": "success",
             "sop_text": full_text,
+            "engine": "Template Engine (Fallback)",
             "metadata": {
                 "university": request.universityName,
                 "course": request.courseName,

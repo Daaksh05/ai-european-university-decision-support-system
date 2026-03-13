@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from typing import List, Optional
+from services.groq_service import groq_service
 
 router = APIRouter(prefix="/resume/ai", tags=["Resume AI"])
 
@@ -14,15 +15,38 @@ class SummaryRequest(BaseModel):
 @router.post("/generate-summary")
 async def generate_summary(request: SummaryRequest):
     """
-    Generates a professional summary based on resume data.
-    In a production app, this would call GPT/LLM.
-    Here we use a sophisticated template-based logic to simulate AI.
+    Generates a professional summary based on resume data using Groq LLM.
+    Falls back to template-based logic if Groq is not configured.
     """
     try:
+        # Attempt to use Groq for high-quality generation
+        if groq_service.client:
+            prompt = (
+                f"Generate a professional, compelling resume summary for {request.name}. "
+                f"Headline: {request.headline or 'Professional'}. "
+                f"Education: {str(request.education)}. "
+                f"Experience: {str(request.experience)}. "
+                f"Skills: {', '.join(request.skills)}. "
+                f"The summary should be 3-4 sentences long, highlighting achievements and fit for European roles."
+            )
+            
+            system_prompt = (
+                "You are an expert career coach specializing in European jobs and admissions. "
+                "Write clear, impactful, and professional resume summaries."
+            )
+            
+            ai_summary = await groq_service.generate_response(prompt, system_prompt)
+            if ai_summary:
+                return {
+                    "status": "success",
+                    "summary": ai_summary,
+                    "engine": "Groq LLM (Llama 3)"
+                }
+
+        # Fallback to sophisticated template-based logic
         if not request.experience and not request.education:
             return {"summary": f"Aspiring professional with a focus on {', '.join(request.skills[:3]) if request.skills else 'career development'}."}
 
-        # Simulate "AI" logic
         sentences = []
         
         # Opening
@@ -48,7 +72,8 @@ async def generate_summary(request: SummaryRequest):
         
         return {
             "status": "success",
-            "summary": summary
+            "summary": summary,
+            "engine": "Template Engine (Fallback)"
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
