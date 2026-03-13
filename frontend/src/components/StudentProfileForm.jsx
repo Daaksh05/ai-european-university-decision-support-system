@@ -114,11 +114,13 @@ const StudentProfileForm = () => {
           <option value="Education">Education</option>
           <option value="Hospitality & Tourism">Hospitality & Tourism</option>
         </select>
+      </div>
 
+      <div className="profile-row-full">
         <input 
           name="specialization" 
           type="text" 
-          placeholder="Specialization (e.g. AI, Robotics, Finance)" 
+          placeholder="Specialization (e.g. AI, Robotics, Finance, Biotechnology)" 
           onChange={handleChange} 
           value={formData.specialization}
           className="specialization-input"

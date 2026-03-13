@@ -18,34 +18,62 @@ UNIVERSITIES = [
     {"university":"HEC Paris","country":"France","city":"Paris","ranking":15,"min_gpa":3.6,"min_ielts":7.5,"average_fees_eur":35000,"field":"Business / MBA (Luxury Management, Finance)"},
     {"university":"Sciences Po","country":"France","city":"Paris","ranking":30,"min_gpa":3.5,"min_ielts":7.0,"average_fees_eur":15000,"field":"Social Sciences (International Relations, Public Policy)"},
     {"university":"EPITA: Graduate School of Computer Science","country":"France","city":"Paris","ranking":120,"min_gpa":3.0,"min_ielts":6.0,"average_fees_eur":10000,"field":"Computer Science, software Engineering, AI"},
+    {"university":"École Polytechnique (L'X)","country":"France","city":"Palaiseau","ranking":61,"min_gpa":3.7,"min_ielts":7.0,"average_fees_eur":15000,"field":"Engineering, Natural Sciences, Data Science"},
+    {"university":"SKEMA Business School","country":"France","city":"Lille","ranking":25,"min_gpa":3.0,"min_ielts":6.0,"average_fees_eur":18000,"field":"Business / MBA, Data Science, Marketing"},
+    {"university":"INSEAD","country":"France","city":"Fontainebleau","ranking":2,"min_gpa":3.8,"min_ielts":7.5,"average_fees_eur":95000,"field":"Business / MBA"},
 
     # 🇩🇪 GERMANY
-    {"university":"TU Munich","country":"Germany","city":"Munich","ranking":25,"min_gpa":3.5,"min_ielts":7.0,"average_fees_eur":9000,"field":"Engineering (Mechanical, Automotive, Robotics, AI, CS)"},
+    {"university":"TU Munich (TUM)","country":"Germany","city":"Munich","ranking":25,"min_gpa":3.5,"min_ielts":7.0,"average_fees_eur":9000,"field":"Engineering (Mechanical, Automotive, Robotics, AI, CS)"},
     {"university":"RWTH Aachen","country":"Germany","city":"Aachen","ranking":50,"min_gpa":3.3,"min_ielts":6.5,"average_fees_eur":8000,"field":"Engineering, Computer Science, Data Science"},
     {"university":"TU Berlin","country":"Germany","city":"Berlin","ranking":150,"min_gpa":3.0,"min_ielts":6.5,"average_fees_eur":0,"field":"Engineering, Computer Science, AI"},
-    {"university":"Heidelberg University","country":"Germany","city":"Heidelberg","ranking":42,"min_gpa":3.6,"min_ielts":7.0,"average_fees_eur":1500,"field":"Natural Sciences (Physics, Molecular Biology)"},
+    {"university":"Heidelberg University","country":"Germany","city":"Heidelberg","ranking":42,"min_gpa":3.6,"min_ielts":7.0,"average_fees_eur":1500,"field":"Natural Sciences (Physics, Molecular Biology), Medicine"},
+    {"university":"Ludwig Maximilian University (LMU)","country":"Germany","city":"Munich","ranking":35,"min_gpa":3.4,"min_ielts":7.0,"average_fees_eur":0,"field":"Medicine, Psychology, Law, Data Science"},
+    {"university":"Humboldt University of Berlin","country":"Germany","city":"Berlin","ranking":120,"min_gpa":3.2,"min_ielts":6.5,"average_fees_eur":0,"field":"Social Sciences, Arts, Law, Humanities"},
+    {"university":"Free University of Berlin","country":"Germany","city":"Berlin","ranking":98,"min_gpa":3.1,"min_ielts":6.5,"average_fees_eur":0,"field":"Natural Sciences, Arts, Social Sciences"},
+    {"university":"University of Mannheim","country":"Germany","city":"Mannheim","ranking":140,"min_gpa":3.4,"min_ielts":7.0,"average_fees_eur":3000,"field":"Business / MBA, Data Science, Economics"},
 
     # 🇮🇹 ITALY
-    {"university":"Politecnico di Milano","country":"Italy","city":"Milan","ranking":40,"min_gpa":3.2,"min_ielts":6.5,"average_fees_eur":4000,"field":"Engineering, Computer Science, Design"},
-    {"university":"University of Bologna","country":"Italy","city":"Bologna","ranking":90,"min_gpa":2.8,"min_ielts":6.0,"average_fees_eur":3500,"field":"Law, Engineering, Computer Science"},
-    {"university":"SDA Bocconi","country":"Italy","city":"Milan","ranking":12,"min_gpa":3.5,"min_ielts":7.0,"average_fees_eur":38000,"field":"Business / MBA (Entrepreneurship, Fashion)"},
+    {"university":"Politecnico di Milano","country":"Italy","city":"Milan","ranking":40,"min_gpa":3.2,"min_ielts":6.5,"average_fees_eur":4000,"field":"Engineering, Computer Science, Design, Architecture"},
+    {"university":"University of Bologna","country":"Italy","city":"Bologna","ranking":90,"min_gpa":2.8,"min_ielts":6.0,"average_fees_eur":3500,"field":"Law, Engineering, Computer Science, Medicine"},
+    {"university":"SDA Bocconi","country":"Italy","city":"Milan","ranking":12,"min_gpa":3.5,"min_ielts":7.0,"average_fees_eur":38000,"field":"Business / MBA, Data Science, Finance"},
+    {"university":"University of Padua","country":"Italy","city":"Padua","ranking":160,"min_gpa":3.0,"min_ielts":6.0,"average_fees_eur":2500,"field":"Natural Sciences, Medicine, Engineering"},
+    {"university":"Sapienza University of Rome","country":"Italy","city":"Rome","ranking":110,"min_gpa":3.1,"min_ielts":6.5,"average_fees_eur":3000,"field":"Engineering, Arts, Social Sciences, AI"},
 
     # 🇳🇱 NETHERLANDS
     {"university":"TU Delft","country":"Netherlands","city":"Delft","ranking":20,"min_gpa":3.5,"min_ielts":7.0,"average_fees_eur":14000,"field":"Engineering (Aerospace, Civil, Maritime, AI, CS)"},
-    {"university":"University of Amsterdam","country":"Netherlands","city":"Amsterdam","ranking":55,"min_gpa":3.2,"min_ielts":6.5,"average_fees_eur":13000,"field":"Psychology, AI, Computer Science"},
-    {"university":"Eindhoven University of Technology","country":"Netherlands","city":"Eindhoven","ranking":120,"min_gpa":3.3,"min_ielts":6.5,"average_fees_eur":15000,"field":"Engineering, Data Science, AI"},
+    {"university":"University of Amsterdam","country":"Netherlands","city":"Amsterdam","ranking":55,"min_gpa":3.2,"min_ielts":6.5,"average_fees_eur":13000,"field":"Psychology, AI, Computer Science, Social Sciences"},
+    {"university":"Eindhoven University of Technology (TU/e)","country":"Netherlands","city":"Eindhoven","ranking":120,"min_gpa":3.3,"min_ielts":6.5,"average_fees_eur":15000,"field":"Engineering, Data Science, AI, CS"},
+    {"university":"Utrecht University","country":"Netherlands","city":"Utrecht","ranking":80,"min_gpa":3.4,"min_ielts":7.0,"average_fees_eur":12000,"field":"Natural Sciences, Medicine, Humanities"},
+    {"university":"Erasmus University Rotterdam","country":"Netherlands","city":"Rotterdam","ranking":100,"min_gpa":3.3,"min_ielts":7.0,"average_fees_eur":14000,"field":"Business / MBA, Economics, Law"},
 
     # 🇪🇸 SPAIN
-    {"university":"University of Barcelona","country":"Spain","city":"Barcelona","ranking":80,"min_gpa":3.0,"min_ielts":6.5,"average_fees_eur":3000,"field":"Engineering, Computer Science, Biomedical"},
+    {"university":"University of Barcelona","country":"Spain","city":"Barcelona","ranking":80,"min_gpa":3.0,"min_ielts":6.5,"average_fees_eur":3000,"field":"Engineering, Computer Science, Biomedical, Arts"},
     {"university":"Polytechnic University of Madrid","country":"Spain","city":"Madrid","ranking":95,"min_gpa":3.0,"min_ielts":6.0,"average_fees_eur":2800,"field":"Engineering, AI, CS, Industrial"},
+    {"university":"IE Business School","country":"Spain","city":"Madrid","ranking":20,"min_gpa":3.4,"min_ielts":7.0,"average_fees_eur":55000,"field":"Business / MBA, Digital Tech, Law"},
+    {"university":"Pompeu Fabra University","country":"Spain","city":"Barcelona","ranking":150,"min_gpa":3.2,"min_ielts":7.0,"average_fees_eur":4000,"field":"Economics, Data Science, Social Sciences"},
 
     # 🇸🇪 SWEDEN
     {"university":"KTH Royal Institute of Technology","country":"Sweden","city":"Stockholm","ranking":35,"min_gpa":3.4,"min_ielts":6.5,"average_fees_eur":15000,"field":"Engineering, Computer Science, AI, Energy"},
-    {"university":"Lund University","country":"Sweden","city":"Lund","ranking":95,"min_gpa":3.2,"min_ielts":6.5,"average_fees_eur":14000,"field":"Natural Sciences, CS, Engineering"},
+    {"university":"Lund University","country":"Sweden","city":"Lund","ranking":95,"min_gpa":3.2,"min_ielts":6.5,"average_fees_eur":14000,"field":"Natural Sciences, CS, Engineering, Architecture"},
+    {"university":"Stockholm University","country":"Sweden","city":"Stockholm","ranking":150,"min_gpa":3.0,"min_ielts":6.0,"average_fees_eur":12000,"field":"Social Sciences, Arts, Natural Sciences, Law"},
 
     # 🇨🇭 SWITZERLAND
-    {"university":"ETH Zurich","country":"Switzerland","city":"Zurich","ranking":5,"min_gpa":3.9,"min_ielts":7.5,"average_fees_eur":25000,"field":"Engineering, Computer Science, AI, Data Science"},
-    {"university":"EPFL","country":"Switzerland","city":"Lausanne","ranking":14,"min_gpa":3.7,"min_ielts":7.0,"average_fees_eur":1500,"field":"Engineering, Computer Science, AI"},
+    {"university":"ETH Zurich","country":"Switzerland","city":"Zurich","ranking":5,"min_gpa":3.9,"min_ielts":7.5,"average_fees_eur":25000,"field":"Engineering, Computer Science, AI, Data Science, Physics"},
+    {"university":"EPFL","country":"Switzerland","city":"Lausanne","ranking":14,"min_gpa":3.7,"min_ielts":7.0,"average_fees_eur":1500,"field":"Engineering, Computer Science, AI, Natural Sciences"},
+    {"university":"University of Zurich","country":"Switzerland","city":"Zurich","ranking":70,"min_gpa":3.5,"min_ielts":7.0,"average_fees_eur":1500,"field":"Medicine, Law, Psychology, AI"},
+
+    # 🇧🇪 BELGIUM
+    {"university":"KU Leuven","country":"Belgium","city":"Leuven","ranking":45,"min_gpa":3.4,"min_ielts":7.0,"average_fees_eur":1000,"field":"Engineering, CS, Social Sciences, Natural Sciences, Law"},
+    {"university":"Ghent University","country":"Belgium","city":"Ghent","ranking":75,"min_gpa":3.2,"min_ielts":6.5,"average_fees_eur":1000,"field":"Natural Sciences (Biotechnology, Veterinary), Medicine, CS"},
+    {"university":"University of Antwerp","country":"Belgium","city":"Antwerp","ranking":160,"min_gpa":3.0,"min_ielts":6.5,"average_fees_eur":1500,"field":"Business / MBA, Medicine, Social Sciences"},
+
+    # 🇫🇮 FINLAND
+    {"university":"Aalto University","country":"Finland","city":"Espoo","ranking":110,"min_gpa":3.5,"min_ielts":7.0,"average_fees_eur":12000,"field":"Engineering, Computer Science, Design, Business / MBA"},
+    {"university":"University of Helsinki","country":"Finland","city":"Helsinki","ranking":90,"min_gpa":3.4,"min_ielts":7.0,"average_fees_eur":13000,"field":"Natural Sciences, Data Science, Arts, Medicine"},
+
+    # 🇦🇹 AUSTRIA
+    {"university":"University of Vienna","country":"Austria","city":"Vienna","ranking":120,"min_gpa":3.3,"min_ielts":6.5,"average_fees_eur":1500,"field":"Arts, Social Sciences, Law, Natural Sciences"},
+    {"university":"TU Wien","country":"Austria","city":"Vienna","ranking":180,"min_gpa":3.2,"min_ielts":6.5,"average_fees_eur":1500,"field":"Engineering, CS, Architecture"},
 ]
 
 
@@ -222,15 +250,24 @@ async def recommend(profile: StudentProfile):
         broad_matches = []
         for uni in all_universities:
             uni_country = str(uni.get("country", "")).lower()
-            if target_country and target_country not in ["all", "all europe", "select country", "select target country"]:
-                if target_country != uni_country:
+            
+            # Use lower() and strip() for robust comparison
+            tc = target_country.lower().strip() if target_country else ""
+            
+            if tc and tc not in ["all", "all europe", "select country", "all fields"]:
+                if tc != uni_country:
                     continue
             
-            # Basic academic filter
+            # Academic filter (don't block if fields are empty)
             min_gpa = float(uni.get("min_gpa", 0))
-            if gpa > 0 and gpa < min_gpa - 0.3: # Small grace margin
+            if gpa > 0 and (gpa < min_gpa - 0.5): # Generous 0.5 grace margin
                 continue
             
+            # Budget filter
+            max_fees = float(uni.get("average_fees_eur", 0))
+            if budget > 0 and max_fees > budget * 1.5: # 50% over budget margin
+                continue
+
             broad_matches.append(uni)
 
         # Step 2: Semantic Matching with Groq
